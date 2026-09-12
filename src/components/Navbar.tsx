@@ -43,8 +43,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
     <>
       {/* Top micro-bar for institutional trust and quick contacts */}
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div className="bg-[#071126] text-slate-300 text-xs py-1.5 px-4 sm:px-8 border-b border-white/5">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="bg-[#071126] text-slate-300 text-xs py-1.5 px-3 sm:px-4 lg:px-4 xl:px-6 border-b border-white/5">
+          <div className="max-w-[1440px] mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1.5 text-slate-300 font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#E86A2C]"></span>
@@ -82,40 +82,40 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
               : "bg-white/90 backdrop-blur-sm border-b border-slate-100 py-3.5"
           }`}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-2 xl:gap-4">
-            {/* Logo + Identity */}
+          <div className="max-w-[1440px] mx-auto px-3 sm:px-4 lg:px-4 xl:px-6 flex items-center justify-between gap-1.5 lg:gap-2 xl:gap-3">
+            {/* Logo + Identity (shifted left) */}
             <button
               onClick={() => handleNavClick("home")}
-              className="flex items-center gap-2.5 sm:gap-3 text-left group focus:outline-none shrink-0"
+              className="flex items-center gap-2 sm:gap-2.5 text-left group focus:outline-none shrink-0"
             >
               <div className="relative">
                 <img
                   src="/assets/logo.png"
                   alt="Lotus Global School Crest"
                   className={`transition-all duration-300 object-contain ${
-                    isScrolled ? "h-10 sm:h-12" : "h-11 sm:h-13"
+                    isScrolled ? "h-10 sm:h-11" : "h-11 sm:h-12"
                   }`}
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-display font-bold text-[#0B1B3D] text-sm sm:text-base xl:text-lg leading-tight tracking-tight group-hover:text-[#E86A2C] transition-colors whitespace-nowrap">
+                <span className="font-display font-bold text-[#0B1B3D] text-sm sm:text-base leading-tight tracking-tight group-hover:text-[#E86A2C] transition-colors whitespace-nowrap">
                   LOTUS GLOBAL SCHOOL
                 </span>
-                <span className="hidden xl:inline text-[10px] sm:text-[11px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap">
+                <span className="hidden 2xl:inline text-[10px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap">
                   Vatar, Vapi, Gujarat
                 </span>
               </div>
             </button>
 
             {/* Desktop Navigation Links (strictly single-line with whitespace-nowrap) */}
-            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 2xl:gap-2 shrink-0">
+            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 2xl:gap-1.5 shrink-0">
               {navLinks.map((link) => {
                 const isActive = activePage === link.id;
                 return (
                   <button
                     key={link.id}
                     onClick={() => handleNavClick(link.id)}
-                    className={`whitespace-nowrap px-1.5 xl:px-2.5 2xl:px-3 py-1.5 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-md transition-all relative ${
+                    className={`whitespace-nowrap px-1.5 xl:px-2 2xl:px-2.5 py-1.5 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-md transition-all relative ${
                       isActive
                         ? "text-[#0B1B3D] font-semibold bg-slate-100/80"
                         : "text-slate-600 hover:text-[#0B1B3D] hover:bg-slate-50"
@@ -131,10 +131,10 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
             </div>
 
             {/* CTA + Mobile Toggle */}
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 pr-1 sm:pr-2 lg:pr-1">
               <button
                 onClick={openInquiry}
-                className="hidden sm:inline-flex items-center justify-center px-3 xl:px-4 py-2 text-xs uppercase tracking-wider font-semibold rounded-md bg-[#0B1B3D] text-white hover:bg-[#E86A2C] transition-all duration-200 shadow-sm shadow-[#0B1B3D]/10 whitespace-nowrap"
+                className="hidden sm:inline-flex items-center justify-center px-3 xl:px-3.5 py-2 text-xs uppercase tracking-wider font-semibold rounded-md bg-[#0B1B3D] text-white hover:bg-[#E86A2C] transition-all duration-200 shadow-sm shadow-[#0B1B3D]/10 whitespace-nowrap"
               >
                 <span className="hidden xl:inline">Enquire for Admissions</span>
                 <span className="xl:hidden">Enquire Now</span>
