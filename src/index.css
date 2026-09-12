@@ -1,0 +1,74 @@
+﻿@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+    
+    /* Institutional Color System */
+    --color-navy-deep: #071126;
+    --color-navy-primary: #0B1B3D;
+    --color-navy-light: #162B5E;
+    --color-solar-orange: #E86A2C;
+    --color-solar-hover: #D25619;
+    --color-lotus-pink: #E25B88;
+    --color-lotus-subtle: #FDF2F8;
+    --color-neutral-bg: #F8FAFC;
+    --color-card-border: rgba(11, 27, 61, 0.08);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-neutral-bg);
+    color: #1E293B;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Custom Institutional Glass & Elevation Effects */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(11, 27, 61, 0.07);
+}
+
+.glass-dark {
+  background: rgba(11, 27, 61, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-institutional {
+  background: #FFFFFF;
+  border: 1px solid rgba(11, 27, 61, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-institutional:hover {
+  border-color: rgba(232, 106, 44, 0.35);
+  box-shadow: 0 20px 35px -10px rgba(11, 27, 61, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Smooth Focus Rings for Accessibility */
+*:focus-visible {
+  outline: 2px solid #E86A2C;
+  outline-offset: 2px;
+}
+
+/* Restrained animations */
+@keyframes subtleFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-subtle-float {
+  animation: subtleFloat 6s ease-in-out infinite;
+}
