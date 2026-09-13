@@ -1,74 +1,197 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @layer base {
   :root {
-    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+    --font-sans: 'Open Sans', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Outfit', 'Open Sans', system-ui, -apple-system, sans-serif;
     
-    /* Institutional Color System */
-    --color-navy-deep: #071126;
-    --color-navy-primary: #0B1B3D;
-    --color-navy-light: #162B5E;
-    --color-solar-orange: #E86A2C;
-    --color-solar-hover: #D25619;
-    --color-lotus-pink: #E25B88;
-    --color-lotus-subtle: #FDF2F8;
+    /* Institutional Brand Color System - Lotus Global School */
+    --color-navy: #2F5187;
+    --color-navy-hover: #264371;
+    --color-navy-dark: #1E375F;
+    --color-navy-deep: #142540;
+    --color-navy-soft: #EEF3FA;
+    
+    --color-orange: #E87737;
+    --color-orange-hover: #D26425;
+    --color-orange-soft: #FFF5EE;
+    
+    --color-pink: #F7A8D2;
+    --color-pink-subtle: #FDF2F8;
+    
     --color-neutral-bg: #F8FAFC;
-    --color-card-border: rgba(11, 27, 61, 0.08);
+    --color-neutral-card: #FFFFFF;
+    --color-border-subtle: #E2E8F0;
+    --color-text-main: #1E293B;
+    --color-text-muted: #64748B;
   }
 
   body {
     font-family: var(--font-sans);
     background-color: var(--color-neutral-bg);
-    color: #1E293B;
+    color: var(--color-text-main);
     overflow-x: hidden;
+    line-height: 1.6;
   }
 
-  h1, h2, h3, h4, .font-display {
+  h1, h2, h3, h4, h5, h6, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
 }
 
-/* Custom Institutional Glass & Elevation Effects */
-.glass-nav {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(11, 27, 61, 0.07);
+/* Institutional Reference Layout Styles */
+.wrap {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.glass-dark {
-  background: rgba(11, 27, 61, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+@media (min-width: 640px) {
+  .wrap {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
-.card-institutional {
+@media (min-width: 1024px) {
+  .wrap {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Signature Educational Double Divider from Reference Website */
+.hr1 {
+  width: 54px;
+  height: 3.5px;
+  background-color: #E87737;
+  margin: 0 auto;
+  border: none;
+  border-radius: 2px;
+}
+
+.hr2 {
+  width: 150px;
+  height: 1px;
+  background-color: #CBD5E1;
+  margin: 5px auto 20px auto;
+  border: none;
+}
+
+/* Institutional Section Titles */
+.section-title-wrap {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-title-institutional {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #2F5187;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-title-institutional {
+    font-size: 2.15rem;
+  }
+}
+
+/* Institutional Box Shadows and Card Styles */
+.card-portal {
   background: #FFFFFF;
-  border: 1px solid rgba(11, 27, 61, 0.08);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #E2E8F0;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
 }
 
-.card-institutional:hover {
-  border-color: rgba(232, 106, 44, 0.35);
-  box-shadow: 0 20px 35px -10px rgba(11, 27, 61, 0.08);
-  transform: translateY(-2px);
+.card-portal:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 12px rgba(47, 81, 135, 0.08);
 }
 
-/* Smooth Focus Rings for Accessibility */
+/* Institutional Left Sidebar Menu (Internal Pages) */
+.lsidebar-heading {
+  background-color: #2F5187;
+  color: #FFFFFF;
+  padding: 0.85rem 1.15rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 2px solid #E87737;
+}
+
+.lsidebar-nav {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.lsidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+  border-bottom: 1px solid #F1F5F9;
+  transition: all 0.15s ease;
+}
+
+.lsidebar-link:hover {
+  background-color: #FFF5EE;
+  color: #E87737;
+  padding-left: 1.35rem;
+}
+
+.lsidebar-link.active {
+  background-color: #2F5187;
+  color: #FFFFFF;
+  border-left: 4px solid #E87737;
+}
+
+/* Notice Board Marquee & List styling */
+.notice-marquee-container {
+  overflow: hidden;
+  height: 220px;
+  position: relative;
+}
+
+.notice-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.notice-item:last-child {
+  border-bottom: none;
+}
+
+/* Accessible Focus States */
 *:focus-visible {
-  outline: 2px solid #E86A2C;
+  outline: 2px solid #E87737;
   outline-offset: 2px;
 }
 
-/* Restrained animations */
-@keyframes subtleFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-4px); }
+/* Custom Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-subtle-float {
-  animation: subtleFloat 6s ease-in-out infinite;
+.animate-fade-in {
+  animation: fadeIn 0.35s ease-out forwards;
 }

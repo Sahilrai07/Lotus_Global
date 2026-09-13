@@ -1,8 +1,17 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
+import { InternalPageLayout } from "../components/InternalPageLayout";
 import { Lightbox, GalleryItem } from "../components/Lightbox";
-import { Eye, Sparkles, Image as ImageIcon } from "lucide-react";
+import { Eye, Image as ImageIcon } from "lucide-react";
 
-export const GalleryPage: React.FC = () => {
+interface GalleryPageProps {
+  onNavigate?: (pageId: string) => void;
+  openInquiry?: () => void;
+}
+
+export const GalleryPage: React.FC<GalleryPageProps> = ({
+  onNavigate = () => {},
+  openInquiry = () => {},
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
 
@@ -72,9 +81,6 @@ export const GalleryPage: React.FC = () => {
       ? galleryItems
       : galleryItems.filter((item) => item.category === selectedCategory);
 
-  const featuredItem = filteredItems[0];
-  const supportingItems = filteredItems.slice(1);
-
   const handleNext = () => {
     if (!activeItem) return;
     const currentIndex = filteredItems.findIndex((i) => i.id === activeItem.id);
@@ -90,147 +96,104 @@ export const GalleryPage: React.FC = () => {
   };
 
   return (
-    <div className="pt-28 pb-20 animate-fade-in bg-[#F8FAFC]">
-      {/* Page Hero */}
-      <section className="bg-[#0B1B3D] text-white py-20 border-b border-slate-800 relative overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-[#E86A2C] uppercase tracking-wider">
-              <span>Digital Exhibition</span>
-            </div>
-            <h1 className="font-display font-extrabold text-4xl sm:text-5xl text-white tracking-tight">
-              Campus Exhibition
-            </h1>
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Visualizing the architectural spaces, laboratory environments, and artistic facilities of Lotus Global School, Vatar, Vapi.
-            </p>
+    <InternalPageLayout
+      title="Photo Gallery"
+      category="GALLERY"
+      activePageId="gallery"
+      onNavigate={onNavigate}
+      openInquiry={openInquiry}
+      bannerImage="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1600&q=80"
+      breadcrumbs={[{ label: "Gallery" }]}
+    >
+      <div className="space-y-8">
+        {/* Section Header */}
+        <div className="border-b-2 border-[#2F5187] pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
+              Campus Photo Archive
+            </span>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
+              Campus Photography & Learning Spaces
+            </h2>
+          </div>
+
+          {/* Category Filter Chips */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors ${
+                  selectedCategory === cat
+                    ? "bg-[#2F5187] text-white"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
-      </section>
 
-      {/* Main Exhibition Layout */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
-          
-          {/* Top Bar: Notice & Category Filter */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-200">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#E86A2C]">
-                Exhibition Gallery
-              </span>
-              <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0B1B3D] tracking-tight">
-                Architectural & Pedagogical Perspectives
-              </h2>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 p-1.5 bg-slate-200/70 rounded-xl">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-lg transition-all ${
-                    selectedCategory === cat
-                      ? "bg-[#0B1B3D] text-white shadow-sm"
-                      : "text-slate-600 hover:text-[#0B1B3D] hover:bg-white/60"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Exhibition Showcase: 1 Featured Piece + Grid */}
-          {featuredItem && (
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          {filteredItems.map((item) => (
             <div
-              onClick={() => setActiveItem(featuredItem)}
-              className="relative aspect-[21/9] rounded-2xl overflow-hidden cursor-pointer group border border-slate-200 shadow-md bg-slate-900"
+              key={item.id}
+              onClick={() => setActiveItem(item)}
+              className="bg-[#F8FAFC] border border-slate-200 rounded overflow-hidden shadow-sm hover:border-[#2F5187] transition-all cursor-pointer group flex flex-col justify-between"
             >
-              <img
-                src={featuredItem.image}
-                alt={featuredItem.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-90 group-hover:opacity-100"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3D]/90 via-[#0B1B3D]/30 to-transparent" />
-              
-              <div className="absolute top-4 left-4">
-                <span className="px-3 py-1 rounded bg-[#E86A2C] text-white text-[11px] font-bold uppercase tracking-wider">
-                  Featured Exhibition Piece
-                </span>
-              </div>
-
-              <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white">
-                <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-[#E86A2C]">
-                    {featuredItem.category}
-                  </span>
-                  <h3 className="font-display font-bold text-2xl sm:text-3xl mt-1">
-                    {featuredItem.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
-                    {featuredItem.caption}
-                  </p>
-                </div>
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-md text-xs font-semibold">
-                  <Eye className="w-4 h-4" />
-                  <span>Inspect View</span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Supporting Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {supportingItems.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => setActiveItem(item)}
-                className="group relative aspect-[16/10] rounded-xl overflow-hidden cursor-pointer border border-slate-200 bg-slate-900"
-              >
+              <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3D]/80 via-transparent to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
-
-                <div className="absolute top-3 left-3">
-                  <span className="px-2 py-0.5 rounded bg-black/40 backdrop-blur-md text-white text-[10px] font-semibold uppercase tracking-wider">
-                    {item.category}
+                <div className="absolute inset-0 bg-[#2F5187]/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <span className="p-2 bg-white rounded-full text-[#2F5187] shadow">
+                    <Eye className="w-5 h-5" />
                   </span>
                 </div>
-
-                <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <h4 className="font-display font-bold text-base group-hover:text-[#E86A2C] transition-colors">
-                    {item.title}
-                  </h4>
-                  <p className="text-[11px] text-slate-300 line-clamp-1 mt-0.5">
-                    {item.caption}
-                  </p>
-                </div>
+                <span className="absolute bottom-2 left-2 text-[10px] font-bold uppercase tracking-wider bg-black/60 text-white px-2 py-0.5 rounded backdrop-blur-sm">
+                  {item.category}
+                </span>
               </div>
-            ))}
-          </div>
 
-          {/* Institutional Note on Live Photography */}
-          <div className="p-6 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-600 flex items-start gap-3">
-            <ImageIcon className="w-5 h-5 text-slate-500 shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-slate-800">Visual Exhibition Integrity:</strong> Visual assets displayed in this section are architectural and pedagogical previews curated for the school's registration phase. On-site campus documentation photographs will be updated progressively as school sessions commence.
+              <div className="p-3">
+                <h4 className="font-display font-bold text-xs sm:text-sm text-[#2F5187] group-hover:text-[#E87737] transition-colors line-clamp-1">
+                  {item.title}
+                </h4>
+                <p className="text-[11px] text-slate-500 line-clamp-2 mt-0.5">
+                  {item.caption}
+                </p>
+              </div>
             </div>
-          </div>
-
+          ))}
         </div>
-      </section>
 
-      {/* Fullscreen Lightbox Modal */}
-      <Lightbox
-        item={activeItem}
-        onClose={() => setActiveItem(null)}
-        onNext={handleNext}
-        onPrev={handlePrev}
-      />
-    </div>
+        {/* Action Prompt */}
+        <div className="pt-6 border-t border-slate-200 flex items-center justify-between">
+          <span className="text-xs text-slate-600">
+            Visit our campus near Vatar PHC, Vatar, Vapi for an in-person orientation.
+          </span>
+          <button
+            onClick={openInquiry}
+            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
+          >
+            Admissions Inquiry
+          </button>
+        </div>
+      </div>
+
+      {/* Lightbox Modal */}
+      {activeItem && (
+        <Lightbox
+          item={activeItem}
+          onClose={() => setActiveItem(null)}
+          onNext={handleNext}
+          onPrev={handlePrev}
+        />
+      )}
+    </InternalPageLayout>
   );
 };

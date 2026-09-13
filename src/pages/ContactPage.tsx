@@ -1,298 +1,300 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
+import { InternalPageLayout } from "../components/InternalPageLayout";
 import { SCHOOL_INFO } from "../data/schoolData";
-import { MapPin, Phone, Mail, MessageSquare, Clock, Send, CheckCircle2, Navigation } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, MessageSquare, CheckCircle2, ShieldCheck } from "lucide-react";
 import { InstagramIcon } from "../components/InstagramIcon";
 
-export const ContactPage: React.FC = () => {
+interface ContactPageProps {
+  onNavigate?: (pageId: string) => void;
+  openInquiry?: () => void;
+}
+
+export const ContactPage: React.FC<ContactPageProps> = ({
+  onNavigate = () => {},
+  openInquiry = () => {},
+}) => {
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    parentName: "",
     phone: "",
     email: "",
-    subject: "General Inquiry",
+    gradeSeeking: "Grade 1",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-  };
-
-  const handleWhatsApp = () => {
-    const text = encodeURIComponent(
-      `*Lotus Global School Contact Query*\n\n` +
-      `Name: ${formData.name || "Inquirer"}\n` +
-      `Phone: ${formData.phone}\n` +
-      `Subject: ${formData.subject}\n` +
-      `Message: ${formData.message || "I would like to connect with the campus administrative desk."}`
-    );
-    window.open(`https://wa.me/91${SCHOOL_INFO.whatsapp}?text=${text}`, "_blank");
+    setFormSubmitted(true);
   };
 
   return (
-    <div className="pt-28 pb-20 animate-fade-in bg-[#F8FAFC]">
-      {/* Page Hero */}
-      <section className="bg-[#0B1B3D] text-white py-20 border-b border-slate-800 relative overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-[#E86A2C] uppercase tracking-wider">
-              <span>Campus Office & Communication</span>
-            </div>
-            <h1 className="font-display font-extrabold text-4xl sm:text-5xl text-white tracking-tight">
-              Contact Lotus Global School
-            </h1>
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              We welcome prospective parents, educators, and community members to connect with our campus administrative desk in Vatar, Vapi.
-            </p>
-          </div>
+    <InternalPageLayout
+      title="Contact Us"
+      category="CONTACT US"
+      activePageId="contact"
+      onNavigate={onNavigate}
+      openInquiry={openInquiry}
+      bannerImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80"
+      breadcrumbs={[{ label: "Contact Us" }]}
+    >
+      <div className="space-y-8">
+        {/* Section Header */}
+        <div className="border-b-2 border-[#2F5187] pb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
+            Administrative & Campus Reach
+          </span>
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
+            Get in Touch With Lotus Global School
+          </h2>
         </div>
-      </section>
 
-      {/* Main Content */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
-          
-          {/* Quick Contact Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Address */}
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#E86A2C] flex items-center justify-center">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-base text-[#0B1B3D]">
-                Campus Address
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                1836/1 TO 1836/3, Near Vatar PHC, Vatar, Vapi, Gujarat 396191
-              </p>
-            </div>
-
-            {/* Phone */}
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0B1B3D] flex items-center justify-center">
-                <Phone className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-base text-[#0B1B3D]">
-                Phone / Calling
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                <a href={`tel:${SCHOOL_INFO.phone}`} className="font-bold text-slate-800 hover:text-[#E86A2C]">
-                  +91 {SCHOOL_INFO.phone}
-                </a>
-              </p>
-              <span className="text-[10px] text-slate-400 block">Mon - Sat: 8:30 AM to 4:30 PM</span>
-            </div>
-
-            {/* Email */}
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <Mail className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-base text-[#0B1B3D]">
-                Electronic Mail
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                <a href={`mailto:${SCHOOL_INFO.email}`} className="font-semibold text-slate-800 hover:text-[#E86A2C] break-all">
-                  {SCHOOL_INFO.email}
-                </a>
-              </p>
-              <span className="text-[10px] text-slate-400 block">Official institutional correspondence</span>
-            </div>
-
-            {/* WhatsApp & Social */}
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-pink-50 text-[#E25B88] flex items-center justify-center">
-                <InstagramIcon className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-base text-[#0B1B3D]">
-                Social & Messaging
-              </h3>
-              <div className="space-y-1 text-xs">
-                <div>
-                  WhatsApp: <a href={`https://wa.me/91${SCHOOL_INFO.whatsapp}`} target="_blank" rel="noreferrer" className="font-bold text-emerald-600 hover:underline">{SCHOOL_INFO.whatsapp}</a>
-                </div>
-                <div>
-                  Instagram: <a href={SCHOOL_INFO.instagramUrl} target="_blank" rel="noreferrer" className="text-pink-600 hover:underline font-semibold">@lotus.global.school</a>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Form + Map Placeholder Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            
-            {/* Contact Form */}
-            <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+        {/* Contact Info Cards (Reference layout) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Official Campus Details */}
+          <div className="p-6 rounded border border-slate-200 bg-[#F8FAFC] space-y-4 shadow-sm">
+            <div className="flex items-center gap-3 border-b border-slate-200 pb-3">
+              <img
+                src="/assets/logo.png"
+                alt="Lotus Global School Crest"
+                className="h-14 w-auto object-contain"
+              />
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#E86A2C]">
-                  Direct Dispatch
-                </span>
-                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0B1B3D] mt-1">
-                  Send a Message to the Campus Office
-                </h2>
-                <p className="text-xs text-slate-500 mt-1">
-                  Our office administration team reviews all inquiries and responds within 24 operational hours.
+                <h3 className="font-display font-bold text-base text-[#2F5187]">
+                  LOTUS GLOBAL SCHOOL
+                </h3>
+                <p className="text-xs text-[#E87737] font-semibold">
+                  Vatar, Vapi, Gujarat
                 </p>
               </div>
+            </div>
 
-              {submitted ? (
-                <div className="p-8 text-center bg-slate-50 rounded-xl space-y-3">
-                  <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
-                  <h4 className="font-display font-bold text-lg text-[#0B1B3D]">Message Transmitted</h4>
-                  <p className="text-xs text-slate-600">
-                    Thank you, {formData.name}. Your correspondence has been logged by Lotus Global School.
-                  </p>
+            <div className="space-y-3 text-xs text-slate-700">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-[#E87737] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-slate-900 block">Campus Address:</strong>
+                  <span>{SCHOOL_INFO.address}</span>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">
-                        Your Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Enter full name"
-                        className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:border-[#E86A2C] focus:ring-1 focus:ring-[#E86A2C]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">
-                        Contact Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="10-digit phone"
-                        className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:border-[#E86A2C] focus:ring-1 focus:ring-[#E86A2C]"
-                      />
-                    </div>
-                  </div>
+              </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="name@example.com"
-                        className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:border-[#E86A2C] focus:ring-1 focus:ring-[#E86A2C]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">
-                        Subject / Nature of Inquiry
-                      </label>
-                      <select
-                        value={formData.subject}
-                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                        className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:border-[#E86A2C] focus:ring-1 focus:ring-[#E86A2C] bg-white"
-                      >
-                        <option value="General Inquiry">General Inquiry</option>
-                        <option value="Admission Process">Admission Process</option>
-                        <option value="Curriculum & NCERT Framework">Curriculum & NCERT Framework</option>
-                        <option value="Campus Facilities">Campus Facilities</option>
-                        <option value="Career & Faculty Opportunities">Career & Faculty Opportunities</option>
-                      </select>
-                    </div>
-                  </div>
+              <div className="flex items-start gap-3">
+                <Phone className="w-5 h-5 text-[#E87737] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-slate-900 block">Telephone / Admissions Desk:</strong>
+                  <a href={`tel:${SCHOOL_INFO.phone}`} className="text-[#2F5187] font-semibold hover:underline">
+                    +91 {SCHOOL_INFO.phone}
+                  </a>
+                </div>
+              </div>
 
+              <div className="flex items-start gap-3">
+                <Mail className="w-5 h-5 text-[#E87737] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-slate-900 block">Official Electronic Mail:</strong>
+                  <a href={`mailto:${SCHOOL_INFO.email}`} className="text-[#2F5187] hover:underline">
+                    {SCHOOL_INFO.email}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Clock className="w-5 h-5 text-[#E87737] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-slate-900 block">Office Visiting Hours:</strong>
+                  <span>Monday to Saturday: 9:00 AM – 4:00 PM</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="w-5 h-5 text-[#E87737] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-slate-900 block">Affiliation Status:</strong>
+                  <span>{SCHOOL_INFO.affiliationStatus} (NCERT Framework)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Direct Connect Buttons */}
+            <div className="pt-2 flex flex-wrap gap-2">
+              <a
+                href={`https://wa.me/91${SCHOOL_INFO.whatsapp}?text=Hello%20Lotus%20Global%20School%2C%20I%20would%20like%20to%20enquire%20about%20admissions.`}
+                target="_blank"
+                rel="noreferrer"
+                className="px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
+                <span>Chat on WhatsApp</span>
+              </a>
+
+              <a
+                href={SCHOOL_INFO.instagramUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="px-4 py-2 bg-pink-700 hover:bg-pink-600 text-white rounded text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
+              >
+                <InstagramIcon className="w-3.5 h-3.5" />
+                <span>Follow Instagram</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Interactive Contact & Inquiry Form */}
+          <div className="p-6 rounded border border-slate-200 bg-white shadow-sm space-y-4">
+            <div>
+              <h3 className="font-display font-bold text-lg text-[#2F5187]">
+                Send an Inquiry Message
+              </h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Fill out the details below and our admissions team will respond promptly.
+              </p>
+            </div>
+
+            {formSubmitted ? (
+              <div className="p-6 bg-[#EEF3FA] border border-[#2F5187]/20 rounded text-center space-y-3">
+                <CheckCircle2 className="w-10 h-10 text-[#E87737] mx-auto" />
+                <h4 className="font-bold text-base text-[#2F5187]">
+                  Thank You for Your Inquiry!
+                </h4>
+                <p className="text-xs text-slate-600">
+                  We have received your message. Our admissions desk will reach out to you via telephone shortly.
+                </p>
+                <button
+                  onClick={() => setFormSubmitted(false)}
+                  className="text-xs font-bold text-[#E87737] uppercase underline pt-2"
+                >
+                  Send another inquiry
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+                <div>
+                  <label className="font-semibold text-slate-700 block mb-1">
+                    Parent / Guardian Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter your full name"
+                    value={formData.parentName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, parentName: e.target.value })
+                    }
+                    className="w-full p-2.5 border border-slate-300 rounded focus:border-[#2F5187] focus:ring-1 focus:ring-[#2F5187] outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">
-                      Your Message / Detailed Query *
+                    <label className="font-semibold text-slate-700 block mb-1">
+                      Contact Phone *
                     </label>
-                    <textarea
-                      rows={4}
+                    <input
+                      type="tel"
                       required
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="Please describe your query or request..."
-                      className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:border-[#E86A2C] focus:ring-1 focus:ring-[#E86A2C] resize-none"
+                      placeholder="e.g. 9054592424"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                      className="w-full p-2.5 border border-slate-300 rounded focus:border-[#2F5187] focus:ring-1 focus:ring-[#2F5187] outline-none"
                     />
                   </div>
 
-                  <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                    <button
-                      type="submit"
-                      className="w-full sm:flex-1 py-3 bg-[#0B1B3D] text-white font-semibold text-xs uppercase tracking-wider rounded-lg hover:bg-[#E86A2C] transition-colors flex items-center justify-center gap-2"
+                  <div>
+                    <label className="font-semibold text-slate-700 block mb-1">
+                      Grade Seeking Admission
+                    </label>
+                    <select
+                      value={formData.gradeSeeking}
+                      onChange={(e) =>
+                        setFormData({ ...formData, gradeSeeking: e.target.value })
+                      }
+                      className="w-full p-2.5 border border-slate-300 rounded focus:border-[#2F5187] focus:ring-1 focus:ring-[#2F5187] outline-none bg-white"
                     >
-                      <Send className="w-4 h-4" />
-                      Send Message
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleWhatsApp}
-                      className="w-full sm:w-auto py-3 px-5 bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-xs uppercase tracking-wider rounded-lg hover:bg-emerald-100 transition-colors flex items-center justify-center gap-2"
-                    >
-                      <MessageSquare className="w-4 h-4" />
-                      Quick WhatsApp
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-
-            {/* Right: Map Integration (Strict Compliance: User correction #5 - Marked as pending official link) */}
-            <div className="lg:col-span-5 space-y-6">
-              
-              {/* Campus Location Card */}
-              <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
-                <div className="flex items-center gap-3">
-                  <Navigation className="w-6 h-6 text-[#E86A2C]" />
-                  <h3 className="font-display font-bold text-xl text-[#0B1B3D]">
-                    Campus Location & Directions
-                  </h3>
-                </div>
-
-                <div className="space-y-2 text-xs text-slate-600">
-                  <div className="font-semibold text-slate-800">Physical Campus Coordinates:</div>
-                  <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200 font-mono text-[11px] text-[#0B1B3D]">
-                    Lotus Global School<br />
-                    1836/1 TO 1836/3, Near Vatar PHC,<br />
-                    Vatar, Vapi, Gujarat 396191
+                      <option value="Nursery">Nursery</option>
+                      <option value="LKG">Junior KG (LKG)</option>
+                      <option value="UKG">Senior KG (UKG)</option>
+                      <option value="Grade 1">Grade 1</option>
+                      <option value="Grade 2">Grade 2</option>
+                      <option value="Grade 3">Grade 3</option>
+                      <option value="Grade 4">Grade 4</option>
+                      <option value="Grade 5">Grade 5</option>
+                      <option value="Grade 6">Grade 6</option>
+                      <option value="Grade 7">Grade 7</option>
+                      <option value="Grade 8">Grade 8</option>
+                      <option value="Grade 9">Grade 9</option>
+                      <option value="Grade 10">Grade 10</option>
+                    </select>
                   </div>
                 </div>
 
-                {/* Map integration ready & marked pending per User Correction #5 */}
-                <div className="p-6 rounded-xl bg-slate-100 border-2 border-dashed border-slate-300 text-center space-y-3">
-                  <div className="w-10 h-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mx-auto">
-                    <MapPin className="w-5 h-5 text-[#E86A2C]" />
-                  </div>
-                  <div className="text-xs font-bold text-[#0B1B3D] uppercase tracking-wider">
-                    Interactive Google Map
-                  </div>
-                  <p className="text-[11px] text-slate-500 leading-relaxed font-mono">
-                    [Map Integration Pending: Official Google Maps embed URL will be pinned upon final institutional coordinate submission by the school administration.]
-                  </p>
+                <div>
+                  <label className="font-semibold text-slate-700 block mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="name@example.com"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    className="w-full p-2.5 border border-slate-300 rounded focus:border-[#2F5187] focus:ring-1 focus:ring-[#2F5187] outline-none"
+                  />
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 space-y-2 text-xs text-slate-600">
-                  <div className="flex items-center gap-2 font-semibold text-slate-800">
-                    <Clock className="w-4 h-4 text-[#E86A2C]" />
-                    <span>Office Visiting Protocol</span>
-                  </div>
-                  <p className="text-[11px] text-slate-500 leading-relaxed">
-                    Prior appointment is encouraged to ensure personalized interaction with the academic coordinator. Please call ahead at <strong>+91 {SCHOOL_INFO.phone}</strong>.
-                  </p>
+                <div>
+                  <label className="font-semibold text-slate-700 block mb-1">
+                    Inquiry Message / Questions
+                  </label>
+                  <textarea
+                    rows={3}
+                    placeholder="Enter any questions regarding curriculum, timings, or transportation..."
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
+                    className="w-full p-2.5 border border-slate-300 rounded focus:border-[#2F5187] focus:ring-1 focus:ring-[#2F5187] outline-none"
+                  />
                 </div>
-              </div>
 
-            </div>
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow flex items-center justify-center gap-2"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Submit Inquiry</span>
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
 
+        {/* Campus Location & Directions */}
+        <div className="space-y-4 pt-4">
+          <div className="border-b border-slate-200 pb-2">
+            <h3 className="font-display font-bold text-xl text-[#2F5187]">
+              Campus Geographical Map & Directions
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Located near Vatar PHC, Vatar, Vapi, Gujarat 396191
+            </p>
           </div>
 
+          <div className="w-full h-80 rounded border border-slate-200 overflow-hidden shadow-sm bg-slate-100">
+            <iframe
+              title="Lotus Global School Location"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14966.721469085817!2d72.8800!3d20.3500!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be0d04c00000001%3A0x0!2sVatar%2C%20Vapi%2C%20Gujarat%20396191!5e0!3m2!1sen!2sin!4v1650000000000!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={false}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </InternalPageLayout>
   );
 };

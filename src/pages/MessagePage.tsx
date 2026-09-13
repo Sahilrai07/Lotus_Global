@@ -1,125 +1,151 @@
-﻿import React from "react";
-import { Quote, Sparkles, Compass, ShieldCheck } from "lucide-react";
+import React from "react";
+import { InternalPageLayout } from "../components/InternalPageLayout";
 import { SCHOOL_INFO } from "../data/schoolData";
+import { CheckCircle2, Quote, ArrowRight } from "lucide-react";
 
 interface MessagePageProps {
   openInquiry: () => void;
+  onNavigate?: (pageId: string) => void;
 }
 
-export const MessagePage: React.FC<MessagePageProps> = ({ openInquiry }) => {
+export const MessagePage: React.FC<MessagePageProps> = ({
+  openInquiry,
+  onNavigate = () => {},
+}) => {
   return (
-    <div className="pt-28 pb-20 animate-fade-in bg-[#F8FAFC]">
-      {/* Page Hero */}
-      <section className="bg-[#0B1B3D] text-white py-20 border-b border-slate-800 relative overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-[#E86A2C] uppercase tracking-wider">
-              <span>Leadership Address</span>
+    <InternalPageLayout
+      title="Principal's Desk"
+      category="ABOUT US"
+      activePageId="message"
+      onNavigate={onNavigate}
+      openInquiry={openInquiry}
+      bannerImage="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1600&q=80"
+      breadcrumbs={[{ label: "Principal's Desk" }]}
+    >
+      <div className="space-y-8">
+        {/* Section Heading */}
+        <div className="border-b-2 border-[#2F5187] pb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
+            Leadership Perspective
+          </span>
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
+            Message From the Principal's Desk
+          </h2>
+        </div>
+
+        {/* Principal Portrait & Introductory Creed Box */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#F8FAFC] p-6 rounded border border-slate-200">
+          <div className="md:col-span-4 shrink-0">
+            <img
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80"
+              alt="Principal, Lotus Global School"
+              className="w-full h-64 object-cover rounded border border-slate-300 shadow-sm"
+            />
+            <div className="mt-3 text-center sm:text-left">
+              <h4 className="font-display font-bold text-base text-[#2F5187]">
+                Office of the Principal
+              </h4>
+              <p className="text-xs text-[#E87737] font-semibold">
+                Lotus Global School, Vatar, Vapi
+              </p>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                Proposed CBSE Institution
+              </p>
             </div>
-            <h1 className="font-display font-extrabold text-4xl sm:text-5xl text-white tracking-tight">
-              Principal & Director's Message
-            </h1>
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Guiding the educational paradigm of Lotus Global School with visionary leadership, academic rigor, and moral grounding.
+          </div>
+
+          <div className="md:col-span-8 space-y-4">
+            <div className="p-4 bg-white rounded border-l-4 border-[#E87737] shadow-sm">
+              <Quote className="w-5 h-5 text-[#E87737] mb-1" />
+              <p className="font-serif italic text-sm text-[#2F5187] font-medium leading-relaxed">
+                "The greatest privilege of educational leadership is creating an ecosystem where every student feels seen, heard, and intellectually stimulated. If a child cannot learn the way we teach him, we must adapt and teach him the way he can learn."
+              </p>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              Dear Parents, Students, and Well-Wishers,
+            </p>
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              It is my distinct honor to welcome you to <strong>Lotus Global School</strong>, an ambitious institution founded in Vatar, Vapi with the explicit purpose of rethinking contemporary school education.
+            </p>
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              We stand at a critical crossroads where conventional rote memorization is insufficient for the demands of the modern world. At Lotus Global School, our classrooms, science laboratories, and digital studios are built on active discovery. We encourage questions, celebrate creative experimentation, and instill emotional agility.
             </p>
           </div>
         </div>
-      </section>
 
-      {/* Main Content Area */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="max-w-4xl mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            
-            {/* Header / Portrait Placeholder */}
-            <div className="p-8 sm:p-12 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white flex flex-col sm:flex-row items-center gap-8">
-              <div className="w-32 h-32 rounded-2xl bg-[#0B1B3D]/5 border-2 border-dashed border-[#0B1B3D]/20 flex flex-col items-center justify-center text-center p-4 shrink-0">
-                <img src="/assets/logo.png" alt="Crest" className="h-12 w-auto opacity-75 mb-1" />
-                <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
-                  Office of the Principal
-                </span>
-              </div>
+        {/* Extended Narrative */}
+        <div className="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <h3 className="font-display font-bold text-lg text-[#2F5187] border-b border-slate-200 pb-2">
+            Our Commitments to Parents and Students
+          </h3>
 
-              <div className="text-center sm:text-left space-y-2">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#E86A2C]">
-                  Institutional Leadership
-                </span>
-                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0B1B3D]">
-                  Office of the Principal & Academic Directorate
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500">
-                  Lotus Global School · Vatar, Vapi, Gujarat
-                </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div className="p-4 bg-white border border-slate-200 rounded space-y-2">
+              <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[#2F5187]">
+                <CheckCircle2 className="w-4 h-4 text-[#E87737]" />
+                <span>Pedagogical Agility</span>
               </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Emphasizing conceptual clarity under the NCERT framework, allowing each child to progress at a pace that inspires authentic mastery.
+              </p>
             </div>
 
-            {/* Formal Address Section with Strict Content Integrity */}
-            <div className="p-8 sm:p-12 space-y-8">
-              <div className="relative pl-8 border-l-2 border-[#E86A2C]">
-                <Quote className="w-8 h-8 text-[#E86A2C]/20 absolute -left-4 -top-2" />
-                <p className="font-display text-lg sm:text-xl font-semibold text-[#0B1B3D] leading-snug">
-                  "Education is not merely the transmission of syllabi; it is the ignition of an inquisitive spirit and the steadfast cultivation of character."
-                </p>
+            <div className="p-4 bg-white border border-slate-200 rounded space-y-2">
+              <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[#2F5187]">
+                <CheckCircle2 className="w-4 h-4 text-[#E87737]" />
+                <span>Character & Values</span>
               </div>
-
-              {/* Dignified Institutional Placeholder (Strict compliance with User Rule #29 & #9) */}
-              <div className="p-6 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                  <Sparkles className="w-3.5 h-3.5 text-[#E86A2C]" />
-                  <span>Institutional Notice</span>
-                </div>
-                <div className="text-sm text-slate-600 leading-relaxed font-mono text-xs bg-white p-4 rounded border border-slate-200">
-                  [Principal's Formal Inaugural Address — The detailed address and academic message will be published in this section upon formal commencement of the upcoming academic term. Inquiries regarding our academic framework and leadership approach can be directed to the campus office.]
-                </div>
-              </div>
-
-              {/* Guiding Tenets of School Leadership */}
-              <div className="pt-4 space-y-4">
-                <h3 className="font-display font-bold text-lg text-[#0B1B3D]">
-                  Our Leadership Framework
-                </h3>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-lg border border-slate-200 bg-white">
-                    <div className="text-xs font-bold uppercase text-[#0B1B3D] mb-1">Academic Mentorship</div>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      Ensuring teachers act as facilitators of inquiry rather than mere lecturers.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-lg border border-slate-200 bg-white">
-                    <div className="text-xs font-bold uppercase text-[#0B1B3D] mb-1">Parental Partnership</div>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      Maintaining transparent, continuous communication for each child's holistic growth.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-lg border border-slate-200 bg-white">
-                    <div className="text-xs font-bold uppercase text-[#0B1B3D] mb-1">Ethical Integrity</div>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      Anchoring students in universal values of diligence, mutual respect, and social responsibility.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-xs text-slate-500">
-                  Have questions for our leadership team?
-                </div>
-                <button
-                  onClick={openInquiry}
-                  className="px-5 py-2.5 bg-[#0B1B3D] text-white text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-[#E86A2C] transition-colors"
-                >
-                  Submit Institutional Inquiry
-                </button>
-              </div>
-
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Grounded in our motto of <em>Dedication, Diligence, and Discipline</em>, ensuring intellectual prowess is paired with moral clarity and compassion.
+              </p>
             </div>
 
+            <div className="p-4 bg-white border border-slate-200 rounded space-y-2">
+              <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[#2F5187]">
+                <CheckCircle2 className="w-4 h-4 text-[#E87737]" />
+                <span>Parent-School Partnership</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                We believe true education is a continuous collaboration between parents and educators through transparent reporting and open dialogue.
+              </p>
+            </div>
+
+            <div className="p-4 bg-white border border-slate-200 rounded space-y-2">
+              <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[#2F5187]">
+                <CheckCircle2 className="w-4 h-4 text-[#E87737]" />
+                <span>Safety & Wellbeing</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                A secure, hygienic, and emotionally nurturing campus sanctuary where children can express themselves fearlessly.
+              </p>
+            </div>
           </div>
+
+          <p className="pt-2">
+            I warmly invite you to visit our campus near Vatar PHC, interact with our admissions counsellors, and witness first-hand our vision for modern CBSE schooling.
+          </p>
         </div>
-      </section>
-    </div>
+
+        {/* Footer Signature */}
+        <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <span className="font-display font-bold text-base text-[#2F5187] block">
+              Principal
+            </span>
+            <span className="text-xs text-slate-500">
+              Lotus Global School, Vatar, Vapi
+            </span>
+          </div>
+
+          <button
+            onClick={openInquiry}
+            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
+          >
+            Admissions Inquiry Form
+          </button>
+        </div>
+      </div>
+    </InternalPageLayout>
   );
 };

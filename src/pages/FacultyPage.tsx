@@ -1,362 +1,159 @@
-﻿import React from "react";
-import { FACULTY_PILLARS, SCHOOL_INFO } from "../data/schoolData";
-import { 
-  Award, 
-  TrendingUp, 
-  HeartHandshake, 
-  UserCheck, 
-  Sparkles, 
-  BookOpen, 
-  Compass, 
-  Users, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Mail,
-  ArrowRight
-} from "lucide-react";
+import React from "react";
+import { InternalPageLayout } from "../components/InternalPageLayout";
+import { FACULTY_PILLARS } from "../data/schoolData";
+import { Award, TrendingUp, HeartHandshake, CheckCircle2, GraduationCap, BookOpen, Users } from "lucide-react";
 
 interface FacultyPageProps {
   openInquiry: () => void;
+  onNavigate?: (pageId: string) => void;
 }
 
-export const FacultyPage: React.FC<FacultyPageProps> = ({ openInquiry }) => {
-  const iconMap: Record<string, React.ElementType> = {
-    Award: Award,
-    TrendingUp: TrendingUp,
-    HeartHandshake: HeartHandshake,
-  };
-
-  const teachingPractices = [
+export const FacultyPage: React.FC<FacultyPageProps> = ({
+  openInquiry,
+  onNavigate = () => {},
+}) => {
+  const departments = [
     {
-      title: "Inquiry-Led Mentorship",
-      summary: "Replacing passive instruction with active questioning and discovery.",
-      detail: "Educators guide students to hypothesize, test, and conclude independently, nurturing critical thinking from early grades.",
+      name: "STEM & Natural Sciences",
+      scope: "Physics, Chemistry, Biology & Composite Experiments",
+      focus: "Hands-on empirical investigation and scientific reasoning.",
     },
     {
-      title: "Conceptual Rigor",
-      summary: "Deep understanding over rote memorization.",
-      detail: "Subjects are introduced through tangible physical models, laboratory setups, and real-world problem scenarios.",
+      name: "Mathematics & Computational Thinking",
+      scope: "Foundational Numeracy, Logic & Problem Solving",
+      focus: "Bridging abstract theorem with concrete real-world application.",
     },
     {
-      title: "Empathetic Communication",
-      summary: "Child psychology aligned with classroom dynamics.",
-      detail: "Teachers are trained to recognize individual learning temperaments, emotional needs, and distinct paces of development.",
+      name: "Languages & Humanistic Inquiries",
+      scope: "English, Hindi, Regional Language & Social Sciences",
+      focus: "Expressive storycraft, critical reading, and cultural empathy.",
     },
     {
-      title: "Collaborative Learning",
-      summary: "Peer exploration and group synergy.",
-      detail: "Structured group projects encourage mutual respect, shared responsibility, and effective communication skills.",
-    },
-  ];
-
-  const trainingModules = [
-    {
-      badge: "Curriculum",
-      title: "CBSE Guidelines & NCERT Benchmarks",
-      desc: "Orientation sessions focusing on curriculum delivery, continuous assessment protocols, and periodic diagnostic tests.",
+      name: "Information Technology & Media",
+      scope: "Computer Labs, Coding Fundamentals & Cyber Safety",
+      focus: "Digital literacy and responsible technological exploration.",
     },
     {
-      badge: "Pedagogy",
-      title: "Modern Pedagogy & NEP Practices",
-      desc: "Workshops designed to implement experiential learning, competency-based assessments, and interdisciplinary problem-solving.",
-    },
-    {
-      badge: "Innovation",
-      title: "Educational Technology & Smart Tools",
-      desc: "Hands-on training in multimedia smart boards, digital learning tools, and interactive science laboratory management.",
-    },
-    {
-      badge: "Wellness",
-      title: "Child Psychology & Student Welfare",
-      desc: "Equipping teachers with pastoral care techniques, positive reinforcement strategies, and attentive student well-being protocols.",
-    },
-  ];
-
-  const ratioBenefits = [
-    {
-      metric: "Focused Attention",
-      desc: "Educators observe every student's cognitive grasp, ensuring no child is left behind in core competencies.",
-    },
-    {
-      metric: "Tailored Guidance",
-      desc: "Instructional pacing can be adapted dynamically to support both remedial needs and accelerated enrichment.",
-    },
-    {
-      metric: "Meaningful Mentorship",
-      desc: "Close student-mentor bonds foster confidence, curiosity, and high academic accountability.",
-    },
-    {
-      metric: "Active Participation",
-      desc: "Smaller cohort sizes guarantee that every student participates actively in classroom discussions and laboratory work.",
+      name: "Physical Education & Performing Arts",
+      scope: "Athletics Arena, Music Studio, Visual Design & Yoga",
+      focus: "Physical endurance, teamwork, rhythm, and aesthetic appreciation.",
     },
   ];
 
   return (
-    <div className="pt-28 pb-20 animate-fade-in bg-[#F8FAFC]">
-      {/* Page Hero */}
-      <section className="bg-[#0B1B3D] text-white py-20 border-b border-slate-800 relative overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-[#E86A2C] uppercase tracking-wider">
-              <span>Pedagogical Mentorship</span>
-            </div>
-            <h1 className="font-display font-extrabold text-4xl sm:text-5xl text-white tracking-tight">
-              Faculty & Staff
-            </h1>
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Our educators are facilitators of learning, selected for their subject expertise, passion for teaching, and commitment to student welfare.
-            </p>
-          </div>
+    <InternalPageLayout
+      title="Faculty Standards"
+      category="FACULTY"
+      activePageId="faculty"
+      onNavigate={onNavigate}
+      openInquiry={openInquiry}
+      bannerImage="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80"
+      breadcrumbs={[{ label: "Faculty Standards" }]}
+    >
+      <div className="space-y-8">
+        {/* Section Header */}
+        <div className="border-b-2 border-[#2F5187] pb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
+            Academic Mentorship
+          </span>
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
+            Teaching Standards & Pedagogical Excellence
+          </h2>
         </div>
-      </section>
 
-      {/* SECTION 1: INTRODUCTION & CORE FACULTY STANDARDS (Requested by User) */}
-      <section className="py-20 bg-white border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          
-          {/* Main Introduction Header */}
-          <div className="max-w-3xl mb-16 space-y-4">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#E86A2C]">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Core Institutional Standards</span>
-            </div>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#0B1B3D] tracking-tight">
-              Faculty & Staff
-            </h2>
-            <p className="text-base sm:text-lg text-slate-700 font-medium leading-relaxed">
-              Our educators are facilitators of learning, selected for their subject expertise, passion for teaching, and commitment to student welfare.
-            </p>
-            <div className="w-16 h-1 bg-[#E86A2C] rounded-full mt-2"></div>
-          </div>
+        {/* Narrative Lead */}
+        <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          At Lotus Global School, educators are not merely instructors of syllabus content—they are facilitators of intellectual curiosity and moral character. We recruit professionals who embody empathy, conceptual mastery, and passion for child-centric development.
+        </p>
 
-          {/* The Three Foundational Pillars */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {FACULTY_PILLARS.map((pillar, idx) => {
-              const Icon = iconMap[pillar.icon] || Award;
-              return (
-                <div
-                  key={idx}
-                  className="p-8 rounded-2xl bg-[#F8FAFC] border border-slate-200/90 shadow-sm space-y-5 hover:border-[#E86A2C]/40 hover:shadow-xl hover:shadow-slate-900/5 transition-all duration-300 flex flex-col justify-between"
-                >
-                  <div className="space-y-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#0B1B3D] flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-[#E86A2C]" />
-                    </div>
-                    <h3 className="font-display font-bold text-xl text-[#0B1B3D] tracking-tight">
-                      {pillar.title}
-                    </h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      {pillar.description}
-                    </p>
-                  </div>
-                  <div className="pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                    <span>Pillar 0{idx + 1}</span>
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        {/* Faculty Pillars (Reference from schoolData.ts) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {FACULTY_PILLARS.map((pillar, idx) => {
+            const icons = [Award, TrendingUp, HeartHandshake];
+            const Icon = icons[idx % icons.length];
 
-        </div>
-      </section>
-
-      {/* NEW SECTION 2: FACILITATOR PEDAGOGY — FROM INSTRUCTION TO INSPIRATION */}
-      <section className="py-20 bg-[#F8FAFC] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
-            <div className="lg:col-span-6 space-y-4">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#E86A2C]">
-                Classroom Dynamics
-              </span>
-              <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#0B1B3D] tracking-tight">
-                Facilitators of Learning, Not Merely Instructors
-              </h2>
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                At Lotus Global School, teaching is redefined as an interactive partnership. Rather than lecturing from behind a podium, educators structure experiential challenges where children formulate hypotheses, experiment, and articulate their conclusions.
-              </p>
-            </div>
-            
-            <div className="lg:col-span-6 p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
-              <div className="flex items-center gap-3 text-[#0B1B3D]">
-                <Compass className="w-5 h-5 text-[#E86A2C]" />
-                <span className="text-xs font-bold uppercase tracking-wider">
-                  The Mentorship Principle
-                </span>
-              </div>
-              <p className="font-display font-semibold text-lg text-[#0B1B3D] leading-snug">
-                "When an educator listens before instructing, a student learns to think before answering."
-              </p>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Our pedagogical approach emphasizes critical inquiry, emotional intelligence, and resilient problem-solving across all grades.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teachingPractices.map((practice, idx) => (
+            return (
               <div
                 key={idx}
-                className="p-6 rounded-xl bg-white border border-slate-200 shadow-sm space-y-3 hover:border-slate-300 transition-all"
+                className="p-5 rounded border border-slate-200 bg-[#F8FAFC] shadow-sm space-y-3"
               >
-                <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#E86A2C] flex items-center justify-center font-bold text-xs">
-                  0{idx + 1}
+                <div className="w-10 h-10 rounded bg-white text-[#2F5187] border border-slate-200 flex items-center justify-center shadow-sm">
+                  <Icon className="w-5 h-5 text-[#E87737]" />
                 </div>
-                <h3 className="font-display font-bold text-base text-[#0B1B3D]">
-                  {practice.title}
+                <h3 className="font-display font-bold text-base text-[#2F5187]">
+                  {pillar.title}
                 </h3>
-                <p className="text-xs font-semibold text-slate-500">
-                  {practice.summary}
-                </p>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  {practice.detail}
+                  {pillar.description}
                 </p>
               </div>
-            ))}
-          </div>
-
+            );
+          })}
         </div>
-      </section>
 
-      {/* NEW SECTION 3: CONTINUOUS PROFESSIONAL DEVELOPMENT & WORKSHOPS */}
-      <section className="py-20 bg-white border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          
-          <div className="max-w-2xl mb-14 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#E86A2C]">
-              Continuous Faculty Growth
-            </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#0B1B3D] tracking-tight">
-              Continuous Professional Development
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Regular training workshops keep faculty updated on CBSE guidelines, NEP practices, and educational technology, ensuring classroom standards stay dynamic and future-ready.
-            </p>
+        {/* Academic Departments Overview */}
+        <div className="space-y-4 pt-4">
+          <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+            <GraduationCap className="w-5 h-5 text-[#2F5187]" />
+            <h3 className="font-display font-bold text-xl text-[#2F5187]">
+              Academic Faculty Departments
+            </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {trainingModules.map((module, idx) => (
-              <div
-                key={idx}
-                className="p-6 sm:p-8 rounded-2xl bg-[#F8FAFC] border border-slate-200/90 shadow-sm space-y-3 hover:border-slate-300 transition-all"
-              >
-                <div className="inline-block px-2.5 py-1 rounded bg-white border border-slate-200 text-[10px] font-bold uppercase tracking-wider text-[#E86A2C]">
-                  {module.badge}
-                </div>
-                <h3 className="font-display font-bold text-xl text-[#0B1B3D]">
-                  {module.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {module.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* NEW SECTION 4: LOW TEACHER-STUDENT RATIO & PERSONALIZED MENTORING */}
-      <section className="py-20 bg-[#F8FAFC] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          
-          <div className="max-w-2xl mb-14 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#E86A2C]">
-              Individualized Care
-            </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#0B1B3D] tracking-tight">
-              Low Teacher-Student Ratio in Practice
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Ensures personalized attention, tailored guidance, and close mentoring for every child from Nursery to Grade 10.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {ratioBenefits.map((item, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#E86A2C]"></div>
-                  <h3 className="font-display font-bold text-base text-[#0B1B3D]">
-                    {item.metric}
-                  </h3>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* SECTION 5: INSTITUTIONAL FACULTY ROSTER NOTICE & CAREERS (Strict Rule #9 Compliance) */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="p-8 sm:p-12 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
-            
-            <div className="flex items-center gap-3">
-              <UserCheck className="w-6 h-6 text-[#E86A2C]" />
-              <h3 className="font-display font-bold text-2xl text-[#0B1B3D]">
-                Academic Faculty Roster
-              </h3>
-            </div>
-
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
-              Lotus Global School follows a rigorous educator selection protocol assessing subject mastery, modern pedagogical techniques, and empathetic student communication.
-            </p>
-
-            <div className="p-6 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs text-slate-600 space-y-2">
-              <div className="flex items-center gap-2 text-slate-700 font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-[#E86A2C]" />
-                <span>Roster Status: Verification & Induction Phase</span>
-              </div>
-              <p>
-                [Faculty Department Roster & Academic Profiles — The complete directory of certified primary, middle, and secondary school educators will be published following the formal induction ahead of the new academic session. No unverified credentials or names are displayed prior to official school appointment.]
-              </p>
-            </div>
-
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-xs text-slate-500">
-                Interested in teaching opportunities at Lotus Global School?
-              </div>
-              <a
-                href={`mailto:${SCHOOL_INFO.email}?subject=Teaching%20Career%20Inquiry%20-%20Lotus%20Global%20School`}
-                className="px-5 py-2.5 bg-[#0B1B3D] text-white text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-[#E86A2C] transition-colors flex items-center gap-2"
-              >
-                <Mail className="w-3.5 h-3.5" />
-                <span>Submit Academic Resume</span>
-              </a>
-            </div>
-
+          <div className="overflow-x-auto border border-slate-200 rounded">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-[#2F5187] text-white uppercase text-[11px] tracking-wider">
+                  <th className="p-3 border-r border-[#3d65a3]">Department</th>
+                  <th className="p-3 border-r border-[#3d65a3]">Subject Coverage</th>
+                  <th className="p-3">Educational Focus</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-slate-700">
+                {departments.map((dept, i) => (
+                  <tr
+                    key={i}
+                    className={i % 2 === 0 ? "bg-white" : "bg-[#F8FAFC] hover:bg-slate-50"}
+                  >
+                    <td className="p-3 font-bold text-[#2F5187] border-r border-slate-200 whitespace-nowrap">
+                      {dept.name}
+                    </td>
+                    <td className="p-3 text-slate-600 border-r border-slate-200">
+                      {dept.scope}
+                    </td>
+                    <td className="p-3 text-slate-800 font-medium">
+                      {dept.focus}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      </section>
 
-      {/* Institutional Inquiry Callout */}
-      <section className="py-16 bg-[#0B1B3D] text-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-8 text-center space-y-4">
-          <h3 className="font-display font-bold text-2xl sm:text-3xl text-white">
-            Have Questions for our Academic Coordination Team?
-          </h3>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-            Our admissions and academic coordination desk is available to explain our pedagogical approach, syllabus benchmarks, and faculty mentoring standards.
+        {/* Continuous Professional Development */}
+        <div className="p-5 rounded bg-[#FFF5EE] border-l-4 border-[#E87737] space-y-2 text-xs">
+          <span className="font-bold text-[#2F5187] uppercase block text-sm">
+            Continuous Professional Development (CPD)
+          </span>
+          <p className="text-slate-700 leading-relaxed">
+            In compliance with CBSE and NEP 2020 guidelines, our educators undergo regular pedagogical workshops, modern educational technology integration seminars, and child psychology training to constantly elevate classroom interaction.
           </p>
-          <div className="pt-2">
-            <button
-              onClick={openInquiry}
-              className="px-6 py-3 rounded-lg bg-[#E86A2C] text-white font-semibold text-xs uppercase tracking-wider hover:bg-[#D25619] transition-colors shadow-md"
-            >
-              Enquire with Admissions
-            </button>
-          </div>
         </div>
-      </section>
-    </div>
+
+        {/* Action Prompt */}
+        <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+          <span className="text-xs text-slate-600">
+            Learn more about joining our faculty or enrolling your child.
+          </span>
+          <button
+            onClick={openInquiry}
+            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
+          >
+            Admissions Desk
+          </button>
+        </div>
+      </div>
+    </InternalPageLayout>
   );
 };

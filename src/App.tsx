@@ -25,7 +25,20 @@ export const App: React.FC = () => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "");
       if (
-        ["home", "about", "vision-mission", "mission-vision", "vision", "message", "academics", "facilities", "faculty", "gallery", "admissions", "contact"].includes(hash)
+        [
+          "home",
+          "about",
+          "vision-mission",
+          "mission-vision",
+          "vision",
+          "message",
+          "academics",
+          "facilities",
+          "faculty",
+          "gallery",
+          "admissions",
+          "contact",
+        ].includes(hash)
       ) {
         if (hash === "mission-vision" || hash === "vision") {
           setActivePage("vision-mission");
@@ -51,7 +64,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 400);
+      setShowScrollTop(window.scrollY > 350);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -64,25 +77,70 @@ export const App: React.FC = () => {
   const renderPage = () => {
     switch (activePage) {
       case "about":
-        return <AboutPage openInquiry={() => setIsInquiryOpen(true)} />;
+        return (
+          <AboutPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "vision-mission":
       case "mission-vision":
       case "vision":
-        return <VisionMissionPage openInquiry={() => setIsInquiryOpen(true)} />;
+        return (
+          <VisionMissionPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "message":
-        return <MessagePage openInquiry={() => setIsInquiryOpen(true)} />;
+        return (
+          <MessagePage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "academics":
-        return <AcademicsPage openInquiry={() => setIsInquiryOpen(true)} />;
+        return (
+          <AcademicsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "facilities":
-        return <FacilitiesPage openInquiry={() => setIsInquiryOpen(true)} />;
+        return (
+          <FacilitiesPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "faculty":
-        return <FacultyPage openInquiry={() => setIsInquiryOpen(true)} />;
+        return (
+          <FacultyPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "gallery":
-        return <GalleryPage />;
+        return (
+          <GalleryPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "admissions":
-        return <AdmissionsPage openInquiry={() => setIsInquiryOpen(true)} />;
+        return (
+          <AdmissionsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "contact":
-        return <ContactPage />;
+        return (
+          <ContactPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "home":
       default:
         return (
@@ -95,38 +153,36 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-800 font-sans selection:bg-[#E86A2C]/20 selection:text-[#0B1B3D]">
-      {/* Global Navigation */}
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-800 font-sans selection:bg-[#E87737]/20 selection:text-[#2F5187]">
+      {/* Global Institutional Navigation */}
       <Navbar
         activePage={activePage}
         setActivePage={handlePageChange}
         openInquiry={() => setIsInquiryOpen(true)}
       />
 
-      {/* Main Page View */}
-      <div className="flex-1">
-        {renderPage()}
-      </div>
+      {/* Main Page Content */}
+      <div className="flex-1">{renderPage()}</div>
 
-      {/* Institutional Footer */}
+      {/* Institutional 3-Column Footer */}
       <Footer
         setActivePage={handlePageChange}
         openInquiry={() => setIsInquiryOpen(true)}
       />
 
-      {/* Global Inquiry Modal */}
+      {/* Global Admissions Inquiry Modal */}
       <InquiryModal
         isOpen={isInquiryOpen}
         onClose={() => setIsInquiryOpen(false)}
       />
 
-      {/* Floating Action Elements (WhatsApp Quick Access & Back to Top) */}
+      {/* Floating Action Elements (WhatsApp Desk & Back to Top) */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-3">
         {showScrollTop && (
           <button
             onClick={scrollToTop}
-            className="p-3 rounded-full bg-white text-[#0B1B3D] border border-slate-200 shadow-md hover:bg-slate-50 transition-all duration-200"
-            aria-label="Scroll to top"
+            className="p-3 rounded bg-white text-[#2F5187] border border-slate-300 shadow-md hover:bg-slate-50 transition-all"
+            aria-label="Scroll to top of page"
           >
             <ArrowUp className="w-4 h-4" />
           </button>
@@ -136,12 +192,12 @@ export const App: React.FC = () => {
           href={`https://wa.me/91${SCHOOL_INFO.whatsapp}?text=Hello%20Lotus%20Global%20School%2C%20I%20would%20like%20to%20enquire%20about%20admissions.`}
           target="_blank"
           rel="noreferrer"
-          className="group relative flex items-center justify-center p-3.5 rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-600/25 hover:bg-emerald-700 hover:scale-105 transition-all duration-300"
-          aria-label="Connect on WhatsApp"
+          className="group flex items-center justify-center p-3.5 rounded bg-emerald-700 text-white shadow-lg hover:bg-emerald-600 transition-all"
+          aria-label="Chat on WhatsApp"
         >
           <MessageSquare className="w-5 h-5" />
           <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-xs font-semibold pl-0 group-hover:pl-2">
-            Chat on WhatsApp
+            Admissions WhatsApp
           </span>
         </a>
       </div>
