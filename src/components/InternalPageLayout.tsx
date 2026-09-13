@@ -49,13 +49,13 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
       case "CAMPUS FACILITIES":
         return [
           { label: "All Campus Facilities", pageId: "facilities" },
-          { label: "Chemistry & Physics Labs", pageId: "facilities" },
-          { label: "Biology & Composite Lab", pageId: "facilities" },
-          { label: "Computer Laboratory", pageId: "facilities" },
-          { label: "Central Library", pageId: "facilities" },
-          { label: "Sports & Athletics Arena", pageId: "facilities" },
-          { label: "Music & Cultural Studio", pageId: "facilities" },
-          { label: "Campus Infirmary", pageId: "facilities" },
+          { label: "Chemistry & Physics Labs", pageId: "facility-chem-phys" },
+          { label: "Biology & Composite Lab", pageId: "facility-bio-composite" },
+          { label: "Computer Laboratory", pageId: "facility-computer-lab" },
+          { label: "Central Library", pageId: "facility-library" },
+          { label: "Sports & Athletics Arena", pageId: "facility-sports" },
+          { label: "Music & Cultural Studio", pageId: "facility-music" },
+          { label: "Campus Infirmary", pageId: "facility-infirmary" },
         ];
       case "ADMISSIONS":
         return [

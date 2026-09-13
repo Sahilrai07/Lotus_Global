@@ -30,6 +30,29 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
   // 4 Featured facilities for homepage showcase (matching reference site 2-column structure)
   const featuredFacilities = FACILITIES_DATA.slice(0, 4);
 
+  const getFacilityPageId = (id: string) => {
+    switch (id) {
+      case "chemistry-lab":
+      case "physics-lab":
+        return "facility-chem-phys";
+      case "biology-lab":
+      case "composite-lab":
+        return "facility-bio-composite";
+      case "computer-lab":
+        return "facility-computer-lab";
+      case "library":
+        return "facility-library";
+      case "sports-room":
+        return "facility-sports";
+      case "music-room":
+        return "facility-music";
+      case "infirmary":
+        return "facility-infirmary";
+      default:
+        return "facilities";
+    }
+  };
+
   return (
     <main className="animate-fade-in bg-[#F8FAFC]">
       {/* 1. HERO / BANNER SECTION */}
@@ -209,7 +232,10 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#E87737]">
                       {facility.category}
                     </span>
-                    <h3 className="font-display font-bold text-base text-[#2F5187] group-hover:text-[#E87737] transition-colors">
+                    <h3
+                      onClick={() => navigateTo(getFacilityPageId(facility.id))}
+                      className="font-display font-bold text-base text-[#2F5187] group-hover:text-[#E87737] transition-colors cursor-pointer"
+                    >
                       {facility.name}
                     </h3>
                     <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mt-1">
@@ -219,7 +245,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
 
                   <div className="pt-2">
                     <button
-                      onClick={() => navigateTo("facilities")}
+                      onClick={() => navigateTo(getFacilityPageId(facility.id))}
                       className="inline-flex items-center gap-1 text-xs font-bold text-[#E87737] hover:text-[#D26425] transition-colors uppercase tracking-wider"
                     >
                       <span>Read more...</span>

@@ -21,6 +21,29 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({
       ? FACILITIES_DATA
       : FACILITIES_DATA.filter((f) => f.category === selectedCategory);
 
+  const getFacilityPageId = (id: string) => {
+    switch (id) {
+      case "chemistry-lab":
+      case "physics-lab":
+        return "facility-chem-phys";
+      case "biology-lab":
+      case "composite-lab":
+        return "facility-bio-composite";
+      case "computer-lab":
+        return "facility-computer-lab";
+      case "library":
+        return "facility-library";
+      case "sports-room":
+        return "facility-sports";
+      case "music-room":
+        return "facility-music";
+      case "infirmary":
+        return "facility-infirmary";
+      default:
+        return "facilities";
+    }
+  };
+
   return (
     <InternalPageLayout
       title="Campus Facilities & Labs"
@@ -102,19 +125,30 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({
                 </div>
               </div>
 
-              {/* Key Features List */}
-              <div className="px-5 pb-5 pt-2 border-t border-slate-200/80 bg-white">
-                <span className="text-[10px] font-bold uppercase text-slate-400 block mb-1.5">
-                  Key Specifications
-                </span>
-                <ul className="space-y-1 text-[11px] text-slate-700">
-                  {facility.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3 h-3 text-[#E87737] shrink-0" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+              {/* Key Features List & Link to Dedicated Page */}
+              <div className="px-5 pb-5 pt-2 border-t border-slate-200/80 bg-white space-y-3">
+                <div>
+                  <span className="text-[10px] font-bold uppercase text-slate-400 block mb-1.5">
+                    Key Specifications
+                  </span>
+                  <ul className="space-y-1 text-[11px] text-slate-700">
+                    {facility.features.map((feat, idx) => (
+                      <li key={idx} className="flex items-center gap-1.5">
+                        <CheckCircle2 className="w-3 h-3 text-[#E87737] shrink-0" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="pt-2 border-t border-slate-100">
+                  <button
+                    onClick={() => onNavigate(getFacilityPageId(facility.id))}
+                    className="w-full py-2 px-3 bg-[#2F5187] hover:bg-[#E87737] text-white text-xs font-bold uppercase tracking-wider rounded transition-colors text-center shadow-sm"
+                  >
+                    View Detailed Facility Page
+                  </button>
+                </div>
               </div>
             </div>
           ))}

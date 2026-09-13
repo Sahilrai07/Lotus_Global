@@ -8,6 +8,13 @@ import { VisionMissionPage } from "./pages/VisionMissionPage";
 import { MessagePage } from "./pages/MessagePage";
 import { AcademicsPage } from "./pages/AcademicsPage";
 import { FacilitiesPage } from "./pages/FacilitiesPage";
+import { ChemPhysLabsPage } from "./pages/facilities/ChemPhysLabsPage";
+import { BioCompositeLabsPage } from "./pages/facilities/BioCompositeLabsPage";
+import { ComputerLabPage } from "./pages/facilities/ComputerLabPage";
+import { CentralLibraryPage } from "./pages/facilities/CentralLibraryPage";
+import { SportsArenaPage } from "./pages/facilities/SportsArenaPage";
+import { MusicStudioPage } from "./pages/facilities/MusicStudioPage";
+import { CampusInfirmaryPage } from "./pages/facilities/CampusInfirmaryPage";
 import { FacultyPage } from "./pages/FacultyPage";
 import { GalleryPage } from "./pages/GalleryPage";
 import { AdmissionsPage } from "./pages/AdmissionsPage";
@@ -24,22 +31,29 @@ export const App: React.FC = () => {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "");
-      if (
-        [
-          "home",
-          "about",
-          "vision-mission",
-          "mission-vision",
-          "vision",
-          "message",
-          "academics",
-          "facilities",
-          "faculty",
-          "gallery",
-          "admissions",
-          "contact",
-        ].includes(hash)
-      ) {
+      const validPages = [
+        "home",
+        "about",
+        "vision-mission",
+        "mission-vision",
+        "vision",
+        "message",
+        "academics",
+        "facilities",
+        "facility-chem-phys",
+        "facility-bio-composite",
+        "facility-computer-lab",
+        "facility-library",
+        "facility-sports",
+        "facility-music",
+        "facility-infirmary",
+        "faculty",
+        "gallery",
+        "admissions",
+        "contact",
+      ];
+
+      if (validPages.includes(hash)) {
         if (hash === "mission-vision" || hash === "vision") {
           setActivePage("vision-mission");
         } else {
@@ -109,6 +123,55 @@ export const App: React.FC = () => {
       case "facilities":
         return (
           <FacilitiesPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "facility-chem-phys":
+        return (
+          <ChemPhysLabsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "facility-bio-composite":
+        return (
+          <BioCompositeLabsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "facility-computer-lab":
+        return (
+          <ComputerLabPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "facility-library":
+        return (
+          <CentralLibraryPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "facility-sports":
+        return (
+          <SportsArenaPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "facility-music":
+        return (
+          <MusicStudioPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "facility-infirmary":
+        return (
+          <CampusInfirmaryPage
             openInquiry={() => setIsInquiryOpen(true)}
             onNavigate={handlePageChange}
           />
