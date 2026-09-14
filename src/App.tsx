@@ -15,6 +15,17 @@ import { CentralLibraryPage } from "./pages/facilities/CentralLibraryPage";
 import { SportsArenaPage } from "./pages/facilities/SportsArenaPage";
 import { MusicStudioPage } from "./pages/facilities/MusicStudioPage";
 import { CampusInfirmaryPage } from "./pages/facilities/CampusInfirmaryPage";
+import { CoreValuesPage } from "./pages/about/CoreValuesPage";
+import { LocationPage } from "./pages/about/LocationPage";
+import { DevelopmentalStagesPage } from "./pages/academics/DevelopmentalStagesPage";
+import { AssessmentSchemePage } from "./pages/academics/AssessmentSchemePage";
+import { SchoolTimingsPage } from "./pages/academics/SchoolTimingsPage";
+import { DocumentsChecklistPage } from "./pages/admissions/DocumentsChecklistPage";
+import { EligibilityCriteriaPage } from "./pages/admissions/EligibilityCriteriaPage";
+import { InquiryDeskPage } from "./pages/admissions/InquiryDeskPage";
+import { TeachingStandardsPage } from "./pages/faculty/TeachingStandardsPage";
+import { ProfessionalDevelopmentPage } from "./pages/faculty/ProfessionalDevelopmentPage";
+import { StudentTeacherRatioPage } from "./pages/faculty/StudentTeacherRatioPage";
 import { FacultyPage } from "./pages/FacultyPage";
 import { GalleryPage } from "./pages/GalleryPage";
 import { AdmissionsPage } from "./pages/AdmissionsPage";
@@ -34,11 +45,16 @@ export const App: React.FC = () => {
       const validPages = [
         "home",
         "about",
+        "about-values",
+        "about-location",
         "vision-mission",
         "mission-vision",
         "vision",
         "message",
         "academics",
+        "academics-stages",
+        "academics-assessment",
+        "academics-timings",
         "facilities",
         "facility-chem-phys",
         "facility-bio-composite",
@@ -48,8 +64,14 @@ export const App: React.FC = () => {
         "facility-music",
         "facility-infirmary",
         "faculty",
-        "gallery",
+        "faculty-standards",
+        "faculty-development",
+        "faculty-ratio",
         "admissions",
+        "admissions-documents",
+        "admissions-eligibility",
+        "admissions-inquiry",
+        "gallery",
         "contact",
       ];
 
@@ -97,6 +119,20 @@ export const App: React.FC = () => {
             onNavigate={handlePageChange}
           />
         );
+      case "about-values":
+        return (
+          <CoreValuesPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "about-location":
+        return (
+          <LocationPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "vision-mission":
       case "mission-vision":
       case "vision":
@@ -116,6 +152,27 @@ export const App: React.FC = () => {
       case "academics":
         return (
           <AcademicsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "academics-stages":
+        return (
+          <DevelopmentalStagesPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "academics-assessment":
+        return (
+          <AssessmentSchemePage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "academics-timings":
+        return (
+          <SchoolTimingsPage
             openInquiry={() => setIsInquiryOpen(true)}
             onNavigate={handlePageChange}
           />
@@ -183,6 +240,27 @@ export const App: React.FC = () => {
             onNavigate={handlePageChange}
           />
         );
+      case "faculty-standards":
+        return (
+          <TeachingStandardsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "faculty-development":
+        return (
+          <ProfessionalDevelopmentPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "faculty-ratio":
+        return (
+          <StudentTeacherRatioPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "gallery":
         return (
           <GalleryPage
@@ -193,6 +271,27 @@ export const App: React.FC = () => {
       case "admissions":
         return (
           <AdmissionsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "admissions-documents":
+        return (
+          <DocumentsChecklistPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "admissions-eligibility":
+        return (
+          <EligibilityCriteriaPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "admissions-inquiry":
+        return (
+          <InquiryDeskPage
             openInquiry={() => setIsInquiryOpen(true)}
             onNavigate={handlePageChange}
           />

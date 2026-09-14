@@ -36,15 +36,15 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
           { label: "Overview & Campus", pageId: "about" },
           { label: "Mission & Vision", pageId: "vision-mission" },
           { label: "Principal's Desk", pageId: "message" },
-          { label: "Core Values & Creed", pageId: "about" },
-          { label: "Campus Location", pageId: "contact" },
+          { label: "Core Values & Creed", pageId: "about-values" },
+          { label: "Campus Location & Map", pageId: "about-location" },
         ];
       case "ACADEMICS":
         return [
           { label: "Curriculum Framework", pageId: "academics" },
-          { label: "Academic Stages (Nursery - Gr 10)", pageId: "academics" },
-          { label: "Assessment & Scheme", pageId: "academics" },
-          { label: "School Timings", pageId: "academics" },
+          { label: "Academic Stages (Nursery - Gr 10)", pageId: "academics-stages" },
+          { label: "Assessment & Scheme", pageId: "academics-assessment" },
+          { label: "School Timings & Routine", pageId: "academics-timings" },
         ];
       case "CAMPUS FACILITIES":
         return [
@@ -60,15 +60,16 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
       case "ADMISSIONS":
         return [
           { label: "Admissions Process (4 Steps)", pageId: "admissions" },
-          { label: "Required Document Checklist", pageId: "admissions" },
-          { label: "Online Inquiry Desk", pageId: "admissions" },
-          { label: "Campus Timings & Visits", pageId: "contact" },
+          { label: "Required Document Checklist", pageId: "admissions-documents" },
+          { label: "Eligibility & Age Criteria", pageId: "admissions-eligibility" },
+          { label: "Online Inquiry Desk", pageId: "admissions-inquiry" },
         ];
       case "FACULTY":
         return [
-          { label: "Teaching Standards", pageId: "faculty" },
-          { label: "Professional Development", pageId: "faculty" },
-          { label: "Student-Teacher Ratio", pageId: "faculty" },
+          { label: "Faculty Directory & Overview", pageId: "faculty" },
+          { label: "Teaching Standards", pageId: "faculty-standards" },
+          { label: "Professional Development", pageId: "faculty-development" },
+          { label: "Student-Teacher Ratio", pageId: "faculty-ratio" },
         ];
       default:
         return [

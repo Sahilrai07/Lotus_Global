@@ -37,8 +37,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
         { label: "Overview & Campus", pageId: "about" },
         { label: "Mission & Vision", pageId: "vision-mission" },
         { label: "Principal's Desk", pageId: "message" },
-        { label: "Core Values & Pillars", pageId: "about" },
-        { label: "Location & Directions", pageId: "contact" },
+        { label: "Core Values & Pillars", pageId: "about-values" },
+        { label: "Location & Directions", pageId: "about-location" },
       ],
     },
     {
@@ -47,9 +47,9 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
       hasDropdown: true,
       subItems: [
         { label: "Curriculum Framework", pageId: "academics" },
-        { label: "Developmental Stages (Nursery - Grade 10)", pageId: "academics" },
-        { label: "Assessment & Examination", pageId: "academics" },
-        { label: "School Timings & Routine", pageId: "academics" },
+        { label: "Developmental Stages (Nursery - Grade 10)", pageId: "academics-stages" },
+        { label: "Assessment & Examination", pageId: "academics-assessment" },
+        { label: "School Timings & Routine", pageId: "academics-timings" },
       ],
     },
     {
@@ -73,9 +73,9 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
       hasDropdown: true,
       subItems: [
         { label: "Admissions Pathway (4 Steps)", pageId: "admissions" },
-        { label: "Document Checklist", pageId: "admissions" },
-        { label: "Eligibility & Age Criteria", pageId: "admissions" },
-        { label: "Admissions Inquiry Form", pageId: "admissions" },
+        { label: "Document Checklist", pageId: "admissions-documents" },
+        { label: "Eligibility & Age Criteria", pageId: "admissions-eligibility" },
+        { label: "Admissions Inquiry Form", pageId: "admissions-inquiry" },
       ],
     },
     {
@@ -83,9 +83,10 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
       label: "FACULTY",
       hasDropdown: true,
       subItems: [
-        { label: "Faculty Standards", pageId: "faculty" },
-        { label: "Pedagogical Excellence", pageId: "faculty" },
-        { label: "Professional Development", pageId: "faculty" },
+        { label: "Faculty Directory & Overview", pageId: "faculty" },
+        { label: "Teaching Standards", pageId: "faculty-standards" },
+        { label: "Professional Development", pageId: "faculty-development" },
+        { label: "Student-Teacher Ratio", pageId: "faculty-ratio" },
       ],
     },
     { id: "gallery", label: "GALLERY" },
