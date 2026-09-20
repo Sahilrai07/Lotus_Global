@@ -16,6 +16,7 @@ interface InternalPageLayoutProps {
   children: React.ReactNode;
   bannerImage?: string;
   breadcrumbs?: { label: string; pageId?: string }[];
+  hideSidebarContactOnMobile?: boolean;
 }
 
 export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
@@ -27,6 +28,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
   children,
   bannerImage = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80",
   breadcrumbs = [],
+  hideSidebarContactOnMobile = false,
 }) => {
   // Navigation categories for sidebar
   const getCategoryLinks = (): SidebarLink[] => {
@@ -184,8 +186,8 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
               </div>
             </div>
 
-            {/* Admissions & Contact Helpline Card in Sidebar */}
-            <div className="bg-[#2F5187] text-white p-5 rounded border border-[#1E375F] shadow-sm space-y-4">
+            {/* Admissions & Contact Helpline Card in Sidebar (Desktop Only) */}
+            <div className="hidden lg:block bg-[#2F5187] text-white p-5 rounded border border-[#1E375F] shadow-sm space-y-4">
               <div className="border-b border-white/20 pb-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#E87737]">
                   Admissions Office

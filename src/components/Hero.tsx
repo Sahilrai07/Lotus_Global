@@ -80,13 +80,13 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
         <div className="relative z-20 wrap py-14 sm:py-20">
           <div className="max-w-3xl space-y-5 animate-in fade-in slide-in-from-bottom-3 duration-500 key={activeSlide.id}">
             {/* Tagline / Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E87737]/20 border border-[#E87737]/40 text-xs font-bold uppercase tracking-wider text-[#E87737]">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>{activeSlide.tagline || "Lotus Global School · Vatar, Vapi"}</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E87737]/20 border border-[#E87737]/40 text-xs font-bold uppercase tracking-wider text-[#E87737] max-w-full">
+              <Sparkles className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">{activeSlide.tagline || "Lotus Global School · Vatar, Vapi"}</span>
             </div>
 
             {/* Main Title */}
-            <h1 className="font-display font-extrabold text-2.5xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight">
+            <h1 className="font-display font-extrabold text-2xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight">
               {activeSlide.title}
             </h1>
 
@@ -96,7 +96,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
             </p>
 
             {/* Motto Badge Strip */}
-            <div className="inline-flex items-center gap-2 py-1.5 px-3 rounded bg-[#2F5187]/90 border-l-4 border-[#E87737] text-xs sm:text-sm font-semibold text-slate-100 shadow-sm">
+            <div className="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 py-1.5 px-3 rounded bg-[#2F5187]/90 border-l-4 border-[#E87737] text-xs sm:text-sm font-semibold text-slate-100 shadow-sm max-w-full">
               <span>Motto:</span>
               <span className="text-[#E87737] font-bold">Dedication</span>
               <span>·</span>
@@ -106,10 +106,10 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="pt-3 flex flex-wrap items-center gap-3 sm:gap-4">
+            <div className="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <button
                 onClick={() => handleCtaClick(activeSlide.ctaLink || "admissions-inquiry")}
-                className="px-6 py-3 rounded bg-[#E87737] text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#D26425] transition-all shadow-lg flex items-center gap-2"
+                className="w-full sm:w-auto px-6 py-3 rounded bg-[#E87737] text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#D26425] transition-all shadow-lg flex items-center justify-center gap-2"
               >
                 <span>{activeSlide.ctaText || "Admissions Inquiry"}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -117,7 +117,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
 
               <button
                 onClick={() => handleCtaClick(activeSlide.secondaryCtaLink || "academics")}
-                className="px-6 py-3 rounded bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm uppercase tracking-wider border border-white/30 transition-all flex items-center gap-2"
+                className="w-full sm:w-auto px-6 py-3 rounded bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm uppercase tracking-wider border border-white/30 transition-all flex items-center justify-center gap-2"
               >
                 <Compass className="w-4 h-4 text-[#E87737]" />
                 <span>{activeSlide.secondaryCtaText || "Explore Academics"}</span>
@@ -126,19 +126,19 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
           </div>
         </div>
 
-        {/* Previous / Next Arrow Controls */}
+        {/* Previous / Next Arrow Controls (Desktop / Tablet) */}
         {slides.length > 1 && (
           <>
             <button
               onClick={handlePrev}
-              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-black/30 hover:bg-[#E87737] text-white transition-colors focus:outline-none"
+              className="hidden sm:flex absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-black/30 hover:bg-[#E87737] text-white transition-colors focus:outline-none items-center justify-center"
               aria-label="Previous Slide"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={handleNext}
-              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-black/30 hover:bg-[#E87737] text-white transition-colors focus:outline-none"
+              className="hidden sm:flex absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-black/30 hover:bg-[#E87737] text-white transition-colors focus:outline-none items-center justify-center"
               aria-label="Next Slide"
             >
               <ChevronRight className="w-5 h-5" />
@@ -167,9 +167,9 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
 
       {/* 2. INSTITUTIONAL TICKER / MARQUEE BANNER (Reference section.section-scroll) */}
       {ticker && ticker.active && (
-        <section className="bg-[#2F5187] text-white py-3 px-4 border-b-2 border-[#E87737] overflow-hidden shadow-inner">
-          <div className="wrap flex items-center gap-4">
-            <span className="shrink-0 text-xs font-extrabold uppercase tracking-widest px-2.5 py-1 rounded bg-[#E87737] text-white">
+        <section className="bg-[#2F5187] text-white py-2 sm:py-3 px-3 sm:px-4 border-b-2 border-[#E87737] overflow-hidden shadow-inner">
+          <div className="wrap flex items-center gap-2.5 sm:gap-4">
+            <span className="shrink-0 text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider px-2 py-0.5 sm:px-2.5 sm:py-1 rounded bg-[#E87737] text-white shadow-sm">
               Announcements
             </span>
             <div className="flex-1 overflow-hidden whitespace-nowrap">

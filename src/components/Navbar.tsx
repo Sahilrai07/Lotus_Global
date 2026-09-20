@@ -199,16 +199,16 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
 
   return (
     <header className="w-full bg-white shadow-md z-40 relative">
-      {/* 1. TOPMOST INSTITUTIONAL MICRO-BAR */}
-      <div className="bg-[#1E375F] text-white text-xs py-1.5 px-4 border-b border-[#2F5187]">
+      {/* 1. TOPMOST INSTITUTIONAL MICRO-BAR (Desktop only) */}
+      <div className="hidden lg:block bg-[#1E375F] text-white text-xs py-1.5 px-4 border-b border-[#2F5187]">
         <div className="wrap flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-4 text-[11px] sm:text-xs">
             <span className="flex items-center gap-1.5 text-slate-200 font-medium">
               <span className="w-2 h-2 rounded-full bg-[#E87737] animate-pulse"></span>
               {school.affiliationStatus} (NCERT Framework)
             </span>
-            <span className="hidden md:inline text-slate-400">|</span>
-            <span className="hidden md:flex items-center gap-1 text-slate-300">
+            <span className="text-slate-400">|</span>
+            <span className="flex items-center gap-1 text-slate-300">
               <MapPin className="w-3 h-3 text-[#E87737]" />
               Near Vatar PHC, Vatar, Vapi, Gujarat
             </span>
@@ -222,10 +222,10 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
               <Phone className="w-3 h-3 text-[#E87737]" />
               <span className="font-semibold">{school.phone}</span>
             </a>
-            <span className="hidden sm:inline text-slate-400">|</span>
+            <span className="text-slate-400">|</span>
             <a
               href={`mailto:${school.email}`}
-              className="hidden sm:flex items-center gap-1 text-slate-200 hover:text-[#E87737] transition-colors"
+              className="flex items-center gap-1 text-slate-200 hover:text-[#E87737] transition-colors"
             >
               <Mail className="w-3 h-3 text-[#E87737]" />
               <span>{school.email}</span>
@@ -245,28 +245,28 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
       </div>
 
       {/* 2. HEADER MIDDLE: LOGO, TITLE & REFERENCE-STYLE HEADER WIDGETS */}
-      <div className="bg-white py-3 sm:py-4 border-b border-slate-100">
-        <div className="wrap flex items-center justify-between gap-4">
+      <div className="bg-white py-2.5 sm:py-4 border-b border-slate-100">
+        <div className="wrap flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo & School Title */}
           <button
             onClick={() => handleNavigate("home")}
-            className="flex items-center gap-3 sm:gap-4 text-left group focus:outline-none shrink-0"
+            className="flex items-center gap-2 sm:gap-4 text-left group focus:outline-none min-w-0 flex-1 sm:flex-initial"
             aria-label="Lotus Global School Homepage"
           >
             <div className="relative shrink-0">
               <img
                 src="/assets/logo.png"
                 alt="Lotus Global School Crest"
-                className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                className="h-10 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
               />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0">
               <div className="flex items-center gap-2">
-                <span className="font-display font-bold text-lg sm:text-2xl md:text-2xl tracking-tight text-[#2F5187] group-hover:text-[#E87737] transition-colors">
+                <span className="font-display font-bold text-base sm:text-2xl md:text-2xl tracking-tight text-[#2F5187] group-hover:text-[#E87737] transition-colors truncate sm:whitespace-normal">
                   LOTUS GLOBAL SCHOOL
                 </span>
               </div>
-              <span className="text-[10px] sm:text-xs font-semibold tracking-wider text-[#E87737] uppercase">
+              <span className="text-[9px] sm:text-xs font-semibold tracking-wider text-[#E87737] uppercase truncate sm:whitespace-normal">
                 Vatar, Vapi, Gujarat · Nursery to Grade 10
               </span>
               <span className="hidden md:inline text-[11px] text-slate-500 font-medium italic mt-0.5">
@@ -276,7 +276,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
           </button>
 
           {/* Reference Site Header-Widgets (Right Side) */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Blinking Admission Alert (Styled exactly like reference a.blink) */}
             <button
               onClick={openInquiry}
@@ -336,7 +336,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
             {/* Search Toggle Button (Reference search-btn) */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 text-[#2F5187] hover:bg-slate-100 rounded focus:outline-none transition-colors"
+              className="p-1.5 sm:p-2 text-[#2F5187] hover:bg-slate-100 rounded focus:outline-none transition-colors"
               aria-label="Toggle search bar"
             >
               {isSearchOpen ? <X className="w-5 h-5 text-rose-600" /> : <Search className="w-5 h-5" />}
@@ -345,7 +345,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
             {/* Mobile Drawer Hamburger Button */}
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className="lg:hidden p-2 text-[#2F5187] hover:bg-slate-100 rounded focus:outline-none transition-colors"
+              className="lg:hidden p-1.5 sm:p-2 text-[#2F5187] hover:bg-slate-100 rounded focus:outline-none transition-colors"
               aria-label={isMobileOpen ? "Close Menu" : "Open Menu"}
             >
               {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -465,7 +465,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
 
       {/* 4. MOBILE NAVIGATION DRAWER */}
       {isMobileOpen && (
-        <div className="lg:hidden fixed inset-x-0 bottom-0 top-[110px] bg-black/50 z-50 flex flex-col justify-start">
+        <div className="lg:hidden fixed inset-x-0 bottom-0 top-[58px] sm:top-[72px] bg-black/50 z-50 flex flex-col justify-start">
           <div className="bg-white max-h-[80vh] overflow-y-auto shadow-2xl border-b-4 border-[#E87737] p-4">
             {/* Quick Action Buttons */}
             <div className="grid grid-cols-2 gap-2 mb-4">

@@ -26,12 +26,27 @@
     --color-text-muted: #64748B;
   }
 
+  html {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+  }
+
   body {
     font-family: var(--font-sans);
     background-color: var(--color-neutral-bg);
     color: var(--color-text-main);
     overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
     line-height: 1.6;
+  }
+
+  #root {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
   }
 
   h1, h2, h3, h4, h5, h6, .font-display {
@@ -48,6 +63,7 @@
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+  box-sizing: border-box;
 }
 
 @media (min-width: 640px) {
@@ -204,7 +220,7 @@
 .animate-marquee {
   display: inline-block;
   white-space: nowrap;
-  animation: marquee 28s linear infinite;
+  animation: marquee 48s linear infinite;
 }
 
 .animate-marquee:hover {
@@ -218,4 +234,56 @@
 
 .animate-blink {
   animation: blink 1.2s infinite ease-in-out;
+}
+
+/* Brand Preloader Zoom & Entrance Keyframes */
+@keyframes preloaderZoom {
+  0% {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes preloaderFadeUp {
+  0% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes preloaderBar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-preloader-zoom {
+  animation: preloaderZoom 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-preloader-fade-up {
+  opacity: 0;
+  animation: preloaderFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+
+.animate-preloader-bar {
+  animation: preloaderBar 1.35s ease-in-out infinite;
 }

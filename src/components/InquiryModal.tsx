@@ -42,11 +42,11 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div
-        className="relative w-full max-w-xl bg-white rounded shadow-2xl border border-slate-300 overflow-hidden"
+        className="relative w-full max-w-xl bg-white rounded shadow-2xl border border-slate-300 overflow-hidden max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-[#2F5187] text-white p-6 relative border-b-2 border-[#E87737]">
+        <div className="bg-[#2F5187] text-white p-6 relative border-b-2 border-[#E87737] shrink-0">
           <button
             onClick={onClose}
             className="absolute top-5 right-5 p-1.5 text-slate-300 hover:text-white rounded hover:bg-white/10 transition-colors"
@@ -72,7 +72,7 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
         </div>
 
         {/* Content */}
-        <div className="p-6 sm:p-8">
+        <div className="p-6 sm:p-8 overflow-y-auto">
           {submitted ? (
             <div className="text-center py-8 space-y-4">
               <div className="w-12 h-12 bg-[#FFF5EE] text-[#E87737] rounded-full flex items-center justify-center mx-auto border border-[#E87737]/30">

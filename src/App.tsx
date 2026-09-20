@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { InquiryModal } from "./components/InquiryModal";
+import { Preloader } from "./components/Preloader";
 import { HomePage } from "./pages/HomePage";
 import { AboutPage } from "./pages/AboutPage";
 import { VisionMissionPage } from "./pages/VisionMissionPage";
@@ -373,6 +374,9 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-800 font-sans selection:bg-[#E87737]/20 selection:text-[#2F5187]">
+      {/* Institutional Logo Zoom Preloader */}
+      <Preloader />
+
       {/* Global Institutional Navigation (Reference-style) */}
       <Navbar
         activePage={activePage}
@@ -396,11 +400,11 @@ export const App: React.FC = () => {
       />
 
       {/* Floating Action Elements (WhatsApp Desk & Back to Top) */}
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-3">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2 sm:gap-3">
         {showScrollTop && (
           <button
             onClick={scrollToTop}
-            className="p-3 rounded bg-white text-[#2F5187] border border-slate-300 shadow-md hover:bg-slate-50 transition-all"
+            className="p-2.5 sm:p-3 rounded-full sm:rounded bg-white text-[#2F5187] border border-slate-300 shadow-md hover:bg-slate-50 transition-all"
             aria-label="Scroll to top of page"
           >
             <ArrowUp className="w-4 h-4" />
@@ -411,11 +415,11 @@ export const App: React.FC = () => {
           href={`https://wa.me/91${school.whatsapp}?text=Hello%20Lotus%20Global%20School%2C%20I%20would%20like%20to%20enquire%20about%20admissions.`}
           target="_blank"
           rel="noreferrer"
-          className="group flex items-center justify-center p-3.5 rounded bg-emerald-700 text-white shadow-lg hover:bg-emerald-600 transition-all"
+          className="group flex items-center justify-center p-3 sm:p-3.5 rounded-full sm:rounded bg-emerald-700 text-white shadow-lg hover:bg-emerald-600 transition-all"
           aria-label="Chat on WhatsApp"
         >
-          <MessageSquare className="w-5 h-5" />
-          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-xs font-semibold pl-0 group-hover:pl-2">
+          <MessageSquare className="w-5 h-5 shrink-0" />
+          <span className="hidden sm:inline max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-xs font-semibold pl-0 group-hover:pl-2">
             Admissions WhatsApp
           </span>
         </a>
@@ -425,11 +429,11 @@ export const App: React.FC = () => {
       {import.meta.env.DEV && (
         <button
           onClick={() => handlePageChange("admin")}
-          className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-3 py-2 rounded-full bg-slate-900/90 text-white hover:bg-[#E87737] shadow-xl border border-slate-700 text-xs font-bold transition-all"
+          className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 flex items-center gap-2 px-3 py-2 rounded-full bg-slate-900/90 text-white hover:bg-[#E87737] shadow-xl border border-slate-700 text-xs font-bold transition-all"
           title="Open Local Developer Content Dashboard"
         >
           <Settings className="w-3.5 h-3.5 animate-spin text-[#E87737] hover:text-white" />
-          <span>Local Admin CMS</span>
+          <span className="hidden sm:inline">Local Admin CMS</span>
         </button>
       )}
     </div>

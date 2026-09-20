@@ -41,6 +41,7 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
       activePageId="admissions-inquiry"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
+      hideSidebarContactOnMobile={true}
       bannerImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80"
       breadcrumbs={[
         { label: "Admissions", pageId: "admissions" },
@@ -291,6 +292,44 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Admissions Office Card (Mobile View: placed below Direct Admissions Line and above Timings) */}
+            <div className="lg:hidden bg-[#2F5187] text-white p-5 rounded-lg border border-[#1E375F] shadow-sm space-y-4">
+              <div className="border-b border-white/20 pb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#E87737]">
+                  Admissions Office
+                </span>
+                <h4 className="font-display font-bold text-base text-white mt-0.5">
+                  Lotus Global School
+                </h4>
+              </div>
+
+              <div className="space-y-2.5 text-xs text-slate-200">
+                <div className="flex items-start gap-2">
+                  <MapPin className="w-4 h-4 text-[#E87737] shrink-0 mt-0.5" />
+                  <span>Near Vatar PHC, Vatar, Vapi, Gujarat 396191</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-[#E87737] shrink-0" />
+                  <a href={`tel:${SCHOOL_INFO.phone}`} className="hover:text-[#E87737] font-semibold">
+                    {SCHOOL_INFO.phone}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-[#E87737] shrink-0" />
+                  <a href={`mailto:${SCHOOL_INFO.email}`} className="hover:text-[#E87737] break-all">
+                    {SCHOOL_INFO.email}
+                  </a>
+                </div>
+              </div>
+
+              <button
+                onClick={openInquiry}
+                className="w-full py-2.5 px-3 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded text-center transition-colors shadow"
+              >
+                Inquire for Admission
+              </button>
             </div>
 
             <div className="border border-slate-200 bg-white p-5 rounded-lg shadow-sm">
