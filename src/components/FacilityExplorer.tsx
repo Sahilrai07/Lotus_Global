@@ -16,7 +16,7 @@ export const FacilityExplorer: React.FC = () => {
   return (
     <section className="py-24 bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        
+
         {/* Section Heading & Category Filter */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-xl">
@@ -38,11 +38,10 @@ export const FacilityExplorer: React.FC = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-all duration-200 ${
-                  selectedCategory === cat
+                className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-all duration-200 ${selectedCategory === cat
                     ? "bg-[#0B1B3D] text-white shadow-sm"
                     : "text-slate-600 hover:text-[#0B1B3D] hover:bg-white/60"
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -68,7 +67,7 @@ export const FacilityExplorer: React.FC = () => {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3D]/70 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-                  
+
                   {/* Category Pill */}
                   <div className="absolute top-3.5 left-3.5">
                     <span className="px-2.5 py-1 rounded bg-[#0B1B3D]/80 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider">

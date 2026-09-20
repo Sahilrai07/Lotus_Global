@@ -71,6 +71,21 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
           { label: "Professional Development", pageId: "faculty-development" },
           { label: "Student-Teacher Ratio", pageId: "faculty-ratio" },
         ];
+      case "DOCUMENTS & DISCLOSURES":
+      case "DOCUMENTS":
+        return [
+          { label: "Downloads & Documents Hub", pageId: "documents" },
+          { label: "CBSE Mandatory Disclosure", pageId: "disclosure" },
+          { label: "Admission Forms & Prospectus", pageId: "documents" },
+          { label: "Safety & Compliance Certificates", pageId: "documents" },
+          { label: "Transfer Certificate (TC) Info", pageId: "documents" },
+        ];
+      case "NEWS & EVENTS":
+        return [
+          { label: "All News & Announcements", pageId: "news-events" },
+          { label: "Upcoming Events Calendar", pageId: "news-events" },
+          { label: "School Circulars", pageId: "news-events" },
+        ];
       default:
         return [
           { label: "Home", pageId: "home" },
@@ -78,6 +93,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
           { label: "Academics", pageId: "academics" },
           { label: "Facilities", pageId: "facilities" },
           { label: "Admissions", pageId: "admissions" },
+          { label: "Documents", pageId: "documents" },
           { label: "Contact Us", pageId: "contact" },
         ];
     }

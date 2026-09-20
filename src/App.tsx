@@ -30,13 +30,30 @@ import { FacultyPage } from "./pages/FacultyPage";
 import { GalleryPage } from "./pages/GalleryPage";
 import { AdmissionsPage } from "./pages/AdmissionsPage";
 import { ContactPage } from "./pages/ContactPage";
-import { MessageSquare, ArrowUp } from "lucide-react";
-import { SCHOOL_INFO } from "./data/schoolData";
+import { DocumentsPage } from "./pages/DocumentsPage";
+import { MandatoryDisclosurePage } from "./pages/MandatoryDisclosurePage";
+import { NewsEventsPage } from "./pages/NewsEventsPage";
+import { MessageSquare, ArrowUp, Settings } from "lucide-react";
+import { getSiteData, subscribeSiteData } from "./data/siteDataService";
+
+// Developer CMS is strictly local and only loaded during development (npm run dev)
+const AdminDashboard = import.meta.env.DEV
+  ? React.lazy(() =>
+    import("./pages/admin/AdminDashboard").then((m) => ({ default: m.AdminDashboard }))
+  )
+  : null;
 
 export const App: React.FC = () => {
   const [activePage, setActivePage] = useState<string>("home");
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [siteData, setSiteData] = useState(getSiteData());
+
+  useEffect(() => {
+    return subscribeSiteData((newData) => setSiteData(newData));
+  }, []);
+
+  const school = siteData.schoolInfo;
 
   // Sync with window.location.hash for deep linking
   useEffect(() => {
@@ -73,6 +90,10 @@ export const App: React.FC = () => {
         "admissions-inquiry",
         "gallery",
         "contact",
+        "documents",
+        "disclosure",
+        "news-events",
+        "admin",
       ];
 
       if (validPages.includes(hash)) {
@@ -109,6 +130,21 @@ export const App: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  // If on admin dashboard in development mode, render full-screen admin panel
+  if (activePage === "admin" && import.meta.env.DEV && AdminDashboard) {
+    return (
+      <React.Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white text-sm font-semibold">
+            Loading Local CMS Dashboard...
+          </div>
+        }
+      >
+        <AdminDashboard onBackToSite={() => handlePageChange("home")} />
+      </React.Suspense>
+    );
+  }
 
   const renderPage = () => {
     switch (activePage) {
@@ -303,6 +339,27 @@ export const App: React.FC = () => {
             onNavigate={handlePageChange}
           />
         );
+      case "documents":
+        return (
+          <DocumentsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "disclosure":
+        return (
+          <MandatoryDisclosurePage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "news-events":
+        return (
+          <NewsEventsPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "home":
       default:
         return (
@@ -316,7 +373,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-800 font-sans selection:bg-[#E87737]/20 selection:text-[#2F5187]">
-      {/* Global Institutional Navigation */}
+      {/* Global Institutional Navigation (Reference-style) */}
       <Navbar
         activePage={activePage}
         setActivePage={handlePageChange}
@@ -326,7 +383,7 @@ export const App: React.FC = () => {
       {/* Main Page Content */}
       <div className="flex-1">{renderPage()}</div>
 
-      {/* Institutional 3-Column Footer */}
+      {/* Institutional 4-Column Footer */}
       <Footer
         setActivePage={handlePageChange}
         openInquiry={() => setIsInquiryOpen(true)}
@@ -351,7 +408,7 @@ export const App: React.FC = () => {
         )}
 
         <a
-          href={`https://wa.me/91${SCHOOL_INFO.whatsapp}?text=Hello%20Lotus%20Global%20School%2C%20I%20would%20like%20to%20enquire%20about%20admissions.`}
+          href={`https://wa.me/91${school.whatsapp}?text=Hello%20Lotus%20Global%20School%2C%20I%20would%20like%20to%20enquire%20about%20admissions.`}
           target="_blank"
           rel="noreferrer"
           className="group flex items-center justify-center p-3.5 rounded bg-emerald-700 text-white shadow-lg hover:bg-emerald-600 transition-all"
@@ -363,6 +420,18 @@ export const App: React.FC = () => {
           </span>
         </a>
       </div>
+
+      {/* Local-Only Developer CMS Floating Shortcut (Only shown when running on localhost in DEV mode) */}
+      {import.meta.env.DEV && (
+        <button
+          onClick={() => handlePageChange("admin")}
+          className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-3 py-2 rounded-full bg-slate-900/90 text-white hover:bg-[#E87737] shadow-xl border border-slate-700 text-xs font-bold transition-all"
+          title="Open Local Developer Content Dashboard"
+        >
+          <Settings className="w-3.5 h-3.5 animate-spin text-[#E87737] hover:text-white" />
+          <span>Local Admin CMS</span>
+        </button>
+      )}
     </div>
   );
 };

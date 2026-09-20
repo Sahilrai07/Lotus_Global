@@ -1,19 +1,21 @@
 import React from "react";
 import { Hero } from "../components/Hero";
-import { NoticeBoard } from "../components/NoticeBoard";
-import { SCHOOL_INFO, ACADEMIC_STAGES, FACILITIES_DATA } from "../data/schoolData";
+import { QuickFeaturesRow } from "../components/QuickFeaturesRow";
+import { LeadershipDeskSection } from "../components/LeadershipDeskSection";
+import { UpdatesSection } from "../components/UpdatesSection";
+import { HomeGalleryPreview } from "../components/HomeGalleryPreview";
+import { PreFooterStrip } from "../components/PreFooterStrip";
+import { getSiteData } from "../data/siteDataService";
 import {
   ArrowRight,
+  Target,
   BookOpen,
+  HeartHandshake,
   CheckCircle2,
   ChevronRight,
-  Sparkles,
   ShieldCheck,
-  Compass,
-  Award,
-  Users,
-  Target,
-  HeartHandshake
+  Building2,
+  Sparkles,
 } from "lucide-react";
 
 interface HomePageProps {
@@ -22,13 +24,14 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }) => {
+  const siteData = getSiteData();
+  const school = siteData.schoolInfo;
+  const facilities = siteData.facilities.slice(0, 4);
+
   const navigateTo = (page: string) => {
     setActivePage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  // 4 Featured facilities for homepage showcase (matching reference site 2-column structure)
-  const featuredFacilities = FACILITIES_DATA.slice(0, 4);
 
   const getFacilityPageId = (id: string) => {
     switch (id) {
@@ -55,175 +58,115 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
 
   return (
     <main className="animate-fade-in bg-[#F8FAFC]">
-      {/* 1. HERO / BANNER SECTION */}
-      <Hero
-        onExploreAcademics={() => navigateTo("academics")}
-        onOpenInquiry={openInquiry}
-      />
+      {/* 1. HERO SLIDER BANNER + MARQUEE TICKER (Reference .slider-front + .section-scroll) */}
+      <Hero onNavigate={navigateTo} onOpenInquiry={openInquiry} />
 
-      {/* 2. CONTENT-TOP: THE SIGNATURE 3-COLUMN INSTITUTIONAL GRID (Reference Blueprint) */}
-      <section className="py-12 bg-white border-b border-slate-200">
+      {/* 2. 4-CARD QUICK GATEWAY ROW (Reference .home-about.facilities 4-col row) */}
+      <QuickFeaturesRow onNavigate={navigateTo} />
+
+      {/* 3. WELCOME / ABOUT SECTION (Reference .home-about.about-section 1/3 + 2/3 layout) */}
+      <section className="py-16 bg-white border-b border-slate-200">
         <div className="wrap">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-            {/* Column 1: Leadership / Principal's Message */}
-            <div className="bg-[#F8FAFC] border border-slate-200 rounded p-6 flex flex-col justify-between shadow-sm">
-              <div className="space-y-4">
-                <div className="border-b-2 border-[#2F5187] pb-2">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#E87737] block">
-                    Leadership Insight
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* 1/3 Left Column: Feature Campus Image */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-lg overflow-hidden border-2 border-slate-200 shadow-lg group">
+                <img
+                  src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80"
+                  alt="Lotus Global School Campus"
+                  className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#142540] via-[#142540]/70 to-transparent p-6 text-white">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#E87737] block">
+                    Vatar, Vapi Campus
                   </span>
-                  <h3 className="font-display font-bold text-lg sm:text-xl text-[#2F5187] uppercase tracking-wide">
-                    From the Principal's Desk
-                  </h3>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
-                    alt="School Leadership"
-                    className="w-24 h-28 object-cover rounded border border-slate-300 shadow-sm shrink-0"
-                  />
-                  <div className="space-y-2">
-                    <p className="text-xs text-slate-700 italic font-serif leading-relaxed">
-                      "If a child cannot learn the way we teach him, we must teach him the way he can learn."
-                    </p>
-                    <p className="text-[11px] text-slate-500 font-semibold">
-                      – Lotus Global School Leadership
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Every child possesses an innate curiosity that deserves to be celebrated. At Lotus Global School, our educational framework in Vatar, Vapi ensures students transition from passive absorption to active intellectual discovery.
-                </p>
-              </div>
-
-              <div className="pt-4 mt-2 border-t border-slate-200">
-                <button
-                  onClick={() => navigateTo("message")}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E87737] hover:text-[#D26425] uppercase tracking-wider transition-colors"
-                >
-                  <span>Read Complete Message</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Column 2: Mission & Vision Overview */}
-            <div className="bg-[#F8FAFC] border border-slate-200 rounded p-6 flex flex-col justify-between shadow-sm">
-              <div className="space-y-4">
-                <div className="border-b-2 border-[#2F5187] pb-2">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#E87737] block">
-                    Institutional Purpose
-                  </span>
-                  <h3 className="font-display font-bold text-lg sm:text-xl text-[#2F5187] uppercase tracking-wide">
-                    Mission & Vision
-                  </h3>
-                </div>
-
-                <p className="text-xs text-slate-700 leading-relaxed font-medium">
-                  A child's physical, intellectual, and moral growth requires an intentional, supportive environment. Lotus Global School was conceived in Vatar, Vapi to provide such a comprehensive ecosystem.
-                </p>
-
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Offering education from <strong>Nursery to Grade 10</strong>, the school aligns with the <strong>NCERT curriculum framework</strong> under proposed CBSE affiliation. We encourage personal initiative and goal setting tuned to each child's individual strengths.
-                </p>
-
-                <div className="bg-white p-3 rounded border border-slate-200 text-xs text-slate-700 space-y-1">
-                  <div className="font-bold text-[#2F5187] flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#E87737]" />
-                    <span>Values-Driven Education</span>
-                  </div>
-                  <p className="text-[11px] text-slate-500">
-                    Grounded in <em>Dedication, Diligence, and Discipline</em> for lifelong leadership.
+                  <h4 className="font-display font-bold text-base sm:text-lg">
+                    {school.name}
+                  </h4>
+                  <p className="text-xs text-slate-300 mt-1">
+                    {school.grades} · {school.affiliationStatus}
                   </p>
                 </div>
               </div>
+            </div>
 
-              <div className="pt-4 mt-2 border-t border-slate-200">
+            {/* 2/3 Right Column: Narrative & Signature Dividers */}
+            <div className="lg:col-span-7 space-y-4">
+              <div className="space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#E87737]">
+                  Welcome to Our Institution
+                </span>
+                <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[#2F5187] tracking-tight uppercase">
+                  {school.name}
+                </h2>
+                <div className="flex items-center gap-2 pt-1 pb-2">
+                  <span className="w-12 h-1 bg-[#E87737] rounded"></span>
+                  <span className="w-24 h-0.5 bg-slate-300 rounded"></span>
+                </div>
+              </div>
+
+              <h3 className="text-base sm:text-lg text-slate-800 font-semibold leading-snug">
+                {school.narrative.heroSubtext}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                {school.narrative.leadParagraph}
+              </p>
+
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                {school.narrative.pedagogy}
+              </p>
+
+              <div className="pt-3 flex flex-wrap items-center gap-4">
                 <button
-                  onClick={() => navigateTo("vision-mission")}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E87737] hover:text-[#D26425] uppercase tracking-wider transition-colors"
+                  onClick={() => navigateTo("about")}
+                  className="px-6 py-2.5 rounded bg-[#2F5187] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#1E375F] transition-colors shadow-sm flex items-center gap-1.5"
                 >
-                  <span>Read More About Our Vision</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>Read More »</span>
+                </button>
+                <button
+                  onClick={openInquiry}
+                  className="px-6 py-2.5 rounded bg-[#E87737] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#D26425] transition-colors shadow-sm"
+                >
+                  Apply for Admission
                 </button>
               </div>
             </div>
-
-            {/* Column 3: Notice Board & Announcements Component */}
-            <div className="h-full">
-              <NoticeBoard
-                onNavigate={navigateTo}
-                onOpenInquiry={openInquiry}
-              />
-            </div>
           </div>
         </div>
       </section>
 
-      {/* 3. CONTENT-MIDDLE: WELCOME SECTION (With Signature Double Dividers) */}
-      <section className="py-16 bg-[#F8FAFC] border-b border-slate-200">
-        <div className="wrap">
-          <div className="max-w-4xl mx-auto text-center space-y-4">
-            <h2 className="section-title-institutional">
-              Welcome to LOTUS GLOBAL SCHOOL
-            </h2>
-            {/* Signature Institutional Double Dividers */}
-            <hr className="hr1" />
-            <hr className="hr2" />
+      {/* 4. 3-COLUMN LEADERSHIP DESK (Reference .section-admin: President, MD, Principal) */}
+      <LeadershipDeskSection onNavigate={navigateTo} />
 
-            <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-medium">
-              {SCHOOL_INFO.narrative.leadParagraph}
-            </p>
+      {/* 5. 3-COLUMN UPDATES SECTION (Reference .content-front.updates: Events, News, Circulars) */}
+      <UpdatesSection onNavigate={navigateTo} openInquiry={openInquiry} />
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              {SCHOOL_INFO.narrative.pedagogy}
-            </p>
-
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-              <button
-                onClick={() => navigateTo("about")}
-                className="px-5 py-2.5 rounded bg-[#2F5187] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#1E375F] transition-colors shadow-sm"
-              >
-                Learn More About Our School
-              </button>
-              <button
-                onClick={openInquiry}
-                className="px-5 py-2.5 rounded bg-[#E87737] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#D26425] transition-colors shadow-sm"
-              >
-                Admissions Inquiry
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. CONTENT-BOTTOM: CAMPUS FACILITIES CATALOG (Reference .content-bottom 2-Column List) */}
+      {/* 6. CAMPUS FACILITIES CATALOG (Reference .content-bottom) */}
       <section className="py-16 bg-white border-b border-slate-200">
         <div className="wrap">
           <div className="section-title-wrap">
             <h2 className="section-title-institutional">
-              CAMPUS FACILITIES
+              CAMPUS FACILITIES & LABORATORIES
             </h2>
             <hr className="hr1" />
             <hr className="hr2" />
             <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-              Modern infrastructure engineered to facilitate hands-on experimentation, creative discovery, and physical fitness.
+              State-of-the-art empirical laboratories, modern computing center, central library, and athletic grounds.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {featuredFacilities.map((facility) => (
+            {facilities.map((facility) => (
               <div
                 key={facility.id}
-                className="flex flex-col sm:flex-row gap-5 p-5 rounded border border-slate-200 bg-[#F8FAFC] hover:border-[#2F5187]/40 transition-all shadow-sm group"
+                className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-slate-200 bg-[#F8FAFC] hover:border-[#2F5187]/50 transition-all shadow-sm group"
               >
-                <div className="sm:w-48 sm:h-36 w-full h-48 shrink-0 overflow-hidden rounded border border-slate-200">
+                <div className="sm:w-48 sm:h-36 w-full h-48 shrink-0 overflow-hidden rounded border border-slate-200 bg-slate-100">
                   <img
                     src={facility.image}
                     alt={facility.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 
@@ -248,7 +191,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
                       onClick={() => navigateTo(getFacilityPageId(facility.id))}
                       className="inline-flex items-center gap-1 text-xs font-bold text-[#E87737] hover:text-[#D26425] transition-colors uppercase tracking-wider"
                     >
-                      <span>Read more...</span>
+                      <span>Read more »</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -260,164 +203,85 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
           <div className="text-center mt-10">
             <button
               onClick={() => navigateTo("facilities")}
-              className="px-6 py-2.5 rounded border-2 border-[#2F5187] text-[#2F5187] hover:bg-[#2F5187] hover:text-white font-bold text-xs uppercase tracking-wider transition-all"
+              className="px-6 py-3 rounded border-2 border-[#2F5187] text-[#2F5187] hover:bg-[#2F5187] hover:text-white font-bold text-xs uppercase tracking-wider transition-all"
             >
-              View All Campus Laboratories & Facilities
+              View All Campus Laboratories & Infrastructure
             </button>
           </div>
         </div>
       </section>
 
-      {/* 5. ACADEMIC CONTINUUM (Structured Educational Progression) */}
-      <section className="py-16 bg-[#F8FAFC] border-b border-slate-200">
-        <div className="wrap">
-          <div className="section-title-wrap">
-            <h2 className="section-title-institutional">
-              ACADEMIC STRUCTURE
-            </h2>
-            <hr className="hr1" />
-            <hr className="hr2" />
-            <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-              A four-stage pedagogical progression aligned with the NCERT framework from foundational discovery to board readiness.
-            </p>
-          </div>
+      {/* 7. PHOTO GALLERY SHOWCASE (Reference .photo-gallery-list) */}
+      <HomeGalleryPreview onNavigate={navigateTo} />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {ACADEMIC_STAGES.map((stage, idx) => (
-              <div
-                key={idx}
-                className="bg-white border border-slate-200 rounded p-5 flex flex-col justify-between shadow-sm hover:border-[#E87737] transition-colors"
-              >
-                <div>
-                  <div className="text-xs font-bold font-mono text-[#E87737] mb-1">
-                    Stage 0{idx + 1}
-                  </div>
-                  <h3 className="font-display font-bold text-base text-[#2F5187] mb-1">
-                    {stage.phase}
-                  </h3>
-                  <div className="text-xs font-semibold text-slate-500 mb-3 bg-slate-100 px-2 py-0.5 rounded w-fit">
-                    {stage.levels}
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                    {stage.description}
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100 text-[11px] font-semibold text-[#2F5187]">
-                  Focus: {stage.focus}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <button
-              onClick={() => navigateTo("academics")}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded bg-[#2F5187] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#1E375F] transition-colors shadow"
-            >
-              <span>Explore Curriculum & Assessment Scheme</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. INSTITUTIONAL MOTTO PILLARS */}
+      {/* 8. CORE VALUES & MOTTO CREED */}
       <section className="py-16 bg-white border-b border-slate-200">
         <div className="wrap">
           <div className="section-title-wrap">
             <h2 className="section-title-institutional">
-              CORE VALUES & CREED
+              CORE VALUES & INSTITUTIONAL CREED
             </h2>
             <hr className="hr1" />
             <hr className="hr2" />
             <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-              Our three foundational anchors guide student conduct, academic inquiry, and leadership character.
+              Our three guiding pillars anchor intellectual curiosity, moral clarity, and lifelong discipline.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 rounded border-t-4 border-t-[#E87737] bg-[#F8FAFC] border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded bg-[#FFF5EE] text-[#E87737] flex items-center justify-center font-bold">
-                <Target className="w-5 h-5" />
+            {/* Dedication */}
+            <div className="p-6 rounded-lg border-t-4 border-t-[#E87737] bg-[#F8FAFC] border border-slate-200 shadow-sm space-y-3">
+              <div className="w-12 h-12 rounded-lg bg-[#FFF5EE] text-[#E87737] flex items-center justify-center font-bold">
+                <Target className="w-6 h-6" />
               </div>
               <h3 className="font-display font-bold text-lg text-[#2F5187]">
                 Dedication
               </h3>
               <div className="text-xs font-semibold text-[#E87737]">
-                {SCHOOL_INFO.mottoValues.dedication.short}
+                {school.mottoValues.dedication.short}
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                {SCHOOL_INFO.mottoValues.dedication.full}
+                {school.mottoValues.dedication.full}
               </p>
             </div>
 
-            <div className="p-6 rounded border-t-4 border-t-[#2F5187] bg-[#F8FAFC] border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded bg-[#EEF3FA] text-[#2F5187] flex items-center justify-center font-bold">
-                <BookOpen className="w-5 h-5" />
+            {/* Diligence */}
+            <div className="p-6 rounded-lg border-t-4 border-t-[#2F5187] bg-[#F8FAFC] border border-slate-200 shadow-sm space-y-3">
+              <div className="w-12 h-12 rounded-lg bg-[#EEF3FA] text-[#2F5187] flex items-center justify-center font-bold">
+                <BookOpen className="w-6 h-6" />
               </div>
               <h3 className="font-display font-bold text-lg text-[#2F5187]">
                 Diligence
               </h3>
               <div className="text-xs font-semibold text-[#2F5187]">
-                {SCHOOL_INFO.mottoValues.diligence.short}
+                {school.mottoValues.diligence.short}
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                {SCHOOL_INFO.mottoValues.diligence.full}
+                {school.mottoValues.diligence.full}
               </p>
             </div>
 
-            <div className="p-6 rounded border-t-4 border-t-[#F7A8D2] bg-[#F8FAFC] border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded bg-[#FDF2F8] text-[#E25B88] flex items-center justify-center font-bold">
-                <HeartHandshake className="w-5 h-5" />
+            {/* Discipline */}
+            <div className="p-6 rounded-lg border-t-4 border-t-[#F7A8D2] bg-[#F8FAFC] border border-slate-200 shadow-sm space-y-3">
+              <div className="w-12 h-12 rounded-lg bg-[#FDF2F8] text-[#E25B88] flex items-center justify-center font-bold">
+                <HeartHandshake className="w-6 h-6" />
               </div>
               <h3 className="font-display font-bold text-lg text-[#2F5187]">
                 Discipline
               </h3>
               <div className="text-xs font-semibold text-[#E25B88]">
-                {SCHOOL_INFO.mottoValues.discipline.short}
+                {school.mottoValues.discipline.short}
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                {SCHOOL_INFO.mottoValues.discipline.full}
+                {school.mottoValues.discipline.full}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 7. ADMISSIONS DESK CALLOUT BAR */}
-      <section className="py-12 bg-[#2F5187] text-white">
-        <div className="wrap">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-1 text-center md:text-left">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#E87737]">
-                Admissions Open · Nursery to Grade 10
-              </span>
-              <h3 className="font-display font-bold text-xl sm:text-2xl text-white">
-                Begin Your Child's Journey at Lotus Global School
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300">
-                Connect with our admissions desk in Vatar, Vapi to register an inquiry or schedule a campus walkthrough.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3 shrink-0">
-              <button
-                onClick={openInquiry}
-                className="px-6 py-3 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow"
-              >
-                Inquire for Admission
-              </button>
-              <button
-                onClick={() => navigateTo("contact")}
-                className="px-5 py-3 rounded bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider border border-white/25 transition-colors"
-              >
-                Contact Campus
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 9. PRE-FOOTER CALLOUT STRIP (Reference .before-footer.before-footer-style2) */}
+      <PreFooterStrip />
     </main>
   );
 };
