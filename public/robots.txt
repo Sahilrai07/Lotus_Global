@@ -1,0 +1,11 @@
+# robots.txt for Lotus Global School
+# https://lotusglobalschool.com
+
+User-agent: *
+Allow: /
+
+# Disallow internal local developer CMS endpoint
+Disallow: /#admin
+
+# Sitemap location
+Sitemap: https://lotusglobalschool.com/sitemap.xml

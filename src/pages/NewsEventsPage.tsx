@@ -98,15 +98,6 @@ export const NewsEventsPage: React.FC<NewsEventsPageProps> = ({
                       {event.description}
                     </p>
                   </div>
-
-                  <div className="pt-3 border-t border-slate-100 text-right">
-                    <button
-                      onClick={openInquiry}
-                      className="text-xs font-bold text-[#E87737] hover:text-[#D26425] uppercase tracking-wider"
-                    >
-                      Inquire Details »
-                    </button>
-                  </div>
                 </div>
               ))}
             </div>

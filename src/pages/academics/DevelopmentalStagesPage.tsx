@@ -82,18 +82,6 @@ export const DevelopmentalStagesPage: React.FC<DevelopmentalStagesPageProps> = (
             </div>
           ))}
         </div>
-
-        <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-          <span className="text-xs text-slate-600">
-            Have questions regarding grade-level readiness or admissions?
-          </span>
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Admissions Inquiry
-          </button>
-        </div>
       </div>
     </InternalPageLayout>
   );

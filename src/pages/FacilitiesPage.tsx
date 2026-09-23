@@ -35,6 +35,8 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({
         return "facility-library";
       case "sports-room":
         return "facility-sports";
+      case "indoor-games":
+        return "facility-indoor-games";
       case "music-room":
         return "facility-music";
       case "infirmary":
@@ -162,19 +164,6 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({
           <p className="text-slate-700">
             All laboratories are equipped with fire extinguishers, first-aid kits, eyewash stations, and emergency power cut-offs. Students perform empirical experiments under mandatory educator supervision.
           </p>
-        </div>
-
-        {/* Action Prompt */}
-        <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-          <span className="text-xs text-slate-600">
-            Schedule a physical walkthrough of our campus laboratories in Vatar, Vapi.
-          </span>
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Admissions Walkthrough Request
-          </button>
         </div>
       </div>
     </InternalPageLayout>

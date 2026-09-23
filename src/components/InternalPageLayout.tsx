@@ -1,10 +1,12 @@
-import React from "react";
-import { ChevronRight, Home, Phone, Mail, MapPin, Download, CheckCircle2 } from "lucide-react";
+import React, { useState } from "react";
+import { ChevronRight, ChevronDown, Home, Phone, Mail, MapPin, Download, CheckCircle2 } from "lucide-react";
 import { SCHOOL_INFO } from "../data/schoolData";
 
-interface SidebarLink {
+export interface SidebarLink {
   label: string;
   pageId: string;
+  onClick?: () => void;
+  isActive?: boolean;
 }
 
 interface InternalPageLayoutProps {
@@ -17,6 +19,7 @@ interface InternalPageLayoutProps {
   bannerImage?: string;
   breadcrumbs?: { label: string; pageId?: string }[];
   hideSidebarContactOnMobile?: boolean;
+  customSidebarLinks?: SidebarLink[];
 }
 
 export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
@@ -29,7 +32,9 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
   bannerImage = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80",
   breadcrumbs = [],
   hideSidebarContactOnMobile = false,
+  customSidebarLinks,
 }) => {
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   // Navigation categories for sidebar
   const getCategoryLinks = (): SidebarLink[] => {
     switch (category) {
@@ -55,7 +60,8 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
           { label: "Biology & Composite Lab", pageId: "facility-bio-composite" },
           { label: "Computer Laboratory", pageId: "facility-computer-lab" },
           { label: "Central Library", pageId: "facility-library" },
-          { label: "Sports & Athletics Arena", pageId: "facility-sports" },
+          { label: "Outdoor Sports & Playgrounds", pageId: "facility-sports" },
+          { label: "Indoor Games & Arena", pageId: "facility-indoor-games" },
           { label: "Music & Cultural Studio", pageId: "facility-music" },
           { label: "Campus Infirmary", pageId: "facility-infirmary" },
         ];
@@ -88,6 +94,17 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
           { label: "Upcoming Events Calendar", pageId: "news-events" },
           { label: "School Circulars", pageId: "news-events" },
         ];
+      case "ACTIVITIES":
+      case "CO-CURRICULAR":
+        return [
+          { label: "Co-Curricular Overview", pageId: "activities" },
+          { label: "Sports & Tournaments", pageId: "activities" },
+          { label: "Visual & Performing Arts", pageId: "activities" },
+          { label: "Student Clubs & Societies", pageId: "activities" },
+          { label: "Four-House System & Council", pageId: "activities" },
+          { label: "Annual Cultural Calendar", pageId: "activities" },
+          { label: "Photo & Event Gallery", pageId: "gallery" },
+        ];
       default:
         return [
           { label: "Home", pageId: "home" },
@@ -101,7 +118,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
     }
   };
 
-  const sidebarLinks = getCategoryLinks();
+  const sidebarLinks = customSidebarLinks || getCategoryLinks();
 
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
@@ -160,16 +177,43 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
           {/* Left Sidebar (Reference .lsidebar) */}
           <aside className="lg:col-span-4 xl:col-span-3 space-y-6">
             <div className="card-portal overflow-hidden">
-              <div className="lsidebar-heading flex items-center justify-between">
-                <span>{category}</span>
-              </div>
-              <div className="lsidebar-nav">
+              <button
+                type="button"
+                onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+                className="w-full lsidebar-heading flex items-center justify-between text-left lg:pointer-events-none"
+                aria-expanded={isMobileNavOpen}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                  <span className="text-[11px] font-semibold text-slate-300 lg:hidden uppercase tracking-wider">
+                    In This Section:
+                  </span>
+                  <span className="font-bold text-white tracking-wide">{category}</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-[#E87737] font-semibold bg-white/10 px-2.5 py-1 rounded lg:hidden">
+                  <span>{isMobileNavOpen ? "Hide Pages" : "View Pages"}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                      isMobileNavOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+              </button>
+
+              <div className={`lsidebar-nav ${isMobileNavOpen ? "block" : "hidden lg:block"}`}>
                 {sidebarLinks.map((link, idx) => {
-                  const isActive = activePageId === link.pageId;
+                  const isActive =
+                    link.isActive !== undefined ? link.isActive : activePageId === link.pageId;
                   return (
                     <button
                       key={idx}
-                      onClick={() => onNavigate(link.pageId)}
+                      onClick={() => {
+                        setIsMobileNavOpen(false);
+                        if (link.onClick) {
+                          link.onClick();
+                        } else {
+                          onNavigate(link.pageId);
+                        }
+                      }}
                       className={`lsidebar-link w-full text-left ${
                         isActive ? "active" : ""
                       }`}

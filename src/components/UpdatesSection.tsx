@@ -177,13 +177,6 @@ export const UpdatesSection: React.FC<UpdatesSectionProps> = ({ onNavigate, open
                 <span>Download Circulars</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
-
-              <button
-                onClick={openInquiry}
-                className="px-3 py-1.5 rounded bg-[#E87737] text-white text-[11px] font-bold uppercase tracking-wider hover:bg-[#D26425]"
-              >
-                Inquiry
-              </button>
             </div>
           </div>
         </div>

@@ -1,0 +1,67 @@
+// Prisma Schema for Lotus Global School Backend
+// Database: Hosted PostgreSQL (Neon)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model GalleryItem {
+  id        String   @id @default(uuid())
+  title     String
+  category  String   @default("Campus")
+  imageUrl  String
+  caption   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("gallery_items")
+}
+
+model Document {
+  id        String   @id @default(uuid())
+  title     String
+  category  String?
+  fileUrl   String
+  fileType  String   @default("application/pdf")
+  fileSize  String?
+  required  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("documents")
+}
+
+model Notice {
+  id          String   @id @default(uuid())
+  title       String
+  content     String   @db.Text
+  category    String   @default("General")
+  isActive    Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("notices")
+}

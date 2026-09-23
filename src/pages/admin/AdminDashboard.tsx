@@ -21,6 +21,10 @@ import {
   AlertCircle,
   ArrowLeft,
   X,
+  Layout,
+  Columns2,
+  Layers,
+  LayoutGrid,
 } from "lucide-react";
 import {
   getSiteData,
@@ -327,6 +331,120 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add Slide</span>
                 </button>
+              </div>
+
+              {/* HERO SECTION DISPLAY LAYOUT (Split Showcase vs Glass Card vs Bottom Tray) */}
+              <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div>
+                    <h3 className="font-bold text-sm text-[#2F5187] flex items-center gap-2">
+                      <Layout className="w-4 h-4 text-[#E87737]" />
+                      <span>Hero Section Display Layout</span>
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Select which layout is active on the homepage. Active:
+                      <span className="ml-1.5 px-2 py-0.5 rounded bg-[#E87737]/15 text-[#E87737] font-bold text-[11px]">
+                        {((data as any).heroDesignMode || "split") === "split"
+                          ? "Option 1: Split Showcase (Client Selected)"
+                          : (data as any).heroDesignMode === "glass"
+                          ? "Option 2: Floating Glass Card"
+                          : "Option 3: Bottom Tray"}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                  {/* Option 1: Split Showcase */}
+                  <div
+                    onClick={() => setData({ ...data, heroDesignMode: "split" } as any)}
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${
+                      ((data as any).heroDesignMode || "split") === "split"
+                        ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
+                        : "border-slate-200 hover:border-slate-300 bg-white"
+                    }`}
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-[#2F5187] flex items-center gap-1.5">
+                          <Columns2 className="w-3.5 h-3.5 text-[#E87737]" />
+                          <span>1. Split Showcase</span>
+                        </span>
+                        {((data as any).heroDesignMode || "split") === "split" && (
+                          <span className="p-0.5 rounded-full bg-[#E87737] text-white">
+                            <Check className="w-3 h-3" />
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        <strong className="text-slate-800">Client Choice:</strong> Left column for headline, motto & buttons on deep navy; right column is a 100% clean, unobstructed photo showcase.
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2 border-t border-slate-200/60 text-[10px] font-bold uppercase text-[#E87737]">
+                      {((data as any).heroDesignMode || "split") === "split" ? "✓ Currently Active" : "Click to Activate"}
+                    </div>
+                  </div>
+
+                  {/* Option 2: Floating Glass Card */}
+                  <div
+                    onClick={() => setData({ ...data, heroDesignMode: "glass" } as any)}
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${
+                      (data as any).heroDesignMode === "glass"
+                        ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
+                        : "border-slate-200 hover:border-slate-300 bg-white"
+                    }`}
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-[#2F5187] flex items-center gap-1.5">
+                          <Layers className="w-3.5 h-3.5 text-[#E87737]" />
+                          <span>2. Floating Glass Card</span>
+                        </span>
+                        {(data as any).heroDesignMode === "glass" && (
+                          <span className="p-0.5 rounded-full bg-[#E87737] text-white">
+                            <Check className="w-3 h-3" />
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        Full-bleed background photo with natural lighting, with text compact in a frosted glass card in the bottom-left corner and a "View Full Photo" toggle.
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2 border-t border-slate-200/60 text-[10px] font-bold uppercase text-[#E87737]">
+                      {(data as any).heroDesignMode === "glass" ? "✓ Currently Active" : "Click to Activate"}
+                    </div>
+                  </div>
+
+                  {/* Option 3: Bottom Tray */}
+                  <div
+                    onClick={() => setData({ ...data, heroDesignMode: "tray" } as any)}
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${
+                      (data as any).heroDesignMode === "tray"
+                        ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
+                        : "border-slate-200 hover:border-slate-300 bg-white"
+                    }`}
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-[#2F5187] flex items-center gap-1.5">
+                          <LayoutGrid className="w-3.5 h-3.5 text-[#E87737]" />
+                          <span>3. Bottom Tray</span>
+                        </span>
+                        {(data as any).heroDesignMode === "tray" && (
+                          <span className="p-0.5 rounded-full bg-[#E87737] text-white">
+                            <Check className="w-3 h-3" />
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        Large full-width unobstructed photo showcase on top, with a solid institutional navy action tray below containing text, motto & CTAs.
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2 border-t border-slate-200/60 text-[10px] font-bold uppercase text-[#E87737]">
+                      {(data as any).heroDesignMode === "tray" ? "✓ Currently Active" : "Click to Activate"}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Ticker Settings */}

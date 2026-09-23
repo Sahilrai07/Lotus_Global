@@ -14,6 +14,7 @@ import { BioCompositeLabsPage } from "./pages/facilities/BioCompositeLabsPage";
 import { ComputerLabPage } from "./pages/facilities/ComputerLabPage";
 import { CentralLibraryPage } from "./pages/facilities/CentralLibraryPage";
 import { SportsArenaPage } from "./pages/facilities/SportsArenaPage";
+import { IndoorGamesPage } from "./pages/facilities/IndoorGamesPage";
 import { MusicStudioPage } from "./pages/facilities/MusicStudioPage";
 import { CampusInfirmaryPage } from "./pages/facilities/CampusInfirmaryPage";
 import { CoreValuesPage } from "./pages/about/CoreValuesPage";
@@ -29,6 +30,7 @@ import { ProfessionalDevelopmentPage } from "./pages/faculty/ProfessionalDevelop
 import { StudentTeacherRatioPage } from "./pages/faculty/StudentTeacherRatioPage";
 import { FacultyPage } from "./pages/FacultyPage";
 import { GalleryPage } from "./pages/GalleryPage";
+import { ActivitiesPage } from "./pages/ActivitiesPage";
 import { AdmissionsPage } from "./pages/AdmissionsPage";
 import { ContactPage } from "./pages/ContactPage";
 import { DocumentsPage } from "./pages/DocumentsPage";
@@ -44,6 +46,141 @@ const AdminDashboard = import.meta.env.DEV
   )
   : null;
 
+const PAGE_SEO_META: Record<string, { title: string; description: string }> = {
+  home: {
+    title: "Lotus Global School | CBSE Pattern English Medium School in Vapi, Gujarat",
+    description: "Lotus Global School is a premier CBSE pattern English medium school in Vapi, Gujarat, offering holistic development, smart digital classrooms, sports excellence, and experiential learning.",
+  },
+  about: {
+    title: "About Us | Lotus Global School, Vapi",
+    description: "Discover Lotus Global School's philosophy, management vision, and heritage of academic excellence nurturing global citizens in Vapi.",
+  },
+  "about-values": {
+    title: "Core Values & Ethos | Lotus Global School, Vapi",
+    description: "Explore the foundational core values, integrity, and ethical framework that shape character development at Lotus Global School.",
+  },
+  "about-location": {
+    title: "Campus Location & Map | Lotus Global School, Vapi",
+    description: "Find campus location details, address, route maps, and transport network connectivity for Lotus Global School in Vapi, Gujarat.",
+  },
+  "vision-mission": {
+    title: "Vision & Mission | Lotus Global School, Vapi",
+    description: "Learn about our vision to inspire innovative thinkers and compassionate leaders through holistic 21st-century education.",
+  },
+  message: {
+    title: "Leadership Messages | Director & Principal | Lotus Global School",
+    description: "Read inspiring messages from our School Director and Principal outlining our commitment to academic excellence and student well-being.",
+  },
+  academics: {
+    title: "Academic Curriculum & Pedagogy | Lotus Global School, Vapi",
+    description: "Comprehensive CBSE-aligned curriculum emphasizing experiential learning, NEP 2020 pedagogical integration, and STEM education.",
+  },
+  "academics-stages": {
+    title: "Developmental Stages (Foundational to Secondary) | Lotus Global School",
+    description: "Tailored pedagogical approaches across Foundational (Pre-Primary), Preparatory (Primary), Middle, and Secondary schooling stages.",
+  },
+  "academics-assessment": {
+    title: "Assessment & Evaluation Scheme | Lotus Global School",
+    description: "Continuous and comprehensive assessment framework, formative evaluations, and term-end criteria fostering holistic progress.",
+  },
+  "academics-timings": {
+    title: "School Timings & Daily Routine | Lotus Global School",
+    description: "Daily academic schedules, assembly hours, recess, and co-curricular timing breakdowns for all grades at Lotus Global School.",
+  },
+  facilities: {
+    title: "World-Class Campus Facilities | Lotus Global School, Vapi",
+    description: "Tour our modern infrastructure featuring composite science labs, high-tech computer labs, smart classrooms, library, and sports facilities.",
+  },
+  "facility-chem-phys": {
+    title: "Physics & Chemistry Labs | Lotus Global School",
+    description: "Equipped with modern scientific apparatus, safety measures, and hands-on experimental workstations for advanced STEM learning.",
+  },
+  "facility-bio-composite": {
+    title: "Biology & Composite Science Lab | Lotus Global School",
+    description: "State-of-the-art biological specimens, high-precision microscopes, and interactive models for experiential scientific study.",
+  },
+  "facility-computer-lab": {
+    title: "Modern Computer & ICT Lab | Lotus Global School",
+    description: "High-speed networked computing workstations, coding modules, AI tools, and digital literacy instruction for students.",
+  },
+  "facility-library": {
+    title: "Central Library & Knowledge Hub | Lotus Global School",
+    description: "Extensive repository of fiction, non-fiction, encyclopedias, journals, and digital periodicals cultivating lifelong reading habits.",
+  },
+  "facility-sports": {
+    title: "Sports Complex & Athletic Grounds | Lotus Global School",
+    description: "Dedicated courts and sports turf for football, cricket, basketball, athletics, yoga, and physical fitness development.",
+  },
+  "facility-indoor-games": {
+    title: "Indoor Games & Recreational Arena | Lotus Global School",
+    description: "Table tennis, chess, carrom, and recreational facilities fostering strategic thinking, focus, and peer camaraderie.",
+  },
+  "facility-music": {
+    title: "Music & Performing Arts Studio | Lotus Global School",
+    description: "Vocal and instrumental training, Indian classical and Western music, dance, and theatrical performance studio.",
+  },
+  "facility-infirmary": {
+    title: "Campus Infirmary & Medical Care | Lotus Global School",
+    description: "Full-time trained medical staff, emergency first-aid station, regular health checkups, and student wellness support.",
+  },
+  faculty: {
+    title: "Distinguished Faculty & Mentors | Lotus Global School, Vapi",
+    description: "Meet our qualified, passionate educators dedicated to personalized mentorship and innovative teaching methodologies.",
+  },
+  "faculty-standards": {
+    title: "Teaching Standards & Qualifications | Lotus Global School",
+    description: "Our rigorous teacher recruitment benchmarks, academic qualifications, and pedagogical excellence standards.",
+  },
+  "faculty-development": {
+    title: "Faculty Professional Development (CPD) | Lotus Global School",
+    description: "Continuous professional development programs, CBSE capacity-building workshops, and NEP 2020 training for our teaching staff.",
+  },
+  "faculty-ratio": {
+    title: "Student-Teacher Ratio & Mentorship | Lotus Global School",
+    description: "Optimal low student-teacher ratio ensuring individualized attention, proactive academic tracking, and personal guidance.",
+  },
+  admissions: {
+    title: "Admissions Open 2026-27 | Lotus Global School, Vapi",
+    description: "Enroll your child at Lotus Global School, Vapi. Clear admission guidelines, transparent fee structure, and step-by-step application process.",
+  },
+  "admissions-documents": {
+    title: "Admissions Documents Checklist | Lotus Global School",
+    description: "Complete list of required documents, verification forms, birth certificates, and photographs for hassle-free admission registration.",
+  },
+  "admissions-eligibility": {
+    title: "Admissions Eligibility Criteria | Lotus Global School",
+    description: "Grade-wise age criteria, entry norms, and prerequisites for Nursery to Grade 10 admissions at Lotus Global School.",
+  },
+  "admissions-inquiry": {
+    title: "Admissions Inquiry & Application Desk | Lotus Global School",
+    description: "Submit your admission inquiry or application for Lotus Global School, Vapi. Connect directly with our admissions counselor.",
+  },
+  activities: {
+    title: "Co-Curricular Activities & Clubs | Lotus Global School",
+    description: "Vibrant co-curricular clubs, debate societies, robotics, arts, cultural fests, and leadership opportunities.",
+  },
+  gallery: {
+    title: "Campus Photo & Video Gallery | Lotus Global School",
+    description: "Explore glimpses of campus life, annual functions, sports days, science fairs, and celebratory events at Lotus Global School.",
+  },
+  contact: {
+    title: "Contact Us & Campus Visit | Lotus Global School, Vapi",
+    description: "Get in touch with Lotus Global School. Schedule a campus tour, find contact phone numbers, email addresses, and school location.",
+  },
+  documents: {
+    title: "School Documents & Affiliation Certifications | Lotus Global School",
+    description: "Access official school certifications, affiliation documents, approvals, and regulatory compliance records.",
+  },
+  disclosure: {
+    title: "Mandatory Public Disclosure (SARAS / CBSE) | Lotus Global School",
+    description: "Official mandatory public disclosure as per CBSE guidelines including building safety, fire safety, and academic certificates.",
+  },
+  "news-events": {
+    title: "Latest News, Circulars & Announcements | Lotus Global School",
+    description: "Stay updated with school announcements, upcoming events, academic calendar, circulars, and student achievements.",
+  },
+};
+
 export const App: React.FC = () => {
   const [activePage, setActivePage] = useState<string>("home");
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
@@ -53,6 +190,18 @@ export const App: React.FC = () => {
   useEffect(() => {
     return subscribeSiteData((newData) => setSiteData(newData));
   }, []);
+
+  // Dynamic SEO Page Title & Meta Description update on route change
+  useEffect(() => {
+    const meta = PAGE_SEO_META[activePage] || PAGE_SEO_META["home"];
+    if (meta) {
+      document.title = meta.title;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute("content", meta.description);
+      }
+    }
+  }, [activePage]);
 
   const school = siteData.schoolInfo;
 
@@ -79,6 +228,7 @@ export const App: React.FC = () => {
         "facility-computer-lab",
         "facility-library",
         "facility-sports",
+        "facility-indoor-games",
         "facility-music",
         "facility-infirmary",
         "faculty",
@@ -89,6 +239,7 @@ export const App: React.FC = () => {
         "admissions-documents",
         "admissions-eligibility",
         "admissions-inquiry",
+        "activities",
         "gallery",
         "contact",
         "documents",
@@ -256,6 +407,13 @@ export const App: React.FC = () => {
             onNavigate={handlePageChange}
           />
         );
+      case "facility-indoor-games":
+        return (
+          <IndoorGamesPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "facility-music":
         return (
           <MusicStudioPage
@@ -294,6 +452,13 @@ export const App: React.FC = () => {
       case "faculty-ratio":
         return (
           <StudentTeacherRatioPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "activities":
+        return (
+          <ActivitiesPage
             openInquiry={() => setIsInquiryOpen(true)}
             onNavigate={handlePageChange}
           />

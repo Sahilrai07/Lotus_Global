@@ -5,22 +5,42 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "server": "tsx watch backend/server/index.ts",
+    "create-admin": "tsx backend/scripts/createSuperAdmin.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.6.2",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.5.6",
     "postcss": "^8.5.28",
+    "prisma": "^7.10.0",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "~6.0.2",
     "vite": "^8.3.0"
   },
   "dependencies": {
+    "@neon/config": "^1.7.2",
+    "@neon/env": "^1.4.3",
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "lucide-react": "^1.44.0",
+    "pg": "^8.23.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   }

@@ -143,17 +143,6 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
           </p>
         </div>
 
-        <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-          <span className="text-xs text-slate-600">
-            Learn more about curriculum milestones or discuss your child's profile.
-          </span>
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Admissions Inquiry
-          </button>
-        </div>
       </div>
     </InternalPageLayout>
   );

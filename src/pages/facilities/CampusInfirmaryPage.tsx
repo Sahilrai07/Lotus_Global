@@ -107,19 +107,6 @@ export const CampusInfirmaryPage: React.FC<CampusInfirmaryPageProps> = ({
             The school maintains individualized medical record cards for every enrolled child, cataloging allergies, chronic medical conditions, and emergency parent contact numbers. Parents are immediately contacted whenever clinical attention is required.
           </p>
         </div>
-
-        {/* Action Prompt */}
-        <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-          <span className="text-xs text-slate-600">
-            For medical inquiries or health form submissions, contact our campus office.
-          </span>
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Admissions Inquiry
-          </button>
-        </div>
       </div>
     </InternalPageLayout>
   );

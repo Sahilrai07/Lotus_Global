@@ -106,19 +106,6 @@ export const MusicStudioPage: React.FC<MusicStudioPageProps> = ({
             Students showcase their musical, dance, and dramatic accomplishments during the school's Annual Day celebrations, festival assemblies, and inter-school cultural meets, instilling poise, self-assurance, and public speaking courage.
           </p>
         </div>
-
-        {/* Action Prompt */}
-        <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-          <span className="text-xs text-slate-600">
-            Learn more about co-scholastic arts at Lotus Global School.
-          </span>
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Admissions Inquiry
-          </button>
-        </div>
       </div>
     </InternalPageLayout>
   );

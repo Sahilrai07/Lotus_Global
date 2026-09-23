@@ -123,19 +123,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ openInquiry, onNavigate = 
             </div>
           </div>
         </div>
-
-        {/* Action Prompt */}
-        <div className="pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
-          <div className="text-xs text-slate-600">
-            For campus walkthroughs or admissions inquiries, please contact our administrative desk.
-          </div>
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Admissions Inquiry Form
-          </button>
-        </div>
       </div>
     </InternalPageLayout>
   );

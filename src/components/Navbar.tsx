@@ -100,22 +100,23 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
         { label: "Biology & Composite Science Lab", pageId: "facility-bio-composite" },
         { label: "Computer & Robotics Laboratory", pageId: "facility-computer-lab" },
         { label: "Central Library & Reading Sanctum", pageId: "facility-library" },
-        { label: "Sports Arena & Athletic Ground", pageId: "facility-sports" },
+        { label: "Outdoor Sports & Playgrounds", pageId: "facility-sports" },
+        { label: "Indoor Games & Arena", pageId: "facility-indoor-games" },
         { label: "Music & Performing Arts Studio", pageId: "facility-music" },
         { label: "Campus Infirmary & Healthcare", pageId: "facility-infirmary" },
       ],
     },
     {
-      id: "documents",
-      label: "Documents",
+      id: "activities",
+      label: "Activities",
       hasDropdown: true,
       subItems: [
-        { label: "Downloads & Documents Hub", pageId: "documents" },
-        { label: "CBSE Mandatory Public Disclosure", pageId: "disclosure", badge: "Mandatory" },
-        { label: "Admission Forms & Prospectus", pageId: "documents" },
-        { label: "Building & Fire Safety Certificates", pageId: "documents" },
-        { label: "Health & Sanitation Verification", pageId: "documents" },
-        { label: "Transfer Certificate (TC) Format", pageId: "documents" },
+        { label: "Co-Curricular Overview & Programs", pageId: "activities" },
+        { label: "Sports Competitions & Tournaments", pageId: "activities" },
+        { label: "Visual & Performing Arts", pageId: "activities" },
+        { label: "Student Clubs & Societies", pageId: "activities" },
+        { label: "Four-House System & Council", pageId: "activities" },
+        { label: "Annual Cultural Calendar", pageId: "activities" },
       ],
     },
     {
@@ -187,8 +188,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
       handleNavigate("message");
     } else if (query.includes("photo") || query.includes("pic") || query.includes("image") || query.includes("galler")) {
       handleNavigate("gallery");
+    } else if (query.includes("indoor") || query.includes("table tennis") || query.includes("chess") || query.includes("carrom")) {
+      handleNavigate("facility-indoor-games");
     } else if (query.includes("event") || query.includes("news") || query.includes("notice")) {
       handleNavigate("news-events");
+    } else if (query.includes("activit") || query.includes("co-curricular") || query.includes("club") || query.includes("tourney") || query.includes("house system")) {
+      handleNavigate("activities");
     } else if (query.includes("contact") || query.includes("phone") || query.includes("locat") || query.includes("address")) {
       handleNavigate("contact");
     } else {
@@ -409,7 +414,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                   >
                     <button
                       onClick={() => handleNavigate(item.id)}
-                      className={`flex items-center gap-1 px-3 xl:px-3.5 py-2.5 text-[13px] xl:text-[14px] font-bold tracking-wide transition-all focus:outline-none whitespace-nowrap rounded ${
+                      className={`flex items-center gap-1 px-2.5 xl:px-3.5 py-2 text-[12.5px] xl:text-[13.5px] font-bold tracking-wide transition-all focus:outline-none whitespace-nowrap rounded ${
                         active
                           ? "text-[#FDBA74] bg-white/15 shadow-inner"
                           : "text-white hover:text-[#FDBA74] hover:bg-white/10"
@@ -480,9 +485,10 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
               </button>
               <button
                 onClick={() => handleNavigate("disclosure")}
-                className="w-full py-2.5 px-3 rounded bg-[#2F5187] text-white font-bold text-xs uppercase tracking-wider text-center shadow-sm"
+                className="w-full py-2.5 px-2 rounded bg-[#2F5187] text-white font-bold text-[11px] sm:text-xs uppercase tracking-wider text-center shadow-sm flex items-center justify-center gap-1"
               >
-                Disclosure
+                <FileText className="w-3.5 h-3.5" />
+                <span>Mandatory Disclosure</span>
               </button>
             </div>
 

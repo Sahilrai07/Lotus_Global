@@ -39,6 +39,7 @@
       "closing": "Here, innovation meets purpose—empowering young minds to explore limitlessly and lead with impact."
     }
   },
+  "heroDesignMode": "split",
   "ticker": {
     "active": true,
     "text": "Admission open for 2026-27 for Nursery to Grade 10 · Dedication · Diligence · Discipline · Lotus Global School, Vatar, Vapi"
@@ -98,7 +99,7 @@
       "title": "Activities",
       "description": "Performing arts, music, yoga, athletics, and cultural expression clubs.",
       "icon": "Palette",
-      "link": "gallery"
+      "link": "activities"
     },
     {
       "id": "qf-specialities",

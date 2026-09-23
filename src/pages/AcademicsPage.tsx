@@ -243,19 +243,6 @@ export const AcademicsPage: React.FC<AcademicsPageProps> = ({
             </div>
           </div>
         </div>
-
-        {/* Action Prompt */}
-        <div className="pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
-          <span className="text-xs text-slate-600">
-            Have questions regarding grade placement or curriculum details?
-          </span>
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Inquire With Admissions Desk
-          </button>
-        </div>
       </div>
     </InternalPageLayout>
   );

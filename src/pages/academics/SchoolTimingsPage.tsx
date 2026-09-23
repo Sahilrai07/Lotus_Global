@@ -178,15 +178,9 @@ export const SchoolTimingsPage: React.FC<SchoolTimingsPageProps> = ({
               <div className="font-display font-bold text-sm text-white mb-1">
                 Campus Punctuality & Security Policy
               </div>
-              <p className="text-[11px] text-slate-200 leading-relaxed mb-4">
+              <p className="text-[11px] text-slate-200 leading-relaxed">
                 Gates close promptly at 07:55 AM. Late arrivals must report to the administrative supervisor. Safe pickup is strictly verified with authorized student security ID badges.
               </p>
-              <button
-                onClick={openInquiry}
-                className="w-full btn-portal-primary py-2 text-xs font-bold uppercase tracking-wider justify-center"
-              >
-                Schedule a Campus Visit
-              </button>
             </div>
           </div>
         </div>

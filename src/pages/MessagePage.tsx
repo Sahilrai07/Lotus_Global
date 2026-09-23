@@ -128,7 +128,7 @@ export const MessagePage: React.FC<MessagePageProps> = ({
         </div>
 
         {/* Footer Signature */}
-        <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="pt-6 border-t border-slate-200">
           <div>
             <span className="font-display font-bold text-base text-[#2F5187] block">
               Principal
@@ -137,13 +137,6 @@ export const MessagePage: React.FC<MessagePageProps> = ({
               Lotus Global School, Vatar, Vapi
             </span>
           </div>
-
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Admissions Inquiry Form
-          </button>
         </div>
       </div>
     </InternalPageLayout>

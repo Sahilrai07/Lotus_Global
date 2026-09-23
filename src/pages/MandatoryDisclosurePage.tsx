@@ -247,10 +247,10 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
             </p>
           </div>
           <button
-            onClick={openInquiry}
+            onClick={() => onNavigate("contact")}
             className="px-5 py-2.5 rounded bg-[#2F5187] text-white hover:bg-[#1E375F] font-bold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-sm"
           >
-            Contact Administration
+            Contact Campus Office
           </button>
         </div>
       </div>

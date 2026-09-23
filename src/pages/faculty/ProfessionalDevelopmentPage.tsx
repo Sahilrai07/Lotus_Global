@@ -115,19 +115,6 @@ export const ProfessionalDevelopmentPage: React.FC<ProfessionalDevelopmentPagePr
             </table>
           </div>
         </div>
-
-        {/* Action Prompt */}
-        <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-          <span className="text-xs text-slate-600">
-            For academic collaborations or employment inquiries, contact our administrative office.
-          </span>
-          <button
-            onClick={openInquiry}
-            className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
-          >
-            Admissions Inquiry
-          </button>
-        </div>
       </div>
     </InternalPageLayout>
   );
