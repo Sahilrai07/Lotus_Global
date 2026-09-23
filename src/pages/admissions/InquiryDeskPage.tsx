@@ -323,13 +323,6 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
                   </a>
                 </div>
               </div>
-
-              <button
-                onClick={openInquiry}
-                className="w-full py-2.5 px-3 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded text-center transition-colors shadow"
-              >
-                Inquire for Admission
-              </button>
             </div>
 
             <div className="border border-slate-200 bg-white p-5 rounded-lg shadow-sm">

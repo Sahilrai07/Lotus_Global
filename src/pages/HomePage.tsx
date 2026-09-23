@@ -124,12 +124,6 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
                 >
                   <span>Read More »</span>
                 </button>
-                <button
-                  onClick={openInquiry}
-                  className="px-6 py-2.5 rounded bg-[#E87737] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#D26425] transition-colors shadow-sm"
-                >
-                  Apply for Admission
-                </button>
               </div>
             </div>
           </div>

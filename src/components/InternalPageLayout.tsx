@@ -259,13 +259,6 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
                   </a>
                 </div>
               </div>
-
-              <button
-                onClick={openInquiry}
-                className="w-full py-2.5 px-3 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded text-center transition-colors shadow"
-              >
-                Inquire for Admission
-              </button>
             </div>
           </aside>
 

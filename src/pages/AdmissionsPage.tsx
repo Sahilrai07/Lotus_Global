@@ -182,13 +182,6 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
-            <button
-              onClick={openInquiry}
-              className="px-6 py-3 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow flex items-center gap-2"
-            >
-              <span>Fill Online Inquiry Form</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
 
             <a
               href={`tel:${SCHOOL_INFO.phone}`}

@@ -173,14 +173,6 @@ export const NoticeBoard: React.FC<NoticeBoardProps> = ({ onNavigate, onOpenInqu
             </span>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           </button>
-
-          <button
-            onClick={onOpenInquiry}
-            className="w-full mt-1 py-2 px-3 bg-[#E87737] text-white rounded text-center text-xs font-bold uppercase tracking-wider hover:bg-[#D26425] transition-colors shadow-sm flex items-center justify-center gap-1"
-          >
-            <span>Register Admissions Inquiry</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { REQUIRED_DOCUMENTS } from "../../data/schoolData";
-import { FileCheck, Download, AlertCircle, CheckCircle2, FileText, HelpCircle } from "lucide-react";
+import { FileCheck, Download, AlertCircle, CheckCircle2, FileText, HelpCircle, Phone } from "lucide-react";
+import { SCHOOL_INFO } from "../../data/schoolData";
 
 interface DocumentsChecklistPageProps {
   openInquiry: () => void;
@@ -171,12 +172,13 @@ export const DocumentsChecklistPage: React.FC<DocumentsChecklistPageProps> = ({
                 If you have recently relocated or are awaiting the issuance of a Transfer Certificate from your child's current school, our admissions coordinators can guide you on provisional admission procedures.
               </p>
             </div>
-            <button
-              onClick={openInquiry}
-              className="btn-portal-primary py-2 text-xs font-bold uppercase tracking-wider justify-center"
+            <a
+              href={`tel:${SCHOOL_INFO.phone}`}
+              className="btn-portal-primary py-2 text-xs font-bold uppercase tracking-wider justify-center flex items-center gap-1.5"
             >
-              Contact Admissions Counselor
-            </button>
+              <Phone className="w-3.5 h-3.5" />
+              <span>Call Admissions: +91 {SCHOOL_INFO.phone}</span>
+            </a>
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
     if (doc.fileUrl) {
       window.open(doc.fileUrl, "_blank");
     } else {
-      openInquiry();
+      window.open(`/docs/${doc.id || "document"}.pdf`, "_blank");
     }
   };
 
