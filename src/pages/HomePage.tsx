@@ -74,6 +74,10 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
                 <img
                   src={siteData.aboutPage?.campusImage || "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80"}
                   alt="Lotus Global School Campus"
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="384"
                   className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#142540] via-[#142540]/70 to-transparent p-6 text-white">
@@ -160,6 +164,10 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
                   <img
                     src={facility.image}
                     alt={facility.name}
+                    loading="lazy"
+                    decoding="async"
+                    width="192"
+                    height="144"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>

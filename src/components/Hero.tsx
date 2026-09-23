@@ -33,6 +33,17 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
     ((initialSiteData as any).heroDesignMode as DesignMode) || "split"
   );
   const [isGlassCardHidden, setIsGlassCardHidden] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth >= 1024 : true
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    setIsDesktop(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     return subscribeSiteData((newData) => {
@@ -78,22 +89,31 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
       }`}
     >
       {/* Clean School Photo Carousel - NO dark blue wash! */}
-      {slides.map((slide, idx) => (
-        <div
-          key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-            idx === currentSlideIndex
-              ? "opacity-100 z-10"
-              : "opacity-0 z-0 pointer-events-none"
-          }`}
-        >
-          <img
-            src={slide.image}
-            alt={slide.title}
-            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-          />
-        </div>
-      ))}
+      {slides.map((slide, idx) => {
+        const isLcp = idx === 0;
+        const isActive = idx === currentSlideIndex;
+        return (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+              isActive
+                ? "opacity-100 z-10"
+                : "opacity-0 z-0 pointer-events-none"
+            }`}
+          >
+            <img
+              src={slide.image}
+              alt={slide.title}
+              width="1280"
+              height="800"
+              fetchPriority={isLcp ? "high" : "low"}
+              loading={isLcp ? "eager" : "lazy"}
+              decoding="async"
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            />
+          </div>
+        );
+      })}
 
       {/* Top Floating Badge on Photo */}
       <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 pointer-events-none">
@@ -173,7 +193,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
 
                 {/* Mobile-Only Photo-Forward Showcase (Option 2): displays photo directly under title on mobile */}
                 <div className="block lg:hidden">
-                  {renderPhotoCard(true)}
+                  {!isDesktop && renderPhotoCard(true)}
                 </div>
 
                 {/* Motto Badge Strip */}
@@ -210,7 +230,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
 
               {/* Right Column: 100% Unobstructed School Photo Showcase (7 cols on lg, hidden on mobile) */}
               <div className="hidden lg:block lg:col-span-7">
-                {renderPhotoCard(false)}
+                {isDesktop && renderPhotoCard(false)}
               </div>
             </div>
           </div>
@@ -243,6 +263,11 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
               <img
                 src={slide.image}
                 alt={slide.title}
+                width="1600"
+                height="900"
+                fetchPriority={idx === 0 ? "high" : "low"}
+                loading={idx === 0 ? "eager" : "lazy"}
+                decoding="async"
                 className="w-full h-full object-cover object-center"
               />
               {/* Very gentle subtle dark tint only to give card contrast */}
@@ -357,6 +382,11 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                 <img
                   src={slide.image}
                   alt={slide.title}
+                  width="1600"
+                  height="900"
+                  fetchPriority={idx === 0 ? "high" : "low"}
+                  loading={idx === 0 ? "eager" : "lazy"}
+                  decoding="async"
                   className="w-full h-full object-cover object-center"
                 />
               </div>

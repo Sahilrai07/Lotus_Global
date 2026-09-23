@@ -24,11 +24,18 @@ export const Footer: React.FC<FooterProps> = ({ setActivePage, openInquiry }) =>
           {/* Column 1: School Identity & Address */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img
-                src="/assets/logo.png"
-                alt="Lotus Global School Crest"
-                className="h-14 w-auto object-contain bg-white/5 p-1 rounded border border-white/10"
-              />
+              <picture>
+                <source srcSet="/assets/logo.webp" type="image/webp" />
+                <img
+                  src="/assets/logo.png"
+                  alt="Lotus Global School Crest"
+                  width="44"
+                  height="56"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-14 w-auto object-contain bg-white/5 p-1 rounded border border-white/10"
+                />
+              </picture>
               <div>
                 <h3 className="font-display text-white font-bold text-base sm:text-lg tracking-tight">
                   LOTUS GLOBAL SCHOOL

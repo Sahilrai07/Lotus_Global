@@ -34,6 +34,10 @@ export const HomeGalleryPreview: React.FC<HomeGalleryPreviewProps> = ({ onNaviga
                 <img
                   src={item.image}
                   alt={item.title}
+                  loading="lazy"
+                  decoding="async"
+                  width="320"
+                  height="208"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">

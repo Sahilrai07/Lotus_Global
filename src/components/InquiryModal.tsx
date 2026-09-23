@@ -56,7 +56,18 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
           </button>
           
           <div className="flex items-center gap-3 mb-2">
-            <img src="/assets/logo.png" alt="Crest" className="h-12 w-auto object-contain bg-white/10 p-1 rounded" />
+            <picture>
+              <source srcSet="/assets/logo.webp" type="image/webp" />
+              <img
+                src="/assets/logo.png"
+                alt="Crest"
+                width="38"
+                height="48"
+                loading="lazy"
+                decoding="async"
+                className="h-12 w-auto object-contain bg-white/10 p-1 rounded"
+              />
+            </picture>
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-[#E87737]">
                 Admissions Guidance

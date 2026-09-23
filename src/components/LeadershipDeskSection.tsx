@@ -50,6 +50,10 @@ export const LeadershipDeskSection: React.FC<LeadershipDeskSectionProps> = ({ on
                     <img
                       src={data.photo}
                       alt={data.name}
+                      loading="lazy"
+                      decoding="async"
+                      width="96"
+                      height="112"
                       className="w-full h-full object-cover object-top"
                     />
                   </div>

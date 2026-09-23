@@ -259,11 +259,16 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
             aria-label="Lotus Global School Homepage"
           >
             <div className="relative shrink-0">
-              <img
-                src="/assets/logo.png"
-                alt="Lotus Global School Crest"
-                className="h-10 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
-              />
+              <picture>
+                <source srcSet="/assets/logo.webp" type="image/webp" />
+                <img
+                  src="/assets/logo.png"
+                  alt="Lotus Global School Crest"
+                  width="51"
+                  height="64"
+                  className="h-10 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                />
+              </picture>
             </div>
             <div className="flex flex-col min-w-0">
               <div className="flex items-center gap-2">

@@ -58,11 +58,18 @@ export const ContactPage: React.FC<ContactPageProps> = ({
           {/* Official Campus Details */}
           <div className="p-6 rounded border border-slate-200 bg-[#F8FAFC] space-y-4 shadow-sm">
             <div className="flex items-center gap-3 border-b border-slate-200 pb-3">
-              <img
-                src="/assets/logo.png"
-                alt="Lotus Global School Crest"
-                className="h-14 w-auto object-contain"
-              />
+              <picture>
+                <source srcSet="/assets/logo.webp" type="image/webp" />
+                <img
+                  src="/assets/logo.png"
+                  alt="Lotus Global School Crest"
+                  width="44"
+                  height="56"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-14 w-auto object-contain"
+                />
+              </picture>
               <div>
                 <h3 className="font-display font-bold text-base text-[#2F5187]">
                   LOTUS GLOBAL SCHOOL

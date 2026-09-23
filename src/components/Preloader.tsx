@@ -5,18 +5,37 @@ export const Preloader: React.FC = () => {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Begin smooth fade-out at 1.4s, completely unmount at 2.0s
-    const timer1 = setTimeout(() => {
-      setFadeOut(true);
-    }, 1400);
+    // Reveal website content promptly once critical DOM application is ready
+    let t1: ReturnType<typeof setTimeout>;
+    let t2: ReturnType<typeof setTimeout>;
 
-    const timer2 = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const dismissPreloader = () => {
+      // Allow brief 250ms animation to display cleanly, then transition out
+      t1 = setTimeout(() => {
+        setFadeOut(true);
+      }, 250);
+
+      t2 = setTimeout(() => {
+        setLoading(false);
+      }, 600);
+    };
+
+    if (document.readyState === "complete") {
+      dismissPreloader();
+    } else {
+      window.addEventListener("load", dismissPreloader, { once: true });
+      const safetyFallback = setTimeout(dismissPreloader, 600);
+      return () => {
+        window.removeEventListener("load", dismissPreloader);
+        clearTimeout(safetyFallback);
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
 
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
+      clearTimeout(t1);
+      clearTimeout(t2);
     };
   }, []);
 
@@ -24,7 +43,7 @@ export const Preloader: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#142540] text-white transition-opacity duration-700 ease-out ${
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#142540] text-white transition-opacity duration-350 ease-out ${
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
       role="status"
@@ -42,11 +61,17 @@ export const Preloader: React.FC = () => {
           <div className="absolute -inset-4 bg-[#E87737]/25 rounded-full blur-xl animate-pulse" />
           
           <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-white/10 p-3 backdrop-blur-md border border-white/20 shadow-2xl flex items-center justify-center">
-            <img
-              src="/assets/logo.png"
-              alt="Lotus Global School Crest"
-              className="w-full h-full object-contain filter drop-shadow-md"
-            />
+            <picture>
+              <source srcSet="/assets/logo.webp" type="image/webp" />
+              <img
+                src="/assets/logo.png"
+                alt="Lotus Global School Crest"
+                width="88"
+                height="111"
+                decoding="async"
+                className="w-full h-full object-contain filter drop-shadow-md"
+              />
+            </picture>
           </div>
         </div>
 
