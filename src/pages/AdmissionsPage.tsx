@@ -1,8 +1,8 @@
 import React from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
-import { ADMISSION_STEPS, REQUIRED_DOCUMENTS } from "../data/schoolData";
+import { ADMISSION_STEPS, REQUIRED_DOCUMENTS, SCHOOL_INFO } from "../data/schoolData";
 import { Compass, FileCheck, CheckCircle2, AlertCircle, ArrowRight, Phone, MessageSquare } from "lucide-react";
-import { SCHOOL_INFO } from "../data/schoolData";
+import { useSiteData } from "../data/siteDataService";
 
 interface AdmissionsPageProps {
   openInquiry: () => void;
@@ -13,7 +13,11 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const ageEligibility = [
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.admissions || "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1600&q=80";
+  const admissionSteps = siteData.admissionsPathway?.steps || ADMISSION_STEPS;
+  const requiredDocs = siteData.admissionsPathway?.requiredDocuments || REQUIRED_DOCUMENTS;
+  const ageEligibility = siteData.admissionsPathway?.ageEligibility || [
     { grade: "Nursery", minAge: "3 Years+", note: "As on 31st March of academic year" },
     { grade: "Junior KG (LKG)", minAge: "4 Years+", note: "Foundational stage orientation" },
     { grade: "Senior KG (UKG)", minAge: "5 Years+", note: "Early literacy & motor skill focus" },
@@ -29,7 +33,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({
       activePageId="admissions"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[{ label: "Admissions" }]}
     >
       <div className="space-y-10">
@@ -63,7 +67,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {ADMISSION_STEPS.map((step) => (
+            {admissionSteps.map((step) => (
               <div
                 key={step.step}
                 className="p-5 rounded border border-slate-200 bg-white shadow-sm flex flex-col justify-between hover:border-[#E87737] transition-all"
@@ -102,7 +106,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {REQUIRED_DOCUMENTS.map((doc, idx) => (
+            {requiredDocs.map((doc, idx) => (
               <div
                 key={idx}
                 className="p-4 rounded border border-slate-200 bg-[#F8FAFC] flex items-start gap-3"

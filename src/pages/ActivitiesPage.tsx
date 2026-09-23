@@ -22,6 +22,7 @@ import {
   BookOpen,
   Shield,
 } from "lucide-react";
+import { useSiteData } from "../data/siteDataService";
 
 interface ActivitiesPageProps {
   openInquiry: () => void;
@@ -32,6 +33,9 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.activities || "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1600&q=80";
+
   const [activeTab, setActiveTab] = useState<"all" | "sports" | "arts" | "clubs" | "houses">("all");
   const [activeSection, setActiveSection] = useState<string>("overview");
 
@@ -117,7 +121,7 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
     },
   ];
 
-  const sportsTournaments = [
+  const sportsTournaments = siteData.coCurricular?.sportsTournaments || [
     {
       title: "Annual Sports Day & Athletic Meet",
       season: "Winter Term (December)",
@@ -282,7 +286,7 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
       onNavigate={onNavigate}
       openInquiry={openInquiry}
       customSidebarLinks={customSidebarLinks}
-      bannerImage="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Home", pageId: "home" },
         { label: "Activities & Co-Curricular" },

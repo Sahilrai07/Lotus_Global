@@ -25,6 +25,9 @@ import {
   Columns2,
   Layers,
   LayoutGrid,
+  Compass,
+  ShieldCheck,
+  Award,
 } from "lucide-react";
 import {
   getSiteData,
@@ -39,6 +42,13 @@ import {
   DocumentItem,
   fetchFreshData,
 } from "../../data/siteDataService";
+import { PageBannersEditor } from "./PageBannersEditor";
+import { AboutEditor } from "./AboutEditor";
+import { AcademicsEditor } from "./AcademicsEditor";
+import { AdmissionsEditor } from "./AdmissionsEditor";
+import { ActivitiesEditor } from "./ActivitiesEditor";
+import { DisclosureEditor } from "./DisclosureEditor";
+import { FacultyStandardsEditor } from "./FacultyStandardsEditor";
 
 interface AdminDashboardProps {
   onBackToSite: () => void;
@@ -46,11 +56,16 @@ interface AdminDashboardProps {
 
 type TabType =
   | "overview"
+  | "banners"
   | "hero"
   | "about"
+  | "academics"
   | "leadership"
   | "facilities"
   | "faculty"
+  | "admissions"
+  | "activities"
+  | "disclosure"
   | "gallery"
   | "notices"
   | "documents"
@@ -190,15 +205,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
           <nav className="space-y-1">
             {[
               { id: "overview", label: "Dashboard Overview", icon: LayoutDashboard },
+              { id: "banners", label: "Category Header Banners", icon: ImageIcon },
               { id: "hero", label: "Hero & Banner Slides", icon: Sliders },
-              { id: "about", label: "About & Narrative", icon: Info },
+              { id: "about", label: "About, Vision & Values", icon: Info },
+              { id: "academics", label: "Academics & Curricular", icon: GraduationCap },
               { id: "leadership", label: "Leadership Desks", icon: Users },
               { id: "facilities", label: "Facilities Manager", icon: Building2 },
-              { id: "faculty", label: "Faculty & Staff", icon: GraduationCap },
+              { id: "faculty", label: "Faculty Directory & Standards", icon: GraduationCap },
+              { id: "admissions", label: "Admissions Pathway", icon: Compass },
+              { id: "activities", label: "Co-Curricular & Clubs", icon: Award },
+              { id: "disclosure", label: "Mandatory Disclosures", icon: ShieldCheck },
               { id: "gallery", label: "Gallery Manager", icon: ImageIcon },
               { id: "notices", label: "Notices & Events", icon: Bell },
               { id: "documents", label: "Documents & Downloads", icon: FileText },
-              { id: "contact", label: "Admissions & Contact", icon: PhoneCall },
+              { id: "contact", label: "Campus Contact & Info", icon: PhoneCall },
             ].map((tab) => {
               const Icon = tab.icon;
               const active = activeTab === tab.id;
@@ -301,6 +321,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
                 </button>
               </div>
             </div>
+          )}
+
+          {/* TAB: CATEGORY HEADER BANNERS */}
+          {activeTab === "banners" && (
+            <PageBannersEditor data={data} setData={setData} handleFileUpload={handleFileUpload} />
           )}
 
           {/* TAB 2: HERO & BANNER SLIDES */}
@@ -581,70 +606,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
             </div>
           )}
 
-          {/* TAB 3: ABOUT & NARRATIVE */}
+          {/* TAB 3: ABOUT, VISION, VALUES & LOCATION */}
           {activeTab === "about" && (
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-lg font-bold text-[#2F5187]">School About & Narrative Content</h2>
-                <p className="text-xs text-slate-500">Edit institutional overview paragraphs and educational philosophy.</p>
-              </div>
+            <AboutEditor data={data} setData={setData} handleFileUpload={handleFileUpload} />
+          )}
 
-              <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Lead Welcome Paragraph</label>
-                  <textarea
-                    rows={4}
-                    value={data.schoolInfo.narrative.leadParagraph}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        schoolInfo: {
-                          ...data.schoolInfo,
-                          narrative: { ...data.schoolInfo.narrative, leadParagraph: e.target.value },
-                        },
-                      })
-                    }
-                    className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded leading-relaxed"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Pedagogical Philosophy</label>
-                  <textarea
-                    rows={3}
-                    value={data.schoolInfo.narrative.pedagogy}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        schoolInfo: {
-                          ...data.schoolInfo,
-                          narrative: { ...data.schoolInfo.narrative, pedagogy: e.target.value },
-                        },
-                      })
-                    }
-                    className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded leading-relaxed"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Future Outlook & Resilience</label>
-                  <textarea
-                    rows={3}
-                    value={data.schoolInfo.narrative.outlook}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        schoolInfo: {
-                          ...data.schoolInfo,
-                          narrative: { ...data.schoolInfo.narrative, outlook: e.target.value },
-                        },
-                      })
-                    }
-                    className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded leading-relaxed"
-                  />
-                </div>
-              </div>
-            </div>
+          {/* TAB: ACADEMICS & CURRICULAR FRAMEWORK */}
+          {activeTab === "academics" && (
+            <AcademicsEditor data={data} setData={setData} />
           )}
 
           {/* TAB 4: LEADERSHIP DESKS */}
@@ -918,13 +887,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
             </div>
           )}
 
-          {/* TAB 6: FACULTY & STAFF */}
+          {/* TAB 6: FACULTY & STANDARDS */}
           {activeTab === "faculty" && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
+            <div className="space-y-8">
+              <FacultyStandardsEditor data={data} setData={setData} />
+
+              <div className="flex items-center justify-between border-t border-slate-200 pt-6">
                 <div>
-                  <h2 className="text-lg font-bold text-[#2F5187]">Faculty & Educators</h2>
-                  <p className="text-xs text-slate-500">Manage educator profiles, designations, and subjects.</p>
+                  <h3 className="font-bold text-sm text-[#2F5187]">Individual Educator Profiles</h3>
+                  <p className="text-xs text-slate-500">Manage teacher profile cards, subjects, and biography.</p>
                 </div>
                 <button
                   onClick={() => {
@@ -1046,6 +1017,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
                 ))}
               </div>
             </div>
+          )}
+
+          {/* TAB: ADMISSIONS PATHWAY */}
+          {activeTab === "admissions" && (
+            <AdmissionsEditor data={data} setData={setData} />
+          )}
+
+          {/* TAB: CO-CURRICULAR & ACTIVITIES */}
+          {activeTab === "activities" && (
+            <ActivitiesEditor data={data} setData={setData} />
+          )}
+
+          {/* TAB: MANDATORY PUBLIC DISCLOSURES */}
+          {activeTab === "disclosure" && (
+            <DisclosureEditor data={data} setData={setData} handleFileUpload={handleFileUpload} />
           )}
 
           {/* TAB 7: GALLERY MANAGER */}

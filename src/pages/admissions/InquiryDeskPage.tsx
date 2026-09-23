@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { SCHOOL_INFO } from "../../data/schoolData";
 import { Send, Phone, Mail, MapPin, MessageSquare, CheckCircle2, HelpCircle, Clock, ShieldCheck } from "lucide-react";
+import { useSiteData } from "../../data/siteDataService";
 
 interface InquiryDeskPageProps {
   openInquiry: () => void;
@@ -12,6 +13,9 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.admissions || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80";
+
   const [formData, setFormData] = useState({
     parentName: "",
     childName: "",
@@ -42,7 +46,7 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
       onNavigate={onNavigate}
       openInquiry={openInquiry}
       hideSidebarContactOnMobile={true}
-      bannerImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Admissions", pageId: "admissions" },
         { label: "Inquiry Desk" },

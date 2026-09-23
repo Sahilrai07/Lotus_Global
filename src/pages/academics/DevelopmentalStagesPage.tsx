@@ -3,6 +3,8 @@ import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { ACADEMIC_STAGES } from "../../data/schoolData";
 import { BookOpen, CheckCircle2, Award, Sparkles, Layers, GraduationCap } from "lucide-react";
 
+import { getSiteData } from "../../data/siteDataService";
+
 interface DevelopmentalStagesPageProps {
   openInquiry: () => void;
   onNavigate?: (pageId: string) => void;
@@ -12,6 +14,8 @@ export const DevelopmentalStagesPage: React.FC<DevelopmentalStagesPageProps> = (
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const bannerImage = getSiteData().pageBanners?.academics || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80";
+
   return (
     <InternalPageLayout
       title="Developmental Stages"
@@ -19,7 +23,7 @@ export const DevelopmentalStagesPage: React.FC<DevelopmentalStagesPageProps> = (
       activePageId="academics-stages"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[
         { label: "Academics", pageId: "academics" },
         { label: "Developmental Stages" },

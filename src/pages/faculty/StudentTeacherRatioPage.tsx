@@ -1,6 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { HeartHandshake, CheckCircle2, Users, Target, ShieldCheck, Sparkles } from "lucide-react";
+import { useSiteData } from "../../data/siteDataService";
 
 interface StudentTeacherRatioPageProps {
   openInquiry: () => void;
@@ -11,7 +12,9 @@ export const StudentTeacherRatioPage: React.FC<StudentTeacherRatioPageProps> = (
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const ratioBreakdown = [
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.faculty || "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1600&q=80";
+  const ratioBreakdown = siteData.facultyStandards?.ratioBreakdown || [
     {
       stage: "Foundational (Nursery, LKG, UKG)",
       ratio: "1 : 15",
@@ -45,7 +48,7 @@ export const StudentTeacherRatioPage: React.FC<StudentTeacherRatioPageProps> = (
       activePageId="faculty-ratio"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Faculty", pageId: "faculty" },
         { label: "Student-Teacher Ratio" },

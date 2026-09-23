@@ -1,7 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
-import { ASSESSMENT_STRUCTURE } from "../../data/schoolData";
-import { FileText, CheckCircle2, Award, ClipboardCheck, BarChart3 } from "lucide-react";
+import { getSiteData } from "../../data/siteDataService";
+import { Award, ClipboardCheck, BarChart3 } from "lucide-react";
 
 interface AssessmentSchemePageProps {
   openInquiry: () => void;
@@ -12,24 +12,18 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const gradingScale = [
-    { marksRange: "91% – 100%", grade: "A1", remark: "Outstanding Conceptual Mastery" },
-    { marksRange: "81% – 90%", grade: "A2", remark: "Excellent Subject Competency" },
-    { marksRange: "71% – 80%", grade: "B1", remark: "Very Good Understanding" },
-    { marksRange: "61% – 70%", grade: "B2", remark: "Good Academic Progression" },
-    { marksRange: "51% – 60%", grade: "C1", remark: "Fair Performance & Steady Growth" },
-    { marksRange: "41% – 50%", grade: "C2", remark: "Satisfactory with Remedial Support" },
-    { marksRange: "33% – 40%", grade: "D", remark: "Marginal; Requires Targeted Guidance" },
-  ];
+  const siteData = getSiteData();
+  const scheme = siteData.assessmentScheme;
+  const bannerImage = siteData.pageBanners?.academics || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80";
 
   return (
     <InternalPageLayout
-      title="Assessment & Examination"
+      title={scheme?.heading || "Assessment & Examination"}
       category="ACADEMICS"
       activePageId="academics-assessment"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[
         { label: "Academics", pageId: "academics" },
         { label: "Assessment Scheme" },
@@ -38,15 +32,15 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
       <div className="space-y-8">
         <div className="border-b-2 border-[#2F5187] pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
-            Evaluation Architecture
+            {scheme?.subheading || "Evaluation Architecture"}
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Scholastic & Co-Scholastic Assessment Scheme
+            {scheme?.heading || "Scholastic & Co-Scholastic Assessment Scheme"}
           </h2>
         </div>
 
         <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
-          In alignment with the CBSE continuous and comprehensive assessment philosophy, evaluation at Lotus Global School is designed to foster growth rather than induce anxiety. We assess cognitive conceptual depth alongside behavioral values, sportsmanship, and creative expression.
+          {scheme?.leadText || "In alignment with the CBSE continuous and comprehensive assessment philosophy, evaluation at Lotus Global School is designed to foster growth rather than induce anxiety."}
         </p>
 
         {/* Dual Tables for Scholastic & Co-Scholastic */}
@@ -54,7 +48,7 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
           <div className="border border-slate-200 rounded overflow-hidden shadow-sm bg-white">
             <div className="bg-[#2F5187] text-white p-3 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
               <ClipboardCheck className="w-4 h-4 text-[#E87737]" />
-              <span>Scholastic Assessment Components</span>
+              <span>{scheme?.scholastic?.title || "Scholastic Assessment Components"}</span>
             </div>
             <table className="w-full text-left text-xs border-collapse">
               <thead>
@@ -64,7 +58,7 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-600">
-                {ASSESSMENT_STRUCTURE.scholastic.components.map((c, i) => (
+                {(scheme?.scholastic?.components || []).map((c, i) => (
                   <tr key={i} className="hover:bg-slate-50">
                     <td className="p-2.5 font-bold text-[#2F5187]">{c.name}</td>
                     <td className="p-2.5">{c.note}</td>
@@ -77,7 +71,7 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
           <div className="border border-slate-200 rounded overflow-hidden shadow-sm bg-white">
             <div className="bg-[#E87737] text-white p-3 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
               <Award className="w-4 h-4" />
-              <span>Co-Scholastic Domains</span>
+              <span>{scheme?.coScholastic?.title || "Co-Scholastic Domains"}</span>
             </div>
             <table className="w-full text-left text-xs border-collapse">
               <thead>
@@ -87,7 +81,7 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-600">
-                {ASSESSMENT_STRUCTURE.coScholastic.components.map((c, i) => (
+                {(scheme?.coScholastic?.components || []).map((c, i) => (
                   <tr key={i} className="hover:bg-slate-50">
                     <td className="p-2.5 font-bold text-[#2F5187]">{c.name}</td>
                     <td className="p-2.5">{c.note}</td>
@@ -98,11 +92,11 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
           </div>
         </div>
 
-        {/* CBSE 8-Point Grading Scale Table */}
+        {/* Standardized Grading Scale Table */}
         <div className="space-y-3">
           <h3 className="font-display font-bold text-lg text-[#2F5187] flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-[#E87737]" />
-            <span>Standardized 8-Point Grading Scale</span>
+            <span>Standardized Grading Scale</span>
           </h3>
 
           <div className="overflow-x-auto border border-slate-200 rounded">
@@ -115,7 +109,7 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-700">
-                {gradingScale.map((row, idx) => (
+                {(scheme?.gradingScale || []).map((row, idx) => (
                   <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-[#F8FAFC]"}>
                     <td className="p-2.5 font-semibold text-[#2F5187] border-r border-slate-200">
                       {row.marksRange}
@@ -139,10 +133,9 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
             Promotion Criteria & Attendance Policy
           </span>
           <p>
-            Promotion to the subsequent grade is granted on the cumulative performance of both terms. A minimum of 75% attendance throughout the academic session is mandatory to be eligible for terminal evaluations.
+            Promotion to the subsequent grade requires a minimum qualifying grade in all scholastic disciplines along with minimum 75% attendance across the academic term in accordance with CBSE affiliation norms.
           </p>
         </div>
-
       </div>
     </InternalPageLayout>
   );

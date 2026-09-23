@@ -2,6 +2,8 @@ import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { BookOpen, CheckCircle2, Bookmark, Library, Search, Compass } from "lucide-react";
 
+import { getSiteData } from "../../data/siteDataService";
+
 interface CentralLibraryPageProps {
   openInquiry: () => void;
   onNavigate?: (pageId: string) => void;
@@ -11,14 +13,18 @@ export const CentralLibraryPage: React.FC<CentralLibraryPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const siteData = getSiteData();
+  const lib = siteData.facilities.find((f) => f.id === "library");
+  const bannerImage = siteData.pageBanners?.facilities || "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=80";
+
   return (
     <InternalPageLayout
-      title="Central Library & Reading Sanctum"
+      title={lib?.name || "Central Library & Reading Sanctum"}
       category="CAMPUS FACILITIES"
       activePageId="facility-library"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[
         { label: "Facilities", pageId: "facilities" },
         { label: "Central Library" },
@@ -31,7 +37,7 @@ export const CentralLibraryPage: React.FC<CentralLibraryPageProps> = ({
             Knowledge Sanctum & Literary Exploration
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Central Library & Knowledge Resource Centre
+            {lib?.name || "Central Library & Knowledge Resource Centre"}
           </h2>
         </div>
 
@@ -39,8 +45,8 @@ export const CentralLibraryPage: React.FC<CentralLibraryPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#F8FAFC] p-6 rounded border border-slate-200 items-center">
           <div className="md:col-span-5 rounded overflow-hidden border border-slate-300 shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80"
-              alt="Central Library at Lotus Global School"
+              src={lib?.image || "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80"}
+              alt={lib?.name || "Central Library at Lotus Global School"}
               className="w-full h-56 object-cover"
             />
           </div>

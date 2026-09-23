@@ -1,7 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { HeartPulse, CheckCircle2, ShieldCheck, PhoneCall, Stethoscope, Bed } from "lucide-react";
-import { SCHOOL_INFO } from "../../data/schoolData";
+import { useSiteData } from "../../data/siteDataService";
 
 interface CampusInfirmaryPageProps {
   openInquiry: () => void;
@@ -12,17 +12,21 @@ export const CampusInfirmaryPage: React.FC<CampusInfirmaryPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const { siteData } = useSiteData();
+  const facility = siteData.facilities.find(f => f.id === "infirmary");
+  const banner = siteData.pageBanners?.facilities || facility?.image || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80";
+
   return (
     <InternalPageLayout
-      title="Campus Infirmary & Healthcare"
+      title={facility?.name || "Campus Infirmary & Healthcare"}
       category="CAMPUS FACILITIES"
       activePageId="facility-infirmary"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Facilities", pageId: "facilities" },
-        { label: "Campus Infirmary" },
+        { label: facility?.name || "Campus Infirmary" },
       ]}
     >
       <div className="space-y-8">
@@ -32,7 +36,7 @@ export const CampusInfirmaryPage: React.FC<CampusInfirmaryPageProps> = ({
             Health, Safety & Student Wellbeing
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Campus Infirmary & Medical Care Bay
+            {facility?.name || "Campus Infirmary & Medical Care Bay"}
           </h2>
         </div>
 
@@ -40,8 +44,8 @@ export const CampusInfirmaryPage: React.FC<CampusInfirmaryPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#F8FAFC] p-6 rounded border border-slate-200 items-center">
           <div className="md:col-span-5 rounded overflow-hidden border border-slate-300 shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80"
-              alt="Campus Infirmary at Lotus Global School"
+              src={facility?.image || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80"}
+              alt={facility?.name || "Campus Infirmary at Lotus Global School"}
               className="w-full h-56 object-cover"
             />
           </div>
@@ -50,7 +54,7 @@ export const CampusInfirmaryPage: React.FC<CampusInfirmaryPageProps> = ({
               Prompt First-Aid, Rest & Student Medical Care
             </h3>
             <p className="leading-relaxed font-medium">
-              The health and safety of our students is of paramount importance at Lotus Global School.
+              {facility?.description || "The health and safety of our students is of paramount importance at Lotus Global School."}
             </p>
             <p className="text-slate-600 leading-relaxed">
               Our campus infirmary is a calm, sterile healthcare station staffed by a qualified attendant during all school hours. Equipped with emergency first-aid supplies, recovery beds, oxygen support, and digital vitals monitors, the bay manages minor ailments and accidental injuries swiftly.

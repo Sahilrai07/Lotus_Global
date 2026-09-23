@@ -3,6 +3,7 @@ import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { REQUIRED_DOCUMENTS } from "../../data/schoolData";
 import { FileCheck, Download, AlertCircle, CheckCircle2, FileText, HelpCircle, Phone } from "lucide-react";
 import { SCHOOL_INFO } from "../../data/schoolData";
+import { useSiteData } from "../../data/siteDataService";
 
 interface DocumentsChecklistPageProps {
   openInquiry: () => void;
@@ -13,6 +14,9 @@ export const DocumentsChecklistPage: React.FC<DocumentsChecklistPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.admissions || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80";
+
   const extendedDocs = [
     {
       category: "Mandatory Identity & Age Proof",
@@ -92,7 +96,7 @@ export const DocumentsChecklistPage: React.FC<DocumentsChecklistPageProps> = ({
       activePageId="admissions-documents"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Admissions", pageId: "admissions" },
         { label: "Document Checklist" },

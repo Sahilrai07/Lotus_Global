@@ -1,7 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
 import { FileText, Download, CheckCircle2, ShieldCheck, ExternalLink, Building, Users, BookOpen } from "lucide-react";
-import { getSiteData } from "../data/siteDataService";
+import { useSiteData } from "../data/siteDataService";
 
 interface MandatoryDisclosurePageProps {
   onNavigate?: (pageId: string) => void;
@@ -12,9 +12,11 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
   onNavigate = () => {},
   openInquiry = () => {},
 }) => {
-  const school = getSiteData().schoolInfo;
+  const { siteData } = useSiteData();
+  const school = siteData.schoolInfo;
+  const banner = siteData.pageBanners?.disclosure || "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1600&q=80";
 
-  const generalInfo = [
+  const generalInfo = siteData.mandatoryDisclosure?.generalInfo || [
     { label: "Name of the School", value: school.name },
     { label: "Affiliation Status", value: `${school.affiliationStatus} (Under NCERT Framework)` },
     { label: "School Address", value: school.address },
@@ -23,7 +25,7 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
     { label: "Contact Phone / WhatsApp", value: `+91 ${school.phone}` },
   ];
 
-  const complianceDocuments = [
+  const complianceDocuments = siteData.mandatoryDisclosure?.complianceDocuments || [
     {
       sno: "01",
       title: "Copies of Affiliation / Upgradation Documentation",
@@ -98,7 +100,7 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
       activePageId="disclosure"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Home", pageId: "home" },
         { label: "Documents", pageId: "documents" },

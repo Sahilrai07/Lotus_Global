@@ -3,6 +3,8 @@ import { InternalPageLayout } from "../components/InternalPageLayout";
 import { ACADEMIC_STAGES, ASSESSMENT_STRUCTURE, SCHOOL_INFO } from "../data/schoolData";
 import { BookOpen, Clock, Calendar, FileText, CheckCircle2, ShieldAlert } from "lucide-react";
 
+import { getSiteData } from "../data/siteDataService";
+
 interface AcademicsPageProps {
   openInquiry: () => void;
   onNavigate?: (pageId: string) => void;
@@ -12,34 +14,38 @@ export const AcademicsPage: React.FC<AcademicsPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const siteData = getSiteData();
+  const acad = siteData.academicsPage;
+  const bannerImage = siteData.pageBanners?.academics || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80";
+
   return (
     <InternalPageLayout
-      title="Academics & Pedagogy"
+      title={acad?.heading || "Academics & Pedagogy"}
       category="ACADEMICS"
       activePageId="academics"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[{ label: "Academics" }]}
     >
       <div className="space-y-10">
         {/* Section Heading */}
         <div className="border-b-2 border-[#2F5187] pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
-            Academic Architecture
+            {acad?.subheading || "Academic Architecture"}
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Curriculum & Assessment Framework
+            {acad?.heading || "Curriculum & Assessment Framework"}
           </h2>
         </div>
 
         {/* Lead Narrative */}
         <div className="p-5 rounded bg-[#F8FAFC] border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
           <p className="font-semibold text-[#2F5187]">
-            Lotus Global School follows the National Curriculum Framework (NCERT) under its proposed CBSE affiliation from Nursery to Grade 10.
+            {acad?.leadParagraph || "Lotus Global School follows the National Curriculum Framework (NCERT) under its proposed CBSE affiliation from Nursery to Grade 10."}
           </p>
           <p>
-            Our academic delivery is designed around inquiry-driven pedagogy that transitions students from sensory discovery in early childhood to rigorous empirical analysis and board-examination readiness in senior years.
+            {acad?.subText || "Our academic delivery is designed around inquiry-driven pedagogy that transitions students from sensory discovery in early childhood to rigorous empirical analysis and board-examination readiness in senior years."}
           </p>
         </div>
 

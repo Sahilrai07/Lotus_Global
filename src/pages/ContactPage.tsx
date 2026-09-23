@@ -3,6 +3,7 @@ import { InternalPageLayout } from "../components/InternalPageLayout";
 import { SCHOOL_INFO } from "../data/schoolData";
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare, CheckCircle2, ShieldCheck } from "lucide-react";
 import { InstagramIcon } from "../components/InstagramIcon";
+import { useSiteData } from "../data/siteDataService";
 
 interface ContactPageProps {
   onNavigate?: (pageId: string) => void;
@@ -13,6 +14,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   onNavigate = () => {},
   openInquiry = () => {},
 }) => {
+  const { siteData } = useSiteData();
+  const school = siteData.schoolInfo;
+  const banner = siteData.pageBanners?.contact || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80";
+
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     parentName: "",
@@ -34,7 +39,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
       activePageId="contact"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[{ label: "Contact Us" }]}
     >
       <div className="space-y-8">
@@ -101,7 +106,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                 <Clock className="w-5 h-5 text-[#E87737] shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-slate-900 block">Office Visiting Hours:</strong>
-                  <span>Monday to Saturday: 9:00 AM – 4:00 PM</span>
+                  <span>{siteData.locationPage?.visitingHours || "Monday to Saturday: 9:00 AM – 4:00 PM"}</span>
                 </div>
               </div>
 

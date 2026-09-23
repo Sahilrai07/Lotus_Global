@@ -1,6 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { Music, CheckCircle2, Sparkles, Mic2, Radio, Heart } from "lucide-react";
+import { useSiteData } from "../../data/siteDataService";
 
 interface MusicStudioPageProps {
   openInquiry: () => void;
@@ -11,17 +12,21 @@ export const MusicStudioPage: React.FC<MusicStudioPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const { siteData } = useSiteData();
+  const facility = siteData.facilities.find(f => f.id === "music-room");
+  const banner = siteData.pageBanners?.facilities || facility?.image || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1600&q=80";
+
   return (
     <InternalPageLayout
-      title="Music & Cultural Studio"
+      title={facility?.name || "Music & Cultural Studio"}
       category="CAMPUS FACILITIES"
       activePageId="facility-music"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Facilities", pageId: "facilities" },
-        { label: "Music & Cultural Studio" },
+        { label: facility?.name || "Music & Cultural Studio" },
       ]}
     >
       <div className="space-y-8">
@@ -31,7 +36,7 @@ export const MusicStudioPage: React.FC<MusicStudioPageProps> = ({
             Aesthetic Harmony & Performing Arts
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Music, Dance & Cultural Expression Studio
+            {facility?.name || "Music, Dance & Cultural Expression Studio"}
           </h2>
         </div>
 
@@ -39,8 +44,8 @@ export const MusicStudioPage: React.FC<MusicStudioPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#F8FAFC] p-6 rounded border border-slate-200 items-center">
           <div className="md:col-span-5 rounded overflow-hidden border border-slate-300 shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
-              alt="Music Studio at Lotus Global School"
+              src={facility?.image || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"}
+              alt={facility?.name || "Music Studio at Lotus Global School"}
               className="w-full h-56 object-cover"
             />
           </div>
@@ -49,7 +54,7 @@ export const MusicStudioPage: React.FC<MusicStudioPageProps> = ({
               Harmonizing Mind, Rhythm & Creative Expression
             </h3>
             <p className="leading-relaxed font-medium">
-              Art and cultural training unlock children's inherent aesthetic sensibilities, auditory discrimination, and emotional maturity.
+              {facility?.description || "Art and cultural training unlock children's inherent aesthetic sensibilities, auditory discrimination, and emotional maturity."}
             </p>
             <p className="text-slate-600 leading-relaxed">
               Our acoustically treated music studio is fitted with Indian classical and contemporary instruments. Led by dedicated instructors, children explore vocal solfege, rhythm cycles (taal), choral arrangements, and theatrical dramatics.

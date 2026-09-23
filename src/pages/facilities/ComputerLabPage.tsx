@@ -2,6 +2,8 @@ import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { Monitor, ShieldCheck, CheckCircle2, Cpu, Terminal, Wifi } from "lucide-react";
 
+import { getSiteData } from "../../data/siteDataService";
+
 interface ComputerLabPageProps {
   openInquiry: () => void;
   onNavigate?: (pageId: string) => void;
@@ -11,14 +13,18 @@ export const ComputerLabPage: React.FC<ComputerLabPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const siteData = getSiteData();
+  const lab = siteData.facilities.find((f) => f.id === "computer-lab");
+  const bannerImage = siteData.pageBanners?.facilities || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80";
+
   return (
     <InternalPageLayout
-      title="Computer Laboratory"
+      title={lab?.name || "Computer Laboratory"}
       category="CAMPUS FACILITIES"
       activePageId="facility-computer-lab"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[
         { label: "Facilities", pageId: "facilities" },
         { label: "Computer Laboratory" },
@@ -31,7 +37,7 @@ export const ComputerLabPage: React.FC<ComputerLabPageProps> = ({
             Digital Literacy & Computational Thinking
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Computer Laboratory & Digital Media Studio
+            {lab?.name || "Computer Laboratory & Digital Media Studio"}
           </h2>
         </div>
 
@@ -39,8 +45,8 @@ export const ComputerLabPage: React.FC<ComputerLabPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#F8FAFC] p-6 rounded border border-slate-200 items-center">
           <div className="md:col-span-5 rounded overflow-hidden border border-slate-300 shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
-              alt="Computer Laboratory at Lotus Global School"
+              src={lab?.image || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"}
+              alt={lab?.name || "Computer Laboratory"}
               className="w-full h-56 object-cover"
             />
           </div>

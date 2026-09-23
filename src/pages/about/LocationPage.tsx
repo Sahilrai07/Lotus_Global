@@ -1,7 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
-import { SCHOOL_INFO } from "../../data/schoolData";
-import { MapPin, Navigation, Bus, Clock, Phone, ExternalLink } from "lucide-react";
+import { getSiteData } from "../../data/siteDataService";
+import { Navigation, Clock } from "lucide-react";
 
 interface LocationPageProps {
   openInquiry: () => void;
@@ -12,7 +12,12 @@ export const LocationPage: React.FC<LocationPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const transitRoutes = [
+  const siteData = getSiteData();
+  const loc = siteData.locationPage;
+  const school = siteData.schoolInfo;
+  const bannerImage = siteData.pageBanners?.about || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80";
+
+  const transitRoutes = loc?.transitCorridors || [
     {
       corridor: "Vapi Town Centre & GIDC",
       distance: "Approx. 10–12 Minutes",
@@ -32,12 +37,12 @@ export const LocationPage: React.FC<LocationPageProps> = ({
 
   return (
     <InternalPageLayout
-      title="Campus Location & Reach"
+      title={loc?.heading || "Campus Location & Reach"}
       category="ABOUT US"
       activePageId="about-location"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[
         { label: "About Us", pageId: "about" },
         { label: "Campus Location" },
@@ -46,10 +51,10 @@ export const LocationPage: React.FC<LocationPageProps> = ({
       <div className="space-y-8">
         <div className="border-b-2 border-[#2F5187] pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
-            Geographical Setting
+            {loc?.subheading || "Geographical Setting"}
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Campus Location & Connectivity in Vatar, Vapi
+            {loc?.heading || "Campus Location & Connectivity in Vatar, Vapi"}
           </h2>
         </div>
 
@@ -61,10 +66,10 @@ export const LocationPage: React.FC<LocationPageProps> = ({
                 Official Landmark
               </span>
               <h4 className="font-display font-bold text-base text-[#2F5187]">
-                Near Vatar PHC
+                {loc?.landmark || "Near Vatar PHC"}
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                {SCHOOL_INFO.address}
+                {school.address}
               </p>
             </div>
 
@@ -73,19 +78,16 @@ export const LocationPage: React.FC<LocationPageProps> = ({
                 <Clock className="w-4 h-4 text-[#E87737]" />
                 <span className="font-semibold">Visiting Hours:</span>
               </div>
-              <p className="text-slate-500 pl-6">Mon–Sat: 9:00 AM – 4:00 PM</p>
+              <p className="text-slate-500 pl-6">{loc?.visitingHours || "Mon–Sat: 9:00 AM – 4:00 PM"}</p>
             </div>
           </div>
 
           <div className="md:col-span-8 space-y-3 text-xs sm:text-sm text-slate-700">
             <h3 className="font-display font-bold text-lg text-[#2F5187]">
-              A Peaceful Learning Sanctuary Away from Urban Congestion
+              {loc?.environmentTitle || "A Peaceful Learning Sanctuary Away from Urban Congestion"}
             </h3>
             <p className="leading-relaxed font-medium">
-              Strategically positioned in Vatar, Vapi, the Lotus Global School campus provides a secure, pollution-free, and distraction-free academic haven.
-            </p>
-            <p className="text-slate-600 leading-relaxed">
-              Situated near Vatar PHC, the campus is surrounded by open green horizons, allowing ample natural ventilation, generous daylight, and sprawling open-air athletic grounds while remaining easily reachable from major residential and commercial sectors across Vapi, Daman, and Silvassa.
+              {loc?.environmentDescription || "Strategically positioned in Vatar, Vapi, the Lotus Global School campus provides a secure, pollution-free, and distraction-free academic haven."}
             </p>
           </div>
         </div>
@@ -138,7 +140,7 @@ export const LocationPage: React.FC<LocationPageProps> = ({
             Need directions or assistance finding the campus?
           </span>
           <a
-            href={`tel:${SCHOOL_INFO.phone}`}
+            href={`tel:${school.phone}`}
             className="px-5 py-2.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow"
           >
             Call Campus Desk

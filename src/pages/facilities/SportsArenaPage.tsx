@@ -2,6 +2,8 @@ import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { Trophy, CheckCircle2, Target, HeartHandshake, Shield, Activity } from "lucide-react";
 
+import { getSiteData } from "../../data/siteDataService";
+
 interface SportsArenaPageProps {
   openInquiry: () => void;
   onNavigate?: (pageId: string) => void;
@@ -11,6 +13,10 @@ export const SportsArenaPage: React.FC<SportsArenaPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const siteData = getSiteData();
+  const sports = siteData.facilities.find((f) => f.id === "sports-room");
+  const bannerImage = siteData.pageBanners?.facilities || "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1600&q=80";
+
   const sportsOfferings = [
     {
       sport: "Cricket Turf & Practice Nets",
@@ -41,12 +47,12 @@ export const SportsArenaPage: React.FC<SportsArenaPageProps> = ({
 
   return (
     <InternalPageLayout
-      title="Outdoor Sports & Playgrounds"
+      title={sports?.name || "Outdoor Sports & Playgrounds"}
       category="CAMPUS FACILITIES"
       activePageId="facility-sports"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[
         { label: "Facilities", pageId: "facilities" },
         { label: "Outdoor Sports & Playgrounds" },
@@ -59,7 +65,7 @@ export const SportsArenaPage: React.FC<SportsArenaPageProps> = ({
             Physical Conditioning & Outdoor Team Athletics
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Outdoor Sports Grounds & Playgrounds
+            {sports?.name || "Outdoor Sports Grounds & Playgrounds"}
           </h2>
         </div>
 
@@ -67,8 +73,8 @@ export const SportsArenaPage: React.FC<SportsArenaPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#F8FAFC] p-6 rounded border border-slate-200 items-center">
           <div className="md:col-span-5 rounded overflow-hidden border border-slate-300 shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80"
-              alt="Outdoor Sports Infrastructure at Lotus Global School"
+              src={sports?.image || "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80"}
+              alt={sports?.name || "Outdoor Sports Infrastructure at Lotus Global School"}
               className="w-full h-56 object-cover"
             />
           </div>

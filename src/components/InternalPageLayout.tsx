@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ChevronRight, ChevronDown, Home, Phone, Mail, MapPin, Download, CheckCircle2 } from "lucide-react";
 import { SCHOOL_INFO } from "../data/schoolData";
+import { getSiteData } from "../data/siteDataService";
 
 export interface SidebarLink {
   label: string;
@@ -29,12 +30,32 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
   onNavigate,
   openInquiry,
   children,
-  bannerImage = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80",
+  bannerImage,
   breadcrumbs = [],
   hideSidebarContactOnMobile = false,
   customSidebarLinks,
 }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const siteData = getSiteData();
+  const school = siteData.schoolInfo;
+
+  const defaultCategoryBanners: Record<string, string> = {
+    "ABOUT US": siteData.pageBanners?.about || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80",
+    "ACADEMICS": siteData.pageBanners?.academics || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80",
+    "CAMPUS FACILITIES": siteData.pageBanners?.facilities || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=80",
+    "ADMISSIONS": siteData.pageBanners?.admissions || "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1600&q=80",
+    "FACULTY": siteData.pageBanners?.faculty || "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80",
+    "DOCUMENTS & DISCLOSURES": siteData.pageBanners?.disclosure || "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1600&q=80",
+    "DOCUMENTS": siteData.pageBanners?.documents || "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1600&q=80",
+    "NEWS & EVENTS": siteData.pageBanners?.newsEvents || "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80",
+    "ACTIVITIES": siteData.pageBanners?.activities || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1600&q=80",
+    "CO-CURRICULAR": siteData.pageBanners?.activities || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1600&q=80",
+    "CAMPUS LIFE": siteData.pageBanners?.gallery || "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1600&q=80",
+    "CONTACT US": siteData.pageBanners?.contact || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80",
+  };
+
+  const resolvedBanner = bannerImage || defaultCategoryBanners[category] || siteData.pageBanners?.about || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80";
+
   // Navigation categories for sidebar
   const getCategoryLinks = (): SidebarLink[] => {
     switch (category) {
@@ -126,7 +147,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
       <div className="relative bg-[#1E375F] text-white py-12 sm:py-16 border-b border-[#2F5187] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src={bannerImage}
+            src={resolvedBanner}
             alt={title}
             className="w-full h-full object-cover object-center opacity-20"
           />
@@ -244,18 +265,18 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
               <div className="space-y-2.5 text-xs text-slate-200">
                 <div className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-[#E87737] shrink-0 mt-0.5" />
-                  <span>Near Vatar PHC, Vatar, Vapi, Gujarat 396191</span>
+                  <span>{school.address}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-[#E87737] shrink-0" />
-                  <a href={`tel:${SCHOOL_INFO.phone}`} className="hover:text-[#E87737] font-semibold">
-                    {SCHOOL_INFO.phone}
+                  <a href={`tel:${school.phone}`} className="hover:text-[#E87737] font-semibold">
+                    {school.phone}
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-[#E87737] shrink-0" />
-                  <a href={`mailto:${SCHOOL_INFO.email}`} className="hover:text-[#E87737] break-all">
-                    {SCHOOL_INFO.email}
+                  <a href={`mailto:${school.email}`} className="hover:text-[#E87737] break-all">
+                    {school.email}
                   </a>
                 </div>
               </div>

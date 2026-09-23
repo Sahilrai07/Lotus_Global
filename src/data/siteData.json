@@ -135,7 +135,25 @@
       "photo": "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=400&q=80",
       "quote": "If a child cannot learn the way we teach him, we must teach him the way he can learn.",
       "excerpt": "Dear Students and Parents, it is our privilege to guide your child's educational journey. At Lotus Global School, we replace passive learning with active intellectual discovery.",
-      "fullMessage": "Dear Students and Parents, Welcome to Lotus Global School. We firmly believe that every child possesses a unique learning rhythm and immense curiosity. Our responsibility as educators is not to impose rigid uniformity, but to create avenues through hands-on science, interactive digital learning, arts, and athletics that unlock each student's genuine brilliance. Grounded in Dedication, Diligence, and Discipline, our faculty is dedicated to walking alongside every family in this journey."
+      "fullMessage": "Dear Students and Parents, Welcome to Lotus Global School. We firmly believe that every child possesses a unique learning rhythm and immense curiosity. Our responsibility as educators is not to impose rigid uniformity, but to create avenues through hands-on science, interactive digital learning, arts, and athletics that unlock each student's genuine brilliance. Grounded in Dedication, Diligence, and Discipline, our faculty is dedicated to walking alongside every family in this journey.",
+      "commitments": [
+        {
+          "title": "Pedagogical Agility",
+          "desc": "Emphasizing conceptual clarity under the NCERT framework, allowing each child to progress at a pace that inspires authentic mastery."
+        },
+        {
+          "title": "Character & Values",
+          "desc": "Grounded in our motto of Dedication, Diligence, and Discipline, ensuring intellectual prowess is paired with moral clarity and compassion."
+        },
+        {
+          "title": "Child-Safe Modern Campus",
+          "desc": "Round-the-clock physical safety, monitored infirmary care, hygienic sanitation, and child-safe digital firewalls."
+        },
+        {
+          "title": "Transparent Parent Partnership",
+          "desc": "Regular diagnostic feedback sessions, digital communication, and open-door leadership access for every family."
+        }
+      ]
     }
   },
   "facilities": [
@@ -145,7 +163,11 @@
       "category": "Explore",
       "tagline": "Precision Apparatus & Hands-on Chemical Inquiry",
       "description": "Engineered with modern ventilation, individual reagent stations, and safety showers. Enables students to safely conduct empirical experiments, molecular modeling, and qualitative analysis.",
-      "features": ["Safety Fume Hood & Eyewash Station", "Analytical Balances & Glassware", "Strict Chemical Storage Protocols"],
+      "features": [
+        "Safety Fume Hood & Eyewash Station",
+        "Analytical Balances & Glassware",
+        "Strict Chemical Storage Protocols"
+      ],
       "image": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 1
@@ -156,7 +178,11 @@
       "category": "Explore",
       "tagline": "Mechanics, Optics & Applied Thermodynamics",
       "description": "Dedicated optical benches, electrodynamics testing apparatus, and kinematic setups that transform theoretical formulas into tangible physical observations.",
-      "features": ["Optical Dark Bench Section", "Precision Circuit Analysis Stations", "Mechanics & Wave Dynamic Kits"],
+      "features": [
+        "Optical Dark Bench Section",
+        "Precision Circuit Analysis Stations",
+        "Mechanics & Wave Dynamic Kits"
+      ],
       "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 2
@@ -167,7 +193,11 @@
       "category": "Explore",
       "tagline": "Microscopy, Botany & Anatomical Specimens",
       "description": "Equipped with high-resolution compound microscopes, specimen collections, and plant physiology apparatus to explore the living world in granular detail.",
-      "features": ["High-Resolution Binocular Microscopes", "Botanical & Zoological Preserved Specimens", "Dissection & Cell-Culture Modeling"],
+      "features": [
+        "High-Resolution Binocular Microscopes",
+        "Botanical & Zoological Preserved Specimens",
+        "Dissection & Cell-Culture Modeling"
+      ],
       "image": "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 3
@@ -178,7 +208,11 @@
       "category": "Explore",
       "tagline": "Integrated STEM Discovery & Interdisciplinary Prototyping",
       "description": "A flexible experimental space uniting physical sciences with computational thinking, encouraging middle school learners to bridge disciplines.",
-      "features": ["Multi-Discipline Workstations", "Sensory Data Loggers", "Collaborative Discovery Islands"],
+      "features": [
+        "Multi-Discipline Workstations",
+        "Sensory Data Loggers",
+        "Collaborative Discovery Islands"
+      ],
       "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 4
@@ -189,7 +223,11 @@
       "category": "Learn",
       "tagline": "Digital Literacy, Coding & Algorithmic Foundations",
       "description": "Ergonomically planned digital lab with high-speed network infrastructure, secure web access, modern computing stations, and programming toolkits.",
-      "features": ["Individual High-Performance Terminals", "Curated Coding & Logic Environments", "Strict Child-Safe Cyber Firewall"],
+      "features": [
+        "Individual High-Performance Terminals",
+        "Curated Coding & Logic Environments",
+        "Strict Child-Safe Cyber Firewall"
+      ],
       "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 5
@@ -200,7 +238,11 @@
       "category": "Learn",
       "tagline": "Curated Knowledge Sanctum & Silent Inquiry",
       "description": "An extensive collection of NCERT curriculum reference texts, global classical literature, contemporary junior fiction, and quiet reading alcoves.",
-      "features": ["Expansive Academic Reference Sections", "Quiet Reading Zones & Group Study Nooks", "Periodicals & Scientific Journals"],
+      "features": [
+        "Expansive Academic Reference Sections",
+        "Quiet Reading Zones & Group Study Nooks",
+        "Periodicals & Scientific Journals"
+      ],
       "image": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 6
@@ -211,7 +253,11 @@
       "category": "Create",
       "tagline": "Acoustic Expression, Rhythm & Harmonic Discovery",
       "description": "A dedicated acoustic space fitted with Indian classical and western musical instruments, fostering melodic appreciation and emotional intelligence.",
-      "features": ["Acoustically Treated Studio Space", "Keyboards, Percussions & String Instruments", "Vocal Training & Choir Arrangement Area"],
+      "features": [
+        "Acoustically Treated Studio Space",
+        "Keyboards, Percussions & String Instruments",
+        "Vocal Training & Choir Arrangement Area"
+      ],
       "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 7
@@ -222,7 +268,11 @@
       "category": "Perform",
       "tagline": "Physical Conditioning, Team Athletics & Motor Agility",
       "description": "Indoor sports arena and outdoor sporting gear support physical fitness, hand-eye coordination, team camaraderie, and competitive sportsmanship.",
-      "features": ["Table Tennis & Indoor Strategy Games", "Athletic Conditioning Equipment", "Team Sports Gear (Cricket, Football, Badminton)"],
+      "features": [
+        "Table Tennis & Indoor Strategy Games",
+        "Athletic Conditioning Equipment",
+        "Team Sports Gear (Cricket, Football, Badminton)"
+      ],
       "image": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 8
@@ -233,10 +283,29 @@
       "category": "Learn",
       "tagline": "First-Aid, Health Monitoring & Student Wellness",
       "description": "A tranquil healthcare bay staffed during school hours, prepared for immediate medical attention, minor injuries, routine health screenings, and wellness care.",
-      "features": ["First-Aid & Emergency Response Kits", "Dedicated Recovery Beds", "Emergency Physician On-Call Protocol"],
+      "features": [
+        "First-Aid & Emergency Response Kits",
+        "Dedicated Recovery Beds",
+        "Emergency Physician On-Call Protocol"
+      ],
       "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80",
       "active": true,
       "order": 9
+    },
+    {
+      "id": "indoor-games",
+      "name": "Indoor Games & Sports Arena",
+      "category": "Perform",
+      "tagline": "Table Tennis, Chess, Carrom & Semi-Indoor Badminton",
+      "description": "Dedicated climate-controlled indoor arena with tournament table tennis setups, chess & carrom strategy tables, and yoga/fitness studios.",
+      "features": [
+        "Tournament Table Tennis Tables",
+        "Chess & Carrom Strategy Stations",
+        "Covered Badminton & Yoga Studio"
+      ],
+      "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80",
+      "active": true,
+      "order": 10
     }
   ],
   "academicStages": [
@@ -622,5 +691,836 @@
       "active": true,
       "order": 10
     }
-  ]
+  ],
+  "pageBanners": {
+    "about": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80",
+    "academics": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80",
+    "facilities": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=80",
+    "faculty": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80",
+    "admissions": "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1600&q=80",
+    "activities": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1600&q=80",
+    "gallery": "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1600&q=80",
+    "documents": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1600&q=80",
+    "disclosure": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1600&q=80",
+    "newsEvents": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80",
+    "contact": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80"
+  },
+  "aboutPage": {
+    "heading": "Overview of Lotus Global School",
+    "subheading": "Institutional Identity & Background",
+    "leadQuote": "Learning Should Inspire Rather Than Instruct",
+    "leadImage": "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80",
+    "campusImage": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80",
+    "distinctions": [
+      {
+        "icon": "ShieldCheck",
+        "title": "Proposed CBSE Institution",
+        "description": "Structured in accordance with the national NCERT curriculum framework, fostering rigorous academic foundations and continuous diagnostic assessment."
+      },
+      {
+        "icon": "Compass",
+        "title": "Low Student-Teacher Ratio",
+        "description": "Ensuring individualized cognitive and emotional mentoring, proactive parent communication, and personal attention for every student."
+      },
+      {
+        "icon": "Target",
+        "title": "Holistic Development",
+        "description": "Blending STEM laboratories, digital computer literacy, fine arts, music, and athletic physical conditioning into everyday schooling."
+      },
+      {
+        "icon": "Award",
+        "title": "Strategic Campus in Vatar",
+        "description": "Conveniently accessible near Vatar PHC, offering a pollution-free, tranquil academic haven designed for safety and focused growth."
+      }
+    ]
+  },
+  "visionMissionPage": {
+    "goldenRule": "If a child cannot learn the way we teach him, we must teach him the way he can learn.",
+    "goldenRuleSubtext": "A child's developmental pathway is unique. We honor individual learning styles by adapting instruction to suit the learner.",
+    "visionTitle": "Our Vision",
+    "visionSubtitle": "Preparing Tomorrow's Innovators & Leaders",
+    "visionStatement": "The vision of Lotus Global School is to be a leading institution that prepares today’s children to become tomorrow’s innovators and leaders. Known for our exceptional educational programs, talented teams and community relationships, we provide a unique blend of fun and learning in a safe and nurturing environment.",
+    "visionPillars": [
+      {
+        "title": "Tomorrow's Innovators & Leaders",
+        "description": "Fostering creative problem-solving, critical inquiry, and fearless curiosity so every student steps forward ready to shape the future with integrity."
+      },
+      {
+        "title": "Exceptional Programs & Talented Teams",
+        "description": "Empowering an inspired faculty and modern curriculum tailored to nurture diverse aptitudes, academic rigor, and creative excellence."
+      },
+      {
+        "title": "Fun & Learning in a Safe Haven",
+        "description": "Creating an inspiring ecosystem where playful discovery meets structured rigor inside a secure, inclusive, and joyful environment."
+      }
+    ],
+    "missionTitle": "Our Mission",
+    "missionSubtitle": "Excellence in Education & Child-First Care",
+    "missionStatement": "The mission of Lotus Global School is to provide the best education and care for children. We believe that if a child cannot learn the way we teach him, we must teach him the way he can learn.",
+    "missionCommitments": [
+      {
+        "title": "Adaptive, Child-Centric Pedagogy",
+        "description": "Understanding that every child possesses a unique learning wavelength. We tailor our teaching strategies to meet the child where they learn best."
+      },
+      {
+        "title": "Uncompromising Care & Emotional Safety",
+        "description": "Prioritizing emotional well-being, personal safety, and individual encouragement alongside academic achievement."
+      },
+      {
+        "title": "Strong Community Relationships",
+        "description": "Forging meaningful, transparent partnerships between parents, educators, and the community to surround every student with constant support."
+      }
+    ],
+    "corePrinciples": [
+      {
+        "badge": "Inquiry Driven",
+        "title": "Active Discovery",
+        "desc": "Replacing passive instruction with experiential science labs, interactive questioning, and hands-on projects."
+      },
+      {
+        "badge": "Personalized Care",
+        "title": "Individual Attention",
+        "desc": "Low teacher-student ratios ensuring every child’s cognitive, emotional, and creative needs are addressed."
+      },
+      {
+        "badge": "Character First",
+        "title": "Enduring Values",
+        "desc": "Instilling Dedication, Diligence, and Discipline as lifelong anchors for leadership and moral clarity."
+      },
+      {
+        "badge": "Global Outlook",
+        "title": "Holistic Development",
+        "desc": "Blending CBSE academic excellence with arts, athletics, music, and digital literacy."
+      }
+    ]
+  },
+  "locationPage": {
+    "heading": "Campus Location & Connectivity in Vatar, Vapi",
+    "subheading": "Geographical Setting",
+    "landmark": "Near Vatar PHC",
+    "visitingHours": "Mon–Sat: 9:00 AM – 4:00 PM",
+    "environmentTitle": "A Peaceful Learning Sanctuary Away from Urban Congestion",
+    "environmentDescription": "Strategically positioned in Vatar, Vapi, the Lotus Global School campus provides a secure, pollution-free, and distraction-free academic haven. Situated near Vatar PHC, the campus is surrounded by open green horizons, allowing ample natural ventilation, generous daylight, and sprawling open-air athletic grounds while remaining easily reachable from major residential and commercial sectors across Vapi, Daman, and Silvassa.",
+    "transitCorridors": [
+      {
+        "corridor": "Vapi Town Centre & GIDC",
+        "distance": "Approx. 10–12 Minutes",
+        "access": "Direct access via Chala–Vatar Link Road, smooth paved connectivity."
+      },
+      {
+        "corridor": "Daman & Coastal Belts",
+        "distance": "Approx. 15–18 Minutes",
+        "access": "Well-connected through state highway arterial junctions."
+      },
+      {
+        "corridor": "Silvassa & Dadra Junction",
+        "distance": "Approx. 20–25 Minutes",
+        "access": "Direct transit through national highway access roads."
+      }
+    ]
+  },
+  "academicsPage": {
+    "heading": "Curriculum & Assessment Framework",
+    "subheading": "Academic Architecture",
+    "leadParagraph": "Lotus Global School follows the National Curriculum Framework (NCERT) under its proposed CBSE affiliation from Nursery to Grade 10.",
+    "subText": "Our academic delivery is designed around inquiry-driven pedagogy that transitions students from sensory discovery in early childhood to rigorous empirical analysis and board-examination readiness in senior years."
+  },
+  "assessmentScheme": {
+    "heading": "Scholastic & Co-Scholastic Assessment Scheme",
+    "subheading": "Evaluation Architecture",
+    "leadText": "In alignment with the CBSE continuous and comprehensive assessment philosophy, evaluation at Lotus Global School is designed to foster growth rather than induce anxiety. We assess cognitive conceptual depth alongside behavioral values, sportsmanship, and creative expression.",
+    "scholastic": {
+      "title": "Scholastic Assessment",
+      "summary": "Rigorous academic appraisal evaluating conceptual mastery, analytical reasoning, and subject competencies.",
+      "components": [
+        {
+          "name": "Periodic Examination",
+          "note": "Regular diagnostic milestones tracking formative understanding across terms"
+        },
+        {
+          "name": "Term Examination",
+          "note": "Comprehensive summative evaluation synthesizing curriculum standards"
+        }
+      ]
+    },
+    "coScholastic": {
+      "title": "Co-Scholastic Assessment",
+      "summary": "Comprehensive evaluation of character, collaboration, physical development, and creative expression.",
+      "components": [
+        {
+          "name": "Holistic Development",
+          "note": "Observation of values, discipline, peer collaboration, and emotional quotient"
+        },
+        {
+          "name": "Sports & Wellness",
+          "note": "Physical stamina, sportsmanship, and personal wellness"
+        },
+        {
+          "name": "Creative & Performing Arts",
+          "note": "Aesthetic appreciation, visual design, and musical expression"
+        }
+      ]
+    },
+    "gradingScale": [
+      {
+        "marksRange": "91% – 100%",
+        "grade": "A1",
+        "remark": "Outstanding Conceptual Mastery"
+      },
+      {
+        "marksRange": "81% – 90%",
+        "grade": "A2",
+        "remark": "Excellent Subject Competency"
+      },
+      {
+        "marksRange": "71% – 80%",
+        "grade": "B1",
+        "remark": "Very Good Understanding"
+      },
+      {
+        "marksRange": "61% – 70%",
+        "grade": "B2",
+        "remark": "Good Academic Progression"
+      },
+      {
+        "marksRange": "51% – 60%",
+        "grade": "C1",
+        "remark": "Fair Performance & Steady Growth"
+      },
+      {
+        "marksRange": "41% – 50%",
+        "grade": "C2",
+        "remark": "Satisfactory with Remedial Support"
+      },
+      {
+        "marksRange": "33% – 40%",
+        "grade": "D",
+        "remark": "Marginal; Requires Targeted Guidance"
+      }
+    ]
+  },
+  "schoolTimings": {
+    "heading": "Daily Timings & Instructional Routine",
+    "subheading": "Academic Schedule",
+    "leadText": "A disciplined, well-balanced daily schedule is fundamental to student productivity and mental vitality. At Lotus Global School, our bell schedule is engineered to optimize concentration spans, alternate intensive academic periods with physical and creative refreshers, and guarantee sufficient time for healthy dining and assembly.",
+    "wings": [
+      {
+        "wing": "Foundational Stage (Nursery, Jr. KG, Sr. KG)",
+        "timing": "08:30 AM – 12:30 PM",
+        "days": "Monday to Friday",
+        "highlights": "Shorter hours tailored for early attention spans, sensory play, and gentle socialization.",
+        "badge": "Pre-Primary Wing",
+        "badgeColor": "bg-[#F7A8D2]/20 text-[#2F5187] border-[#F7A8D2]"
+      },
+      {
+        "wing": "Preparatory & Middle Stage (Grades 1 – 8)",
+        "timing": "07:50 AM – 01:50 PM",
+        "days": "Monday to Friday (1st & 3rd Sat: Activity Schedule)",
+        "highlights": "Full academic cycle covering core subjects, language mastery, science experiments, and sports.",
+        "badge": "Primary & Middle Wing",
+        "badgeColor": "bg-blue-50 text-[#2F5187] border-blue-200"
+      },
+      {
+        "wing": "Secondary Stage (Grades 9 – 10)",
+        "timing": "07:50 AM – 02:30 PM",
+        "days": "Monday to Friday + Scheduled Saturday Mentorship",
+        "highlights": "Extended academic immersion, CBSE laboratory practicals, Olympiad prep, and peer-coaching.",
+        "badge": "Secondary Wing",
+        "badgeColor": "bg-amber-50 text-amber-900 border-amber-200"
+      }
+    ],
+    "dailySchedule": [
+      {
+        "time": "07:50 AM – 08:15 AM",
+        "event": "Arrival & Morning Assembly",
+        "desc": "Prayer, inspiring thought for the day, news digest, and national anthem.",
+        "icon": "Sun"
+      },
+      {
+        "time": "08:15 AM – 09:35 AM",
+        "event": "Period 1 & 2: Scholastic Foundations",
+        "desc": "Mathematics and Science modules during peak morning alertness.",
+        "icon": "BookOpen"
+      },
+      {
+        "time": "09:35 AM – 09:55 AM",
+        "event": "Nutritional Breakfast & Fruit Break",
+        "desc": "Supervised dining promoting clean eating habits, hydration, and table manners.",
+        "icon": "Coffee"
+      },
+      {
+        "time": "09:55 AM – 11:55 AM",
+        "event": "Period 3, 4 & 5: Language & Humanities",
+        "desc": "English, Hindi, Gujarati / Sanskrit, Social Studies, and Environmental Sciences.",
+        "icon": "BookOpen"
+      },
+      {
+        "time": "11:55 AM – 12:20 PM",
+        "event": "Mid-Day Lunch Recess",
+        "desc": "Social interaction, balanced warm lunch, and relaxation in the dining commons.",
+        "icon": "Coffee"
+      },
+      {
+        "time": "12:20 PM – 01:50 PM",
+        "event": "Period 6 & 7: STEM Labs & Co-Scholastic",
+        "desc": "Computer lab, Science practicals, Arts, Music, and physical training rotations.",
+        "icon": "Activity"
+      },
+      {
+        "time": "01:50 PM – 02:30 PM",
+        "event": "Remedial Clinic & Advanced Enrichment",
+        "desc": "Targeted one-on-one doubt clarification and special interest clubs for senior grades.",
+        "icon": "Bell"
+      }
+    ]
+  },
+  "facultyStandards": {
+    "heading": "Teaching Standards & Pedagogical Excellence",
+    "subheading": "Academic Mentorship",
+    "leadText": "At Lotus Global School, educators are not merely instructors of syllabus content—they are facilitators of intellectual curiosity and moral character. We recruit professionals who embody empathy, conceptual mastery, and passion for child-centric development.",
+    "pillars": [
+      {
+        "title": "Qualified Educators",
+        "icon": "Award",
+        "description": "Highly trained professionals versed in modern pedagogy, child psychology, and interactive teaching techniques."
+      },
+      {
+        "title": "Continuous Professional Development",
+        "icon": "TrendingUp",
+        "description": "Regular training workshops to keep faculty updated on CBSE guidelines, NEP practices, and educational technology."
+      },
+      {
+        "title": "Low Teacher-Student Ratio",
+        "icon": "HeartHandshake",
+        "description": "Ensures personalized attention, tailored guidance, and close mentoring for every child."
+      }
+    ],
+    "departments": [
+      {
+        "name": "STEM & Natural Sciences",
+        "scope": "Physics, Chemistry, Biology & Composite Experiments",
+        "focus": "Hands-on empirical investigation and scientific reasoning."
+      },
+      {
+        "name": "Mathematics & Computational Thinking",
+        "scope": "Foundational Numeracy, Logic & Problem Solving",
+        "focus": "Bridging abstract theorem with concrete real-world application."
+      },
+      {
+        "name": "Languages & Humanistic Inquiries",
+        "scope": "English, Hindi, Regional Language & Social Sciences",
+        "focus": "Expressive storycraft, critical reading, and cultural empathy."
+      },
+      {
+        "name": "Information Technology & Media",
+        "scope": "Computer Labs, Coding Fundamentals & Cyber Safety",
+        "focus": "Digital literacy and responsible technological exploration."
+      },
+      {
+        "name": "Physical Education & Performing Arts",
+        "scope": "Athletics Arena, Music Studio, Visual Design & Yoga",
+        "focus": "Physical endurance, teamwork, rhythm, and aesthetic appreciation."
+      }
+    ],
+    "teachingStandards": [
+      {
+        "title": "Pedagogical Qualification & Certification",
+        "desc": "All teaching staff possess qualified degrees in education (B.Ed / D.El.Ed / Master's disciplines) and undergo rigorous subject competency evaluation prior to induction."
+      },
+      {
+        "title": "Inquiry-Driven Instructional Design",
+        "desc": "Lesson plans replace rote memorization with interactive questioning, empirical demonstrations, multi-sensory materials, and formative diagnostic checking."
+      },
+      {
+        "title": "Child-Centric Learning Strategies",
+        "desc": "Adhering to our core motto ('If a child cannot learn the way we teach him, we must teach him the way he can learn'), educators adapt pace and presentation to individual aptitudes."
+      },
+      {
+        "title": "Ethical & Values-Based Mentoring",
+        "desc": "Teachers model Dedication, Diligence, and Discipline, cultivating integrity, emotional safety, mutual respect, and collaborative camaraderie in every classroom."
+      }
+    ],
+    "workshops": [
+      {
+        "domain": "NEP 2020 & Competency-Based Education",
+        "frequency": "Quarterly",
+        "focus": "Designing experiential learning modules and competency-aligned assessment questions."
+      },
+      {
+        "domain": "Ed-Tech & Smart Lab Integration",
+        "frequency": "Bi-Monthly",
+        "focus": "Utilizing digital computing simulations, data-loggers, and multimedia visual aids in classrooms."
+      },
+      {
+        "domain": "Child Psychology & Emotional Safety",
+        "frequency": "Annual Intensive",
+        "focus": "Recognizing individual learning wavelengths, behavioral counseling, and anti-bullying protocols."
+      },
+      {
+        "domain": "CBSE Assessment & Remedial Strategies",
+        "frequency": "Semester-wise",
+        "focus": "Formative diagnostic rubric generation and structured remedial programs for diverse learners."
+      }
+    ],
+    "ratioBreakdown": [
+      {
+        "stage": "Foundational (Nursery, LKG, UKG)",
+        "ratio": "1 : 15",
+        "support": "Lead Educator + Full-Time Classroom Care Attendant",
+        "focus": "Close sensory monitoring, language acquisition, and individualized care."
+      },
+      {
+        "stage": "Preparatory (Grade 1 to 3)",
+        "ratio": "1 : 20",
+        "support": "Class Teacher + Dedicated Subject Instructors",
+        "focus": "Foundational literacy, numeracy diagnostics, and activity-based learning."
+      },
+      {
+        "stage": "Middle Stage (Grade 4 to 7)",
+        "ratio": "1 : 25",
+        "support": "Specialized Subject Faculty + Laboratory Demonstrators",
+        "focus": "In-depth conceptual feedback, lab supervision, and project mentoring."
+      },
+      {
+        "stage": "Secondary Stage (Grade 8 to 10)",
+        "ratio": "1 : 25",
+        "support": "Senior CBSE Educators + Career & Academic Mentors",
+        "focus": "Board examination preparation, doubt resolution, and analytical rigor."
+      }
+    ]
+  },
+  "admissionsPathway": {
+    "heading": "Admissions Process & Criteria",
+    "subheading": "Enrollment Guidance",
+    "leadText": "Admissions are open for the upcoming academic session from Nursery to Grade 10 at our campus in Vatar, Vapi. Our admission process is transparent, student-centered, and designed to ensure mutual alignment between family aspirations and our institutional pedagogy.",
+    "steps": [
+      {
+        "step": "01",
+        "title": "Inquiry",
+        "summary": "Submit an online inquiry or contact the school admissions office.",
+        "details": "Initiate dialogue by submitting our online inquiry form or contacting our campus admissions team via phone or WhatsApp to register your child's profile."
+      },
+      {
+        "step": "02",
+        "title": "Interaction & Guidance",
+        "summary": "Connect with the admissions team and understand the school's academic approach.",
+        "details": "An institutional interaction session to align educational goals, review developmental readiness, and introduce the school's pedagogical philosophy."
+      },
+      {
+        "step": "03",
+        "title": "Application",
+        "summary": "Complete the registration/application process and provide required documents.",
+        "details": "Submit the formal registration dossier alongside the mandatory verification documents specified by the institution."
+      },
+      {
+        "step": "04",
+        "title": "Enrollment",
+        "summary": "Admission confirmation based on seat availability and the school's admission process.",
+        "details": "Formal offer of admission and seat allocation upon completion of document verification and registration formalities."
+      }
+    ],
+    "ageEligibility": [
+      {
+        "grade": "Nursery",
+        "minAge": "3 Years Completed",
+        "cutoff": "Born on or before 1st June 2023",
+        "stage": "Foundational (Early Years)",
+        "note": "As on 31st March / 1st June of academic year"
+      },
+      {
+        "grade": "Junior KG (LKG)",
+        "minAge": "4 Years Completed",
+        "cutoff": "Born on or before 1st June 2022",
+        "stage": "Foundational",
+        "note": "Foundational stage orientation"
+      },
+      {
+        "grade": "Senior KG (UKG)",
+        "minAge": "5 Years Completed",
+        "cutoff": "Born on or before 1st June 2021",
+        "stage": "Foundational",
+        "note": "Early literacy & motor skill focus"
+      },
+      {
+        "grade": "Grade 1",
+        "minAge": "6 Years Completed (Mandatory NEP)",
+        "cutoff": "Born on or before 1st June 2020",
+        "stage": "Preparatory Stage",
+        "note": "Mandatory as per NEP 2020 framework"
+      },
+      {
+        "grade": "Grade 2",
+        "minAge": "7 Years Completed",
+        "cutoff": "Pass certificate of Grade 1",
+        "stage": "Preparatory Stage",
+        "note": "TC and previous grade marksheet mandatory"
+      },
+      {
+        "grade": "Grade 3 – 5",
+        "minAge": "8 – 10 Years",
+        "cutoff": "Promoted from previous recognized grade",
+        "stage": "Preparatory Stage",
+        "note": "Scholastic transcript required"
+      },
+      {
+        "grade": "Grade 6 – 8",
+        "minAge": "11 – 13 Years",
+        "cutoff": "Scholastic transcript & TC from recognized board",
+        "stage": "Middle Stage",
+        "note": "Diagnostic appraisal and TC required"
+      },
+      {
+        "grade": "Grade 9",
+        "minAge": "14 Years Completed",
+        "cutoff": "Clearance of Grade 8 + CBSE registration",
+        "stage": "Secondary Stage",
+        "note": "Board verification required"
+      },
+      {
+        "grade": "Grade 10",
+        "minAge": "15 Years Completed",
+        "cutoff": "Transfer from recognized CBSE school with Board approval",
+        "stage": "Secondary Stage",
+        "note": "CBSE board approval mandatory"
+      }
+    ],
+    "requiredDocuments": [
+      {
+        "category": "Mandatory Identity & Age Proof",
+        "name": "Birth Certificate",
+        "spec": "Original + 2 self-attested photocopies",
+        "description": "Issued by Municipal Corporation / Gram Panchayat / Registrar of Births. Mandatory for age verification.",
+        "grades": "All Grades (Nursery to Grade 10)",
+        "required": true
+      },
+      {
+        "category": "Mandatory Identity & Age Proof",
+        "name": "Student Aadhar Card",
+        "spec": "1 photocopy (Original for spot verification)",
+        "description": "Valid 12-digit Unique Identification Authority of India (UIDAI) card with updated biometric info.",
+        "grades": "All Grades",
+        "required": true
+      },
+      {
+        "category": "Mandatory Identity & Age Proof",
+        "name": "Parents / Guardian Aadhar Cards",
+        "spec": "1 photocopy each of Mother & Father",
+        "description": "Identity and permanent residential address verification for official school records.",
+        "grades": "All Grades",
+        "required": true
+      },
+      {
+        "category": "Academic & Transfer Records",
+        "name": "Transfer Certificate (TC / SLC)",
+        "spec": "Original hard copy only (Countersigned if interstate)",
+        "description": "School Leaving Certificate from the last recognized CBSE / State Board / ICSE school attended.",
+        "grades": "Applicable for Grade 2 and above",
+        "required": true
+      },
+      {
+        "category": "Academic & Transfer Records",
+        "name": "Previous 2 Years' Report Cards",
+        "spec": "Self-attested photocopies of cumulative records",
+        "description": "Term-end progress reports reflecting scholastic grading, attendance records, and conduct.",
+        "grades": "Applicable for Grade 1 and above",
+        "required": true
+      },
+      {
+        "category": "Photographs & Medical",
+        "name": "Recent Passport Photographs",
+        "spec": "4 student photos + 2 each of parents",
+        "description": "Recent color photographs with white background for official student dossier and identity cards.",
+        "grades": "All Grades",
+        "required": true
+      }
+    ]
+  },
+  "coCurricular": {
+    "heading": "Co-Curricular & Student Life",
+    "subheading": "Beyond Academics",
+    "leadText": "At Lotus Global School, education transcends classroom walls. Our co-curricular framework unites competitive athletics, performing and visual arts, intellectual societies, and leadership councils to cultivate well-rounded global citizens.",
+    "sportsTournaments": [
+      {
+        "title": "Annual Sports Day & Athletic Meet",
+        "season": "Winter Term (December)",
+        "desc": "Track sprints (100m, 200m, 400m), 4x100m relay, long jump, shot put, March Past by all Four Houses, and grand torch lightning ceremony.",
+        "highlight": "Inter-House Championship Trophy",
+        "badge": "Athletics"
+      },
+      {
+        "title": "LGS Premier Cricket Cup",
+        "season": "Autumn Championship (October)",
+        "desc": "Limited-overs tournament played on the turf practice pitches, featuring team captains, leather-ball technique, and Fair Play honors.",
+        "highlight": "Best Batsman & Bowler Medals",
+        "badge": "Outdoor"
+      },
+      {
+        "title": "Inter-House Football League",
+        "season": "Monsoon / Winter League",
+        "desc": "Fast-paced 7-a-side and 11-a-side inter-house football fixtures emphasizing tactical formations, positional discipline, and endurance.",
+        "highlight": "Golden Boot & Best Goalkeeper",
+        "badge": "Outdoor"
+      },
+      {
+        "title": "Lotus Chess & Mind Sports Trophy",
+        "season": "Bi-Annual Championship",
+        "desc": "Swiss-system tournament testing spatial reasoning, opening masteries, blitz clocks, and strategic composure under time pressure.",
+        "highlight": "Junior & Senior Grandmaster Badges",
+        "badge": "Indoor Strategy"
+      },
+      {
+        "title": "Badminton & Table Tennis Open",
+        "season": "Spring Tournament (February)",
+        "desc": "Singles and doubles knockout brackets across age divisions, building rapid reflexes, agility, and precision stroke-play.",
+        "highlight": "Singles & Doubles Laurels",
+        "badge": "Court Games"
+      },
+      {
+        "title": "Morning Yoga & Wellness Assembly",
+        "season": "Year-Round Daily Practice",
+        "desc": "Pranayama breath regulation, Surya Namaskar, postural alignment, and mindfulness sessions to enhance focus and emotional poise.",
+        "highlight": "International Yoga Day Showcase",
+        "badge": "Mindfulness"
+      }
+    ],
+    "artsDisciplines": [
+      {
+        "name": "Vocal & Instrumental Music Ensemble",
+        "icon": "Music",
+        "desc": "Indian classical sargam, devotional hymns, patriotic chorales, and western keyboard & percussion harmony.",
+        "outcomes": "Ear training, rhythmic sense (Taal), and multi-part choral coordination."
+      },
+      {
+        "name": "Classical & Contemporary Dance",
+        "icon": "Sparkles",
+        "desc": "Foundations of Kathak, Bharatnatyam mudras, folk regional dances of Gujarat, and energetic contemporary choreography.",
+        "outcomes": "Physical balance, rhythmic grace, expressive storytelling, and stage poise."
+      },
+      {
+        "name": "Theater & Dramatics Guild",
+        "icon": "Theater",
+        "desc": "Annual dramatic productions, street plays (Nukkad Natak) on social themes, bilingual dialogue delivery, and backstage lighting/set management.",
+        "outcomes": "Public speaking courage, empathy, impromptu improvisation, and articulation."
+      },
+      {
+        "name": "Visual Arts, Sketching & Pottery",
+        "icon": "Palette",
+        "desc": "Acrylic canvas painting, charcoal sketching, clay sculpture, origami, and eco-friendly recycled crafts for campus displays.",
+        "outcomes": "Spatial aesthetic sense, fine motor control, and creative self-expression."
+      }
+    ],
+    "studentClubs": [
+      {
+        "name": "STEM & Young Innovators Club",
+        "icon": "Lightbulb",
+        "tag": "Science & Technology",
+        "description": "Hands-on robotics kits, simple electronic circuits, model rocketry, and working models for the Annual Science Fair."
+      },
+      {
+        "name": "Eco-Warriors Green Society",
+        "icon": "Leaf",
+        "tag": "Environmental Stewardship",
+        "description": "Organic campus composting, native tree sapling drives in Vatar, plastic-free campaigns, and conservation awareness."
+      },
+      {
+        "name": "Literary & Debating Society",
+        "icon": "BookOpen",
+        "tag": "Elocution & Model UN",
+        "description": "Parliamentary debates, extempore speaking, creative prose writing, bilingual elocution, and English poetry slams."
+      },
+      {
+        "name": "Mathletes & Logic Guild",
+        "icon": "Target",
+        "tag": "Analytical Thinking",
+        "description": "Vedic mathematics shortcuts, logic puzzles, Rubik's cube speed-cubing, and preparatory drills for National Olympiads."
+      }
+    ],
+    "houses": [
+      {
+        "name": "Agni",
+        "element": "Fire",
+        "color": "bg-red-500",
+        "border": "border-red-500",
+        "text": "text-red-600",
+        "motto": "Courage, Radiance & Initiative",
+        "description": "Characterized by boldness, radiant passion, and pioneering leadership in every athletic and intellectual challenge."
+      },
+      {
+        "name": "Prithvi",
+        "element": "Earth",
+        "color": "bg-emerald-600",
+        "border": "border-emerald-600",
+        "text": "text-emerald-700",
+        "motto": "Stability, Diligence & Integrity",
+        "description": "Grounded in dependable perseverance, ethical strength, resilience under pressure, and enduring character."
+      },
+      {
+        "name": "Vayu",
+        "element": "Wind",
+        "color": "bg-blue-600",
+        "border": "border-blue-600",
+        "text": "text-blue-700",
+        "motto": "Agility, Intellect & Freedom",
+        "description": "Inspiring intellectual velocity, inventive adaptability, swift strategic thinking, and boundless exploration."
+      },
+      {
+        "name": "Jal",
+        "element": "Water",
+        "color": "bg-cyan-600",
+        "border": "border-cyan-600",
+        "text": "text-cyan-700",
+        "motto": "Fluidity, Depth & Compassion",
+        "description": "Embodying profound adaptability, tranquil resilience, deep empathy, and boundless continuous progress."
+      }
+    ]
+  },
+  "mandatoryDisclosure": {
+    "heading": "CBSE Mandatory Public Disclosure",
+    "subheading": "Appendix-IX / SARAS Regulatory Compliance",
+    "leadText": "In adherence to the Central Board of Secondary Education (CBSE) affiliation bylaws and statutory norms, the vital institutional, academic, infrastructural, and safety records of Lotus Global School are displayed for public scrutiny.",
+    "generalInfo": [
+      {
+        "label": "Name of the School",
+        "value": "Lotus Global School"
+      },
+      {
+        "label": "Affiliation Status",
+        "value": "Proposed CBSE Institution (Under NCERT Framework)"
+      },
+      {
+        "label": "School Address",
+        "value": "Lotus Global School, 1836/1 TO 1836/3, Near Vatar PHC, Vatar, Vapi, Gujarat 396191"
+      },
+      {
+        "label": "Principal / Leadership Desk",
+        "value": "Principal Office (Qualified M.Sc / M.A., B.Ed.)"
+      },
+      {
+        "label": "Official Email ID",
+        "value": "lotusglobalschool@gmail.com"
+      },
+      {
+        "label": "Contact Phone / WhatsApp",
+        "value": "+91 9054592424"
+      }
+    ],
+    "complianceDocuments": [
+      {
+        "sno": "01",
+        "title": "Copies of Affiliation / Upgradation Documentation",
+        "status": "Available for Inspection",
+        "link": "/uploads/documents/mandatory-disclosure-appendix-ix.pdf"
+      },
+      {
+        "sno": "02",
+        "title": "Copies of Society / Trust Registration Certificate",
+        "status": "Registered Institutional Trust",
+        "link": "/uploads/documents/mandatory-disclosure-appendix-ix.pdf"
+      },
+      {
+        "sno": "03",
+        "title": "Copy of No Objection Certificate (NOC) by State Government",
+        "status": "Issued / In Compliance",
+        "link": "/uploads/documents/mandatory-disclosure-appendix-ix.pdf"
+      },
+      {
+        "sno": "04",
+        "title": "Copies of Recognition Certificate Under RTE Act, 2009",
+        "status": "Compliant Under Relevant Provisions",
+        "link": "/uploads/documents/mandatory-disclosure-appendix-ix.pdf"
+      },
+      {
+        "sno": "05",
+        "title": "Copy of Valid Building Safety Certificate as per National Building Code",
+        "status": "Municipal / Civil Engineer Certified",
+        "link": "/uploads/documents/building-safety-certificate.pdf"
+      },
+      {
+        "sno": "06",
+        "title": "Copy of Valid Fire Safety Certificate Issued by Competent Authority",
+        "status": "Verified & Fire Clearance Active",
+        "link": "/uploads/documents/fire-safety-certificate.pdf"
+      },
+      {
+        "sno": "07",
+        "title": "Copies of Valid Water, Health & Sanitation Certificates",
+        "status": "Potable Water & Hygiene Certified",
+        "link": "/uploads/documents/health-sanitation-certificate.pdf"
+      }
+    ],
+    "academicDisclosures": [
+      {
+        "sno": "01",
+        "title": "Approved Fee Structure for Academic Year 2026-27",
+        "pageId": "documents"
+      },
+      {
+        "sno": "02",
+        "title": "Annual Academic Calendar 2026-27",
+        "pageId": "documents"
+      },
+      {
+        "sno": "03",
+        "title": "List of Prescribed NCERT Books & Stationary",
+        "pageId": "documents"
+      },
+      {
+        "sno": "04",
+        "title": "Developmental Stages & Assessment Scheme",
+        "pageId": "academics-assessment"
+      }
+    ],
+    "staffDisclosures": [
+      {
+        "designation": "Principal & Institutional Head",
+        "count": "01"
+      },
+      {
+        "designation": "Trained Graduate Teachers (TGT)",
+        "count": "12"
+      },
+      {
+        "designation": "Primary Teachers (PRT)",
+        "count": "14"
+      },
+      {
+        "designation": "Pre-Primary / NTT Educators",
+        "count": "08"
+      },
+      {
+        "designation": "Special Educator & Wellness Counselor",
+        "count": "02"
+      },
+      {
+        "designation": "Physical Education & Sports Instructors",
+        "count": "03"
+      }
+    ],
+    "infrastructureDisclosures": [
+      {
+        "facility": "Total Campus Land Area",
+        "specification": "Over 2.5 Acres (Sprawling Green Campus in Vatar)"
+      },
+      {
+        "facility": "Number of Digitally Enabled Smart Classrooms",
+        "specification": "30+ Air-Ventilated Classrooms"
+      },
+      {
+        "facility": "Composite Science & Specialized STEM Labs",
+        "specification": "Chemistry, Physics, Biology, Composite Science"
+      },
+      {
+        "facility": "Computer & ICT Laboratory",
+        "specification": "Modern Terminals with Child-Safe High-Speed Firewall"
+      },
+      {
+        "facility": "Central Library & Knowledge Hub",
+        "specification": "Extensive Reference, Fiction & Periodical Collection"
+      },
+      {
+        "facility": "Athletic Grounds & Sports Arena",
+        "specification": "Football Ground, Cricket Turf Nets, Indoor Games Arena"
+      }
+    ]
+  }
 }

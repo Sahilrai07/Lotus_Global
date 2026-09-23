@@ -1,6 +1,6 @@
 import React from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
-import { VISION_MISSION_DATA } from "../data/schoolData";
+import { getSiteData } from "../data/siteDataService";
 import { Target, Compass, Sparkles, CheckCircle2, Shield, Heart } from "lucide-react";
 
 interface VisionMissionPageProps {
@@ -12,16 +12,18 @@ export const VisionMissionPage: React.FC<VisionMissionPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const { vision, mission, principles } = VISION_MISSION_DATA;
+  const siteData = getSiteData();
+  const vm = siteData.visionMissionPage;
+  const bannerImage = siteData.pageBanners?.about || "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&q=80";
 
   return (
     <InternalPageLayout
-      title="Mission & Vision"
+      title={vm?.visionTitle ? `${vm.visionTitle} & ${vm.missionTitle}` : "Mission & Vision"}
       category="ABOUT US"
       activePageId="vision-mission"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[{ label: "Mission & Vision" }]}
     >
       <div className="space-y-8">
@@ -41,10 +43,10 @@ export const VisionMissionPage: React.FC<VisionMissionPageProps> = ({
             The Lotus Global School Principle
           </span>
           <blockquote className="font-serif italic text-base sm:text-lg text-white leading-relaxed">
-            "{mission.goldenRule}"
+            "{vm?.goldenRule || "If a child cannot learn the way we teach him, we must teach him the way he can learn."}"
           </blockquote>
           <p className="text-xs text-slate-300">
-            A child's developmental pathway is unique. We honor individual learning styles by adapting instruction to suit the learner.
+            {vm?.goldenRuleSubtext || "A child's developmental pathway is unique. We honor individual learning styles by adapting instruction to suit the learner."}
           </p>
         </div>
 
@@ -53,16 +55,16 @@ export const VisionMissionPage: React.FC<VisionMissionPageProps> = ({
           <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
             <Target className="w-5 h-5 text-[#E87737]" />
             <h3 className="font-display font-bold text-xl text-[#2F5187]">
-              {vision.title}
+              {vm?.visionTitle || "Our Vision"}
             </h3>
           </div>
 
           <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
-            {vision.statement}
+            {vm?.visionStatement}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-            {vision.pillars.map((pillar, idx) => (
+            {(vm?.visionPillars || []).map((pillar, idx) => (
               <div
                 key={idx}
                 className="p-4 rounded border border-slate-200 bg-[#F8FAFC] space-y-2"
@@ -86,16 +88,16 @@ export const VisionMissionPage: React.FC<VisionMissionPageProps> = ({
           <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
             <Compass className="w-5 h-5 text-[#2F5187]" />
             <h3 className="font-display font-bold text-xl text-[#2F5187]">
-              {mission.title}
+              {vm?.missionTitle || "Our Mission"}
             </h3>
           </div>
 
           <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
-            {mission.statement}
+            {vm?.missionStatement}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-            {mission.commitments.map((com, idx) => (
+            {(vm?.missionCommitments || []).map((com, idx) => (
               <div
                 key={idx}
                 className="p-4 rounded border border-slate-200 bg-[#F8FAFC] space-y-2"
@@ -121,7 +123,7 @@ export const VisionMissionPage: React.FC<VisionMissionPageProps> = ({
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {principles.map((pr, idx) => (
+            {(vm?.corePrinciples || []).map((pr, idx) => (
               <div
                 key={idx}
                 className="p-4 rounded border border-slate-200 bg-white flex items-start gap-3 shadow-sm"

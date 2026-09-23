@@ -72,7 +72,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
             <div className="lg:col-span-5">
               <div className="relative rounded-lg overflow-hidden border-2 border-slate-200 shadow-lg group">
                 <img
-                  src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80"
+                  src={siteData.aboutPage?.campusImage || "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80"}
                   alt="Lotus Global School Campus"
                   className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
                 />

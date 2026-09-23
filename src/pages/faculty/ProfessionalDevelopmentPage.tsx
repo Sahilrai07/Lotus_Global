@@ -1,6 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { TrendingUp, CheckCircle2, ShieldCheck, GraduationCap, Calendar, Sparkles } from "lucide-react";
+import { useSiteData } from "../../data/siteDataService";
 
 interface ProfessionalDevelopmentPageProps {
   openInquiry: () => void;
@@ -11,7 +12,9 @@ export const ProfessionalDevelopmentPage: React.FC<ProfessionalDevelopmentPagePr
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const workshops = [
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.faculty || "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80";
+  const workshops = siteData.facultyStandards?.workshops || [
     {
       domain: "NEP 2020 & Competency-Based Education",
       frequency: "Quarterly",
@@ -41,7 +44,7 @@ export const ProfessionalDevelopmentPage: React.FC<ProfessionalDevelopmentPagePr
       activePageId="faculty-development"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Faculty", pageId: "faculty" },
         { label: "Professional Development" },

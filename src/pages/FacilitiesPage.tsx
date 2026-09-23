@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
 import { FACILITIES_DATA, FacilityItem } from "../data/schoolData";
 import { CheckCircle2, Shield, Layers, Eye } from "lucide-react";
+import { useSiteData } from "../data/siteDataService";
 
 interface FacilitiesPageProps {
   openInquiry: () => void;
@@ -46,6 +47,9 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({
     }
   };
 
+  const { siteData } = useSiteData();
+  const bannerImage = siteData.pageBanners?.facilities || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=80";
+
   return (
     <InternalPageLayout
       title="Campus Facilities & Labs"
@@ -53,7 +57,7 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({
       activePageId="facilities"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[{ label: "Facilities" }]}
     >
       <div className="space-y-8">

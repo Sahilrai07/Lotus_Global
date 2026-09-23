@@ -1,6 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { Award, CheckCircle2, BookOpen, Compass, ShieldCheck, Target, HeartHandshake } from "lucide-react";
+import { useSiteData } from "../../data/siteDataService";
 
 interface TeachingStandardsPageProps {
   openInquiry: () => void;
@@ -11,7 +12,9 @@ export const TeachingStandardsPage: React.FC<TeachingStandardsPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const standards = [
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.faculty || "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80";
+  const standards = siteData.facultyStandards?.teachingStandards || [
     {
       title: "Pedagogical Qualification & Certification",
       desc: "All teaching staff possess qualified degrees in education (B.Ed / D.El.Ed / Master's disciplines) and undergo rigorous subject competency evaluation prior to induction.",
@@ -37,7 +40,7 @@ export const TeachingStandardsPage: React.FC<TeachingStandardsPageProps> = ({
       activePageId="faculty-standards"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Faculty", pageId: "faculty" },
         { label: "Teaching Standards" },

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import defaultSiteData from './siteData.json';
 
 export type SiteData = typeof defaultSiteData;
@@ -14,6 +15,17 @@ export type NoticeItem = SiteData['notices'][number];
 export type EventItem = SiteData['events'][number];
 export type NewsItem = SiteData['news'][number];
 export type DocumentItem = SiteData['documents'][number];
+export type PageBanners = SiteData['pageBanners'];
+export type AboutPageData = SiteData['aboutPage'];
+export type VisionMissionPageData = SiteData['visionMissionPage'];
+export type LocationPageData = SiteData['locationPage'];
+export type AcademicsPageData = SiteData['academicsPage'];
+export type AssessmentSchemeData = SiteData['assessmentScheme'];
+export type SchoolTimingsData = SiteData['schoolTimings'];
+export type FacultyStandardsData = SiteData['facultyStandards'];
+export type AdmissionsPathwayData = SiteData['admissionsPathway'];
+export type CoCurricularData = SiteData['coCurricular'];
+export type MandatoryDisclosureData = SiteData['mandatoryDisclosure'];
 
 // Cache in memory for quick reactive updates in SPA
 let currentData: SiteData = defaultSiteData;
@@ -35,6 +47,25 @@ export const subscribeSiteData = (listener: (data: SiteData) => void): (() => vo
 
 const notifyListeners = () => {
   listeners.forEach((fn) => fn(currentData));
+};
+
+export const useSiteData = () => {
+  const [data, setData] = useState<SiteData>(currentData);
+
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      fetchFreshData().then((fresh) => {
+        if (fresh) setData(fresh);
+      });
+    }
+
+    const unsubscribe = subscribeSiteData((updated) => {
+      setData({ ...updated });
+    });
+    return unsubscribe;
+  }, []);
+
+  return { siteData: data, setSiteData: setData };
 };
 
 /**

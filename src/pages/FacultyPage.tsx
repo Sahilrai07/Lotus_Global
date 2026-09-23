@@ -2,6 +2,7 @@ import React from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
 import { FACULTY_PILLARS } from "../data/schoolData";
 import { Award, TrendingUp, HeartHandshake, CheckCircle2, GraduationCap, BookOpen, Users } from "lucide-react";
+import { useSiteData } from "../data/siteDataService";
 
 interface FacultyPageProps {
   openInquiry: () => void;
@@ -12,7 +13,9 @@ export const FacultyPage: React.FC<FacultyPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const departments = [
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.faculty || "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80";
+  const departments = siteData.facultyStandards?.departments || [
     {
       name: "STEM & Natural Sciences",
       scope: "Physics, Chemistry, Biology & Composite Experiments",
@@ -39,6 +42,7 @@ export const FacultyPage: React.FC<FacultyPageProps> = ({
       focus: "Physical endurance, teamwork, rhythm, and aesthetic appreciation.",
     },
   ];
+  const pillars = siteData.facultyStandards?.pillars || FACULTY_PILLARS;
 
   return (
     <InternalPageLayout
@@ -47,7 +51,7 @@ export const FacultyPage: React.FC<FacultyPageProps> = ({
       activePageId="faculty"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[{ label: "Faculty Standards" }]}
     >
       <div className="space-y-8">
@@ -66,9 +70,9 @@ export const FacultyPage: React.FC<FacultyPageProps> = ({
           At Lotus Global School, educators are not merely instructors of syllabus content—they are facilitators of intellectual curiosity and moral character. We recruit professionals who embody empathy, conceptual mastery, and passion for child-centric development.
         </p>
 
-        {/* Faculty Pillars (Reference from schoolData.ts) */}
+        {/* Faculty Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {FACULTY_PILLARS.map((pillar, idx) => {
+          {pillars.map((pillar, idx) => {
             const icons = [Award, TrendingUp, HeartHandshake];
             const Icon = icons[idx % icons.length];
 

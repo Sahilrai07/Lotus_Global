@@ -2,6 +2,7 @@ import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { Award, CheckCircle2, AlertTriangle, Calendar, Info, Users, Sparkles, Phone } from "lucide-react";
 import { SCHOOL_INFO } from "../../data/schoolData";
+import { useSiteData } from "../../data/siteDataService";
 
 interface EligibilityCriteriaPageProps {
   openInquiry: () => void;
@@ -12,7 +13,14 @@ export const EligibilityCriteriaPage: React.FC<EligibilityCriteriaPageProps> = (
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const ageMatrix = [
+  const { siteData } = useSiteData();
+  const banner = siteData.pageBanners?.admissions || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80";
+  const ageMatrix = siteData.admissionsPathway?.ageEligibility?.map(item => ({
+    grade: item.grade,
+    minAge: item.minAge,
+    cutoff: item.note,
+    stage: item.grade.includes("Nursery") || item.grade.includes("KG") ? "Foundational" : item.grade.includes("1") || item.grade.includes("2") || item.grade.includes("3") || item.grade.includes("4") || item.grade.includes("5") ? "Preparatory Stage" : item.grade.includes("6") || item.grade.includes("7") || item.grade.includes("8") ? "Middle Stage" : "Secondary Stage"
+  })) || [
     { grade: "Nursery", minAge: "3 Years Completed", cutoff: "Born on or before 1st June 2023", stage: "Foundational (Early Years)" },
     { grade: "Junior KG (LKG)", minAge: "4 Years Completed", cutoff: "Born on or before 1st June 2022", stage: "Foundational" },
     { grade: "Senior KG (UKG)", minAge: "5 Years Completed", cutoff: "Born on or before 1st June 2021", stage: "Foundational" },
@@ -31,7 +39,7 @@ export const EligibilityCriteriaPage: React.FC<EligibilityCriteriaPageProps> = (
       activePageId="admissions-eligibility"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={banner}
       breadcrumbs={[
         { label: "Admissions", pageId: "admissions" },
         { label: "Eligibility Criteria" },

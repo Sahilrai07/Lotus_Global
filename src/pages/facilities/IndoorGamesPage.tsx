@@ -11,6 +11,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+import { getSiteData } from "../../data/siteDataService";
+
 interface IndoorGamesPageProps {
   openInquiry: () => void;
   onNavigate?: (pageId: string) => void;
@@ -20,6 +22,10 @@ export const IndoorGamesPage: React.FC<IndoorGamesPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
+  const siteData = getSiteData();
+  const indoor = siteData.facilities.find((f) => f.id === "indoor-games");
+  const bannerImage = siteData.pageBanners?.facilities || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80";
+
   const indoorOfferings = [
     {
       sport: "Table Tennis Arena",
@@ -55,12 +61,12 @@ export const IndoorGamesPage: React.FC<IndoorGamesPageProps> = ({
 
   return (
     <InternalPageLayout
-      title="Indoor Games & Sports Arena"
+      title={indoor?.name || "Indoor Games & Sports Arena"}
       category="CAMPUS FACILITIES"
       activePageId="facility-indoor-games"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[
         { label: "Facilities", pageId: "facilities" },
         { label: "Indoor Games & Arena" },
@@ -73,7 +79,7 @@ export const IndoorGamesPage: React.FC<IndoorGamesPageProps> = ({
             Reflexes, Strategy & Year-Round Fitness
           </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            Indoor Games & Sports Arena
+            {indoor?.name || "Indoor Games & Sports Arena"}
           </h2>
         </div>
 
@@ -81,8 +87,8 @@ export const IndoorGamesPage: React.FC<IndoorGamesPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#F8FAFC] p-6 rounded-lg border border-slate-200 items-center">
           <div className="md:col-span-5 rounded-lg overflow-hidden border border-slate-300 shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
-              alt="Indoor Sports Arena at Lotus Global School"
+              src={indoor?.image || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"}
+              alt={indoor?.name || "Indoor Sports Arena at Lotus Global School"}
               className="w-full h-56 object-cover"
             />
           </div>
