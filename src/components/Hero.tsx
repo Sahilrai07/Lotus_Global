@@ -13,6 +13,7 @@ import {
   Check,
 } from "lucide-react";
 import { getSiteData, subscribeSiteData, HeroSlide } from "../data/siteDataService";
+import { getResponsiveUnsplashProps } from "../utils/imageUtils";
 
 interface HeroProps {
   onNavigate: (pageId: string) => void;
@@ -92,27 +93,36 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
       {slides.map((slide, idx) => {
         const isLcp = idx === 0;
         const isActive = idx === currentSlideIndex;
-        return (
-          <div
-            key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-              isActive
-                ? "opacity-100 z-10"
-                : "opacity-0 z-0 pointer-events-none"
-            }`}
-          >
-            <img
-              src={slide.image}
-              alt={slide.title}
-              width="1280"
-              height="800"
-              fetchPriority={isLcp ? "high" : "low"}
-              loading={isLcp ? "eager" : "lazy"}
-              decoding="async"
-              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-            />
-          </div>
-        );
+          {
+            const imgProps = getResponsiveUnsplashProps(slide.image, {
+              widths: [480, 640, 768, 1024, 1280],
+              defaultWidth: isLcp ? 768 : 640,
+              sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 750px",
+            });
+            return (
+              <div
+                key={slide.id}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                  isActive
+                    ? "opacity-100 z-10"
+                    : "opacity-0 z-0 pointer-events-none"
+                }`}
+              >
+                <img
+                  src={imgProps.src}
+                  srcSet={imgProps.srcSet}
+                  sizes={imgProps.sizes}
+                  alt={slide.title}
+                  width="1280"
+                  height="800"
+                  fetchPriority={isLcp ? "high" : "low"}
+                  loading={isLcp ? "eager" : "lazy"}
+                  decoding="async"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+            );
+          }
       })}
 
       {/* Top Floating Badge on Photo */}
@@ -253,27 +263,36 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
           aria-label="Lotus Global School Featured Showcase - Glass Card Layout"
         >
           {/* Full-width School Photo - NO dark blue wash, natural colors */}
-          {slides.map((slide, idx) => (
-            <div
-              key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                idx === currentSlideIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
-              }`}
-            >
-              <img
-                src={slide.image}
-                alt={slide.title}
-                width="1600"
-                height="900"
-                fetchPriority={idx === 0 ? "high" : "low"}
-                loading={idx === 0 ? "eager" : "lazy"}
-                decoding="async"
-                className="w-full h-full object-cover object-center"
-              />
-              {/* Very gentle subtle dark tint only to give card contrast */}
-              <div className="absolute inset-0 bg-black/25" />
-            </div>
-          ))}
+          {slides.map((slide, idx) => {
+            const imgProps = getResponsiveUnsplashProps(slide.image, {
+              widths: [640, 960, 1280, 1600],
+              defaultWidth: idx === 0 ? 960 : 640,
+              sizes: "100vw",
+            });
+            return (
+              <div
+                key={slide.id}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                  idx === currentSlideIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                }`}
+              >
+                <img
+                  src={imgProps.src}
+                  srcSet={imgProps.srcSet}
+                  sizes={imgProps.sizes}
+                  alt={slide.title}
+                  width="1600"
+                  height="900"
+                  fetchPriority={idx === 0 ? "high" : "low"}
+                  loading={idx === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="w-full h-full object-cover object-center"
+                />
+                {/* Very gentle subtle dark tint only to give card contrast */}
+                <div className="absolute inset-0 bg-black/25" />
+              </div>
+            );
+          })}
 
           {/* Floating Frosted Glass Card Container */}
           <div className="relative z-20 wrap py-12 sm:py-16 w-full flex items-center">
@@ -372,25 +391,34 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
         >
           {/* Top Unobstructed Photo Slider */}
           <div className="relative w-full h-[380px] sm:h-[440px] md:h-[480px] bg-slate-900 overflow-hidden">
-            {slides.map((slide, idx) => (
-              <div
-                key={slide.id}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                  idx === currentSlideIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
-                }`}
-              >
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  width="1600"
-                  height="900"
-                  fetchPriority={idx === 0 ? "high" : "low"}
-                  loading={idx === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-            ))}
+            {slides.map((slide, idx) => {
+              const imgProps = getResponsiveUnsplashProps(slide.image, {
+                widths: [640, 960, 1280, 1600],
+                defaultWidth: idx === 0 ? 960 : 640,
+                sizes: "100vw",
+              });
+              return (
+                <div
+                  key={slide.id}
+                  className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                    idx === currentSlideIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                  }`}
+                >
+                  <img
+                    src={imgProps.src}
+                    srcSet={imgProps.srcSet}
+                    sizes={imgProps.sizes}
+                    alt={slide.title}
+                    width="1600"
+                    height="900"
+                    fetchPriority={idx === 0 ? "high" : "low"}
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
+              );
+            })}
 
             {/* Slide badge floating on photo */}
             <div className="absolute top-4 left-4 z-20">

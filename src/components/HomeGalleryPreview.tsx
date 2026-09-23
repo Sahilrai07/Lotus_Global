@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowRight, Eye, Image as ImageIcon } from "lucide-react";
 import { getSiteData } from "../data/siteDataService";
+import { getResponsiveUnsplashProps } from "../utils/imageUtils";
 
 interface HomeGalleryPreviewProps {
   onNavigate: (pageId: string) => void;
@@ -10,7 +11,7 @@ export const HomeGalleryPreview: React.FC<HomeGalleryPreviewProps> = ({ onNaviga
   const galleryItems = getSiteData().gallery.slice(0, 4);
 
   return (
-    <section className="py-16 bg-[#F8FAFC] border-b border-slate-200" aria-label="Campus Photo Gallery Showcase">
+    <section className="py-16 bg-[#F8FAFC] border-b border-slate-200 content-auto-deep" aria-label="Campus Photo Gallery Showcase">
       <div className="wrap">
         <div className="section-title-wrap">
           <h2 className="section-title-institutional">
@@ -31,15 +32,26 @@ export const HomeGalleryPreview: React.FC<HomeGalleryPreviewProps> = ({ onNaviga
               className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all group cursor-pointer flex flex-col justify-between"
             >
               <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  loading="lazy"
-                  decoding="async"
-                  width="320"
-                  height="208"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+                {(() => {
+                  const imgProps = getResponsiveUnsplashProps(item.image, {
+                    widths: [320, 480, 640, 800],
+                    defaultWidth: 480,
+                    sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px",
+                  });
+                  return (
+                    <img
+                      src={imgProps.src}
+                      srcSet={imgProps.srcSet}
+                      sizes={imgProps.sizes}
+                      alt={item.title}
+                      loading="lazy"
+                      decoding="async"
+                      width="320"
+                      height="208"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  );
+                })()}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                   <span className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#E87737] px-2.5 py-1 rounded">
                     <Eye className="w-3.5 h-3.5" />

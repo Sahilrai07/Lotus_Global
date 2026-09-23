@@ -6,6 +6,7 @@ import { UpdatesSection } from "../components/UpdatesSection";
 import { HomeGalleryPreview } from "../components/HomeGalleryPreview";
 import { PreFooterStrip } from "../components/PreFooterStrip";
 import { getSiteData } from "../data/siteDataService";
+import { getResponsiveUnsplashProps } from "../utils/imageUtils";
 import {
   ArrowRight,
   Target,
@@ -71,15 +72,27 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
             {/* 1/3 Left Column: Feature Campus Image */}
             <div className="lg:col-span-5">
               <div className="relative rounded-lg overflow-hidden border-2 border-slate-200 shadow-lg group">
-                <img
-                  src={siteData.aboutPage?.campusImage || "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80"}
-                  alt="Lotus Global School Campus"
-                  loading="lazy"
-                  decoding="async"
-                  width="600"
-                  height="384"
-                  className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
-                />
+                {(() => {
+                  const campusImg = siteData.aboutPage?.campusImage || "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80";
+                  const imgProps = getResponsiveUnsplashProps(campusImg, {
+                    widths: [360, 480, 640, 800, 1000],
+                    defaultWidth: 640,
+                    sizes: "(max-width: 1024px) 100vw, 500px",
+                  });
+                  return (
+                    <img
+                      src={imgProps.src}
+                      srcSet={imgProps.srcSet}
+                      sizes={imgProps.sizes}
+                      alt="Lotus Global School Campus"
+                      loading="lazy"
+                      decoding="async"
+                      width="600"
+                      height="384"
+                      className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                  );
+                })()}
                 <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#142540] via-[#142540]/70 to-transparent p-6 text-white">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#E87737] block">
                     Vatar, Vapi Campus
@@ -141,7 +154,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
       <UpdatesSection onNavigate={navigateTo} openInquiry={openInquiry} />
 
       {/* 6. CAMPUS FACILITIES CATALOG (Reference .content-bottom) */}
-      <section className="py-16 bg-white border-b border-slate-200">
+      <section className="py-16 bg-white border-b border-slate-200 content-auto-deep">
         <div className="wrap">
           <div className="section-title-wrap">
             <h2 className="section-title-institutional">
@@ -161,15 +174,26 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
                 className="flex flex-col sm:flex-row gap-5 p-5 rounded-lg border border-slate-200 bg-[#F8FAFC] hover:border-[#2F5187]/50 transition-all shadow-sm group"
               >
                 <div className="sm:w-48 sm:h-36 w-full h-48 shrink-0 overflow-hidden rounded border border-slate-200 bg-slate-100">
-                  <img
-                    src={facility.image}
-                    alt={facility.name}
-                    loading="lazy"
-                    decoding="async"
-                    width="192"
-                    height="144"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  {(() => {
+                    const imgProps = getResponsiveUnsplashProps(facility.image, {
+                      widths: [200, 320, 480, 640],
+                      defaultWidth: 320,
+                      sizes: "(max-width: 640px) 100vw, 200px",
+                    });
+                    return (
+                      <img
+                        src={imgProps.src}
+                        srcSet={imgProps.srcSet}
+                        sizes={imgProps.sizes}
+                        alt={facility.name}
+                        loading="lazy"
+                        decoding="async"
+                        width="192"
+                        height="144"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    );
+                  })()}
                 </div>
 
                 <div className="flex flex-col justify-between flex-1 space-y-2">
@@ -217,7 +241,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setActivePage, openInquiry }
       <HomeGalleryPreview onNavigate={navigateTo} />
 
       {/* 8. CORE VALUES & MOTTO CREED */}
-      <section className="py-16 bg-white border-b border-slate-200">
+      <section className="py-16 bg-white border-b border-slate-200 content-auto-deep">
         <div className="wrap">
           <div className="section-title-wrap">
             <h2 className="section-title-institutional">

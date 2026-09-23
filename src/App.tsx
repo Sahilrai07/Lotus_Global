@@ -4,38 +4,39 @@ import { Footer } from "./components/Footer";
 import { InquiryModal } from "./components/InquiryModal";
 import { Preloader } from "./components/Preloader";
 import { HomePage } from "./pages/HomePage";
-import { AboutPage } from "./pages/AboutPage";
-import { VisionMissionPage } from "./pages/VisionMissionPage";
-import { MessagePage } from "./pages/MessagePage";
-import { AcademicsPage } from "./pages/AcademicsPage";
-import { FacilitiesPage } from "./pages/FacilitiesPage";
-import { ChemPhysLabsPage } from "./pages/facilities/ChemPhysLabsPage";
-import { BioCompositeLabsPage } from "./pages/facilities/BioCompositeLabsPage";
-import { ComputerLabPage } from "./pages/facilities/ComputerLabPage";
-import { CentralLibraryPage } from "./pages/facilities/CentralLibraryPage";
-import { SportsArenaPage } from "./pages/facilities/SportsArenaPage";
-import { IndoorGamesPage } from "./pages/facilities/IndoorGamesPage";
-import { MusicStudioPage } from "./pages/facilities/MusicStudioPage";
-import { CampusInfirmaryPage } from "./pages/facilities/CampusInfirmaryPage";
-import { CoreValuesPage } from "./pages/about/CoreValuesPage";
-import { LocationPage } from "./pages/about/LocationPage";
-import { DevelopmentalStagesPage } from "./pages/academics/DevelopmentalStagesPage";
-import { AssessmentSchemePage } from "./pages/academics/AssessmentSchemePage";
-import { SchoolTimingsPage } from "./pages/academics/SchoolTimingsPage";
-import { DocumentsChecklistPage } from "./pages/admissions/DocumentsChecklistPage";
-import { EligibilityCriteriaPage } from "./pages/admissions/EligibilityCriteriaPage";
-import { InquiryDeskPage } from "./pages/admissions/InquiryDeskPage";
-import { TeachingStandardsPage } from "./pages/faculty/TeachingStandardsPage";
-import { ProfessionalDevelopmentPage } from "./pages/faculty/ProfessionalDevelopmentPage";
-import { StudentTeacherRatioPage } from "./pages/faculty/StudentTeacherRatioPage";
-import { FacultyPage } from "./pages/FacultyPage";
-import { GalleryPage } from "./pages/GalleryPage";
-import { ActivitiesPage } from "./pages/ActivitiesPage";
-import { AdmissionsPage } from "./pages/AdmissionsPage";
-import { ContactPage } from "./pages/ContactPage";
-import { DocumentsPage } from "./pages/DocumentsPage";
-import { MandatoryDisclosurePage } from "./pages/MandatoryDisclosurePage";
-import { NewsEventsPage } from "./pages/NewsEventsPage";
+// Route-level code splitting for secondary pages (keeps initial homepage bundle minimal)
+const AboutPage = React.lazy(() => import("./pages/AboutPage").then((m) => ({ default: m.AboutPage })));
+const VisionMissionPage = React.lazy(() => import("./pages/VisionMissionPage").then((m) => ({ default: m.VisionMissionPage })));
+const MessagePage = React.lazy(() => import("./pages/MessagePage").then((m) => ({ default: m.MessagePage })));
+const AcademicsPage = React.lazy(() => import("./pages/AcademicsPage").then((m) => ({ default: m.AcademicsPage })));
+const FacilitiesPage = React.lazy(() => import("./pages/FacilitiesPage").then((m) => ({ default: m.FacilitiesPage })));
+const ChemPhysLabsPage = React.lazy(() => import("./pages/facilities/ChemPhysLabsPage").then((m) => ({ default: m.ChemPhysLabsPage })));
+const BioCompositeLabsPage = React.lazy(() => import("./pages/facilities/BioCompositeLabsPage").then((m) => ({ default: m.BioCompositeLabsPage })));
+const ComputerLabPage = React.lazy(() => import("./pages/facilities/ComputerLabPage").then((m) => ({ default: m.ComputerLabPage })));
+const CentralLibraryPage = React.lazy(() => import("./pages/facilities/CentralLibraryPage").then((m) => ({ default: m.CentralLibraryPage })));
+const SportsArenaPage = React.lazy(() => import("./pages/facilities/SportsArenaPage").then((m) => ({ default: m.SportsArenaPage })));
+const IndoorGamesPage = React.lazy(() => import("./pages/facilities/IndoorGamesPage").then((m) => ({ default: m.IndoorGamesPage })));
+const MusicStudioPage = React.lazy(() => import("./pages/facilities/MusicStudioPage").then((m) => ({ default: m.MusicStudioPage })));
+const CampusInfirmaryPage = React.lazy(() => import("./pages/facilities/CampusInfirmaryPage").then((m) => ({ default: m.CampusInfirmaryPage })));
+const CoreValuesPage = React.lazy(() => import("./pages/about/CoreValuesPage").then((m) => ({ default: m.CoreValuesPage })));
+const LocationPage = React.lazy(() => import("./pages/about/LocationPage").then((m) => ({ default: m.LocationPage })));
+const DevelopmentalStagesPage = React.lazy(() => import("./pages/academics/DevelopmentalStagesPage").then((m) => ({ default: m.DevelopmentalStagesPage })));
+const AssessmentSchemePage = React.lazy(() => import("./pages/academics/AssessmentSchemePage").then((m) => ({ default: m.AssessmentSchemePage })));
+const SchoolTimingsPage = React.lazy(() => import("./pages/academics/SchoolTimingsPage").then((m) => ({ default: m.SchoolTimingsPage })));
+const DocumentsChecklistPage = React.lazy(() => import("./pages/admissions/DocumentsChecklistPage").then((m) => ({ default: m.DocumentsChecklistPage })));
+const EligibilityCriteriaPage = React.lazy(() => import("./pages/admissions/EligibilityCriteriaPage").then((m) => ({ default: m.EligibilityCriteriaPage })));
+const InquiryDeskPage = React.lazy(() => import("./pages/admissions/InquiryDeskPage").then((m) => ({ default: m.InquiryDeskPage })));
+const TeachingStandardsPage = React.lazy(() => import("./pages/faculty/TeachingStandardsPage").then((m) => ({ default: m.TeachingStandardsPage })));
+const ProfessionalDevelopmentPage = React.lazy(() => import("./pages/faculty/ProfessionalDevelopmentPage").then((m) => ({ default: m.ProfessionalDevelopmentPage })));
+const StudentTeacherRatioPage = React.lazy(() => import("./pages/faculty/StudentTeacherRatioPage").then((m) => ({ default: m.StudentTeacherRatioPage })));
+const FacultyPage = React.lazy(() => import("./pages/FacultyPage").then((m) => ({ default: m.FacultyPage })));
+const GalleryPage = React.lazy(() => import("./pages/GalleryPage").then((m) => ({ default: m.GalleryPage })));
+const ActivitiesPage = React.lazy(() => import("./pages/ActivitiesPage").then((m) => ({ default: m.ActivitiesPage })));
+const AdmissionsPage = React.lazy(() => import("./pages/AdmissionsPage").then((m) => ({ default: m.AdmissionsPage })));
+const ContactPage = React.lazy(() => import("./pages/ContactPage").then((m) => ({ default: m.ContactPage })));
+const DocumentsPage = React.lazy(() => import("./pages/DocumentsPage").then((m) => ({ default: m.DocumentsPage })));
+const MandatoryDisclosurePage = React.lazy(() => import("./pages/MandatoryDisclosurePage").then((m) => ({ default: m.MandatoryDisclosurePage })));
+const NewsEventsPage = React.lazy(() => import("./pages/NewsEventsPage").then((m) => ({ default: m.NewsEventsPage })));
 import { MessageSquare, ArrowUp, Settings } from "lucide-react";
 import { getSiteData, subscribeSiteData } from "./data/siteDataService";
 
@@ -275,7 +276,7 @@ export const App: React.FC = () => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 350);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -549,8 +550,18 @@ export const App: React.FC = () => {
         openInquiry={() => setIsInquiryOpen(true)}
       />
 
-      {/* Main Page Content */}
-      <div className="flex-1">{renderPage()}</div>
+      {/* Main Page Content with Suspense for on-demand lazy secondary pages */}
+      <div className="flex-1">
+        <React.Suspense
+          fallback={
+            <div className="min-h-[40vh] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full border-2 border-[#2F5187] border-t-transparent animate-spin" />
+            </div>
+          }
+        >
+          {renderPage()}
+        </React.Suspense>
+      </div>
 
       {/* Institutional 4-Column Footer */}
       <Footer

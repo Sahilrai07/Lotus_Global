@@ -2,7 +2,7 @@
 
 @layer base {
   :root {
-    --font-sans: 'Open Sans', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-sans: 'Open Sans', system-ui, -apple-system, sans-serif;
     --font-display: 'Outfit', 'Open Sans', system-ui, -apple-system, sans-serif;
     
     /* Institutional Brand Color System - Lotus Global School */
@@ -200,6 +200,12 @@
 *:focus-visible {
   outline: 2px solid #E87737;
   outline-offset: 2px;
+}
+
+/* Performance: Defer layout & rendering of deep below-the-fold sections */
+.content-auto-deep {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 /* Custom Animations */
