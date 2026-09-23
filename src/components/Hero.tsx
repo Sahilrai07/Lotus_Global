@@ -186,18 +186,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                   <span className="text-[#F7A8D2] font-bold">Discipline</span>
                 </div>
 
-                {/* CTA Button */}
-                <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
-                  <button
-                    onClick={() => handleCtaClick(activeSlide.secondaryCtaLink || "academics")}
-                    className="w-full sm:w-auto px-6 py-2.5 sm:py-3 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2"
-                  >
-                    <Compass className="w-4 h-4 text-white" />
-                    <span>{activeSlide.secondaryCtaText || "Explore Academics"}</span>
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </button>
-                </div>
-
                 {/* Slide Counter & Dots in Text Panel */}
                 <div className="pt-1 flex items-center gap-4 text-xs text-slate-300">
                   <span className="font-mono text-[#E87737] font-bold tracking-wider">
@@ -298,17 +286,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                   <span className="text-[#F7A8D2] font-bold">Discipline</span>
                 </div>
 
-                {/* CTA Button */}
-                <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                  <button
-                    onClick={() => handleCtaClick(activeSlide.secondaryCtaLink || "academics")}
-                    className="w-full sm:w-auto px-5 py-2.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2"
-                  >
-                    <Compass className="w-4 h-4 text-white" />
-                    <span>{activeSlide.secondaryCtaText || "Explore Academics"}</span>
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </button>
-                </div>
+
               </div>
             </div>
           </div>
@@ -454,16 +432,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                     <span className="text-[#F7A8D2] font-bold">Discipline</span>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-3">
-                    <button
-                      onClick={() => handleCtaClick(activeSlide.secondaryCtaLink || "academics")}
-                      className="px-5 py-2.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-2"
-                    >
-                      <Compass className="w-3.5 h-3.5 text-white" />
-                      <span>{activeSlide.secondaryCtaText || "Explore Academics"}</span>
-                      <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
