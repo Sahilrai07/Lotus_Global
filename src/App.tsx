@@ -238,14 +238,36 @@ export const App: React.FC = () => {
     return subscribeSiteData((newData) => setSiteData(newData));
   }, []);
 
-  // Dynamic SEO Page Title & Meta Description update on route change
+  // Dynamic SEO Page Title, Meta Description, OpenGraph & Canonical Link update on route change
   useEffect(() => {
     const meta = PAGE_SEO_META[activePage] || PAGE_SEO_META["home"];
     if (meta) {
       document.title = meta.title;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute("content", meta.description);
+
+      const setMeta = (attr: string, value: string, content: string) => {
+        let el = document.querySelector(`meta[${attr}="${value}"]`);
+        if (el) {
+          el.setAttribute("content", content);
+        } else {
+          el = document.createElement("meta");
+          el.setAttribute(attr, value);
+          el.setAttribute("content", content);
+          document.head.appendChild(el);
+        }
+      };
+
+      setMeta("name", "description", meta.description);
+      setMeta("property", "og:title", meta.title);
+      setMeta("property", "og:description", meta.description);
+      setMeta("name", "twitter:title", meta.title);
+      setMeta("name", "twitter:description", meta.description);
+
+      const pageUrl = activePage === "home" ? "https://lotusglobalschool.com/" : `https://lotusglobalschool.com/#${activePage}`;
+      setMeta("property", "og:url", pageUrl);
+
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) {
+        canonical.setAttribute("href", pageUrl);
       }
     }
   }, [activePage]);
