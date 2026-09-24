@@ -36,6 +36,7 @@ import {
   saveSiteData,
   uploadFile,
   SiteData,
+  UploadFolder,
   HeroSlide,
   Facility,
   FacultyMember,
@@ -112,7 +113,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    folder: "images" | "documents" | "gallery",
+    folder: UploadFolder,
     onUploaded: (url: string, fileName?: string, fileSize?: string) => void
   ) => {
     const file = e.target.files?.[0];
@@ -124,7 +125,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
     if (result.success && result.url) {
       onUploaded(result.url, result.fileName, result.fileSize);
-      showStatus(`File uploaded to /public/uploads/${folder}/ successfully!`);
+      showStatus(result.message || `File uploaded and optimized successfully! (${result.fileSize})`);
     } else {
       showStatus(result.message || "Upload failed", "error");
     }
@@ -621,7 +622,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                               accept="image/*"
                               className="hidden"
                               onChange={(e) =>
-                                handleFileUpload(e, "images", (url) => {
+                                handleFileUpload(e, "banners", (url) => {
                                   const updated = [...data.heroSlides];
                                   updated[idx].image = url;
                                   setData({ ...data, heroSlides: updated });
@@ -792,7 +793,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                               accept="image/*"
                               className="hidden"
                               onChange={(e) =>
-                                handleFileUpload(e, "images", (url) => {
+                                handleFileUpload(e, "leadership", (url) => {
                                   setData({
                                     ...data,
                                     leadership: {
@@ -928,7 +929,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                               accept="image/*"
                               className="hidden"
                               onChange={(e) =>
-                                handleFileUpload(e, "images", (url) => {
+                                handleFileUpload(e, "facilities", (url) => {
                                   const updated = [...data.facilities];
                                   updated[idx].image = url;
                                   setData({ ...data, facilities: updated });
@@ -1060,7 +1061,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                               accept="image/*"
                               className="hidden"
                               onChange={(e) =>
-                                handleFileUpload(e, "images", (url) => {
+                                handleFileUpload(e, "faculty", (url) => {
                                   const updated = [...data.faculty];
                                   updated[idx].photo = url;
                                   setData({ ...data, faculty: updated });

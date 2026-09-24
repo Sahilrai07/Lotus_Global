@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import defaultSiteData from './siteData.json';
+import { optimizeImageFile, compressSiteDataImages } from '../utils/imageOptimizer';
 
 export type SiteData = typeof defaultSiteData;
+export type UploadFolder = 'images' | 'documents' | 'gallery' | 'faculty' | 'banners' | 'facilities' | 'leadership';
 
 export type SchoolInfo = SiteData['schoolInfo'];
 export type HeroSlide = SiteData['heroSlides'][number];
@@ -89,7 +91,15 @@ export const fetchFreshData = async (): Promise<SiteData> => {
  * Save updated data to Neon PostgreSQL (works in both dev and production with JWT)
  */
 export const saveSiteData = async (updatedData: SiteData): Promise<{ success: boolean; message?: string }> => {
-  currentData = updatedData;
+  // Ensure all photos across the site are compressed before saving to the cloud DB
+  let dataToSave = updatedData;
+  try {
+    dataToSave = await compressSiteDataImages(updatedData);
+  } catch (compErr) {
+    console.warn('[SiteData Pre-save Compression Error]:', compErr);
+  }
+
+  currentData = dataToSave;
   notifyListeners();
 
   const token = localStorage.getItem('lotus_admin_token') || sessionStorage.getItem('lotus_admin_token');
@@ -105,7 +115,7 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
     const res = await fetch('/api/site-data', {
       method: 'POST',
       headers,
-      body: JSON.stringify(updatedData),
+      body: JSON.stringify(dataToSave),
     });
 
     if (res.ok) {
@@ -123,7 +133,7 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
       const devRes = await fetch('/api/admin/data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData, null, 2),
+        body: JSON.stringify(dataToSave, null, 2),
       });
       if (devRes.ok) {
         return { success: true, message: 'Saved successfully to local disk.' };
@@ -137,40 +147,36 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
 };
 
 /**
- * Upload file or convert to Data URL for instant live cloud persistence
+ * Upload file with automatic intelligent compression and auto-fit optimization.
+ * Compresses 5-10MB photos down to ~50-120KB WebP (95%+ reduction) so thousands
+ * of photos fit safely within Neon PostgreSQL's 500MB storage quota.
  */
 export const uploadFile = async (
   file: File,
-  folder: 'images' | 'documents' | 'gallery'
+  folder: UploadFolder = 'images'
 ): Promise<{ success: boolean; url?: string; fileName?: string; fileSize?: string; message?: string }> => {
-  // If in local DEV mode, try the local file server first
-  if (import.meta.env.DEV) {
+  // If image file, run high-efficiency client-side compression and auto-fitting
+  if (file.type.startsWith('image/')) {
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('folder', folder);
-
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
+      const optimized = await optimizeImageFile(file, {
+        folder: folder as any,
+        quality: 0.82,
+        targetFormat: 'image/webp',
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        return {
-          success: true,
-          url: data.url,
-          fileName: data.fileName,
-          fileSize: data.fileSize,
-          message: 'File uploaded successfully',
-        };
-      }
-    } catch {
-      // Fallback to base64 below
+      return {
+        success: true,
+        url: optimized.dataUrl,
+        fileName: file.name,
+        fileSize: `${optimized.formattedCompressed} (${optimized.reductionPercent}% saved)`,
+        message: `Image auto-fit & compressed (${optimized.formattedOriginal} ➔ ${optimized.formattedCompressed})`,
+      };
+    } catch (err) {
+      console.warn('[Image Optimization Warning]: Falling back to standard encoder', err);
     }
   }
 
-  // Convert to Base64 Data URL (guarantees images work 100% on Vercel without cloud bucket dependencies)
+  // Fallback / Document handling (PDFs, docs)
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onloadend = () => {

@@ -1,13 +1,13 @@
 import React from "react";
 import { Upload, Image as ImageIcon } from "lucide-react";
-import { SiteData } from "../../data/siteDataService";
+import { SiteData, UploadFolder } from "../../data/siteDataService";
 
 interface PageBannersEditorProps {
   data: SiteData;
   setData: (data: SiteData) => void;
   handleFileUpload: (
     e: React.ChangeEvent<HTMLInputElement>,
-    folder: "images" | "documents" | "gallery",
+    folder: UploadFolder,
     onUploaded: (url: string, fileName?: string, fileSize?: string) => void
   ) => void;
 }
@@ -103,7 +103,7 @@ export const PageBannersEditor: React.FC<PageBannersEditorProps> = ({
                       accept="image/*"
                       className="hidden"
                       onChange={(e) =>
-                        handleFileUpload(e, "images", (url) => updateBanner(item.key, url))
+                        handleFileUpload(e, "banners", (url) => updateBanner(item.key, url))
                       }
                     />
                   </label>

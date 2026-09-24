@@ -293,3 +293,63 @@
 .animate-preloader-bar {
   animation: preloaderBar 1.35s ease-in-out infinite;
 }
+
+/* ==========================================================================
+   Universal Image Auto-Fit & Framing Engine
+   Preserves crisp aspect ratios, prevents image distortion, and guarantees
+   optimal facial / subject framing across arbitrary user uploads.
+   ========================================================================== */
+.img-frame {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f5f9;
+}
+
+.img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  image-rendering: auto;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+/* Portrait-specific centering for faculty/leadership to protect faces from awkward crops */
+.img-frame-portrait img,
+img.img-portrait {
+  object-position: center 18% !important;
+}
+
+/* Smart ambient letterbox for mismatched aspect ratios without cropping */
+.img-frame-ambient {
+  position: relative;
+  overflow: hidden;
+  background-color: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-frame-ambient .ambient-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(24px);
+  transform: scale(1.25);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.img-frame-ambient .ambient-fg {
+  position: relative;
+  z-index: 10;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+

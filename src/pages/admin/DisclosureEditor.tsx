@@ -1,13 +1,13 @@
 import React from "react";
 import { FileText, ShieldCheck, Upload, Download, Plus, Trash2 } from "lucide-react";
-import { SiteData } from "../../data/siteDataService";
+import { SiteData, UploadFolder } from "../../data/siteDataService";
 
 interface DisclosureEditorProps {
   data: SiteData;
   setData: (data: SiteData) => void;
   handleFileUpload: (
     e: React.ChangeEvent<HTMLInputElement>,
-    folder: "images" | "documents" | "gallery",
+    folder: UploadFolder,
     onUploaded: (url: string, fileName?: string, fileSize?: string) => void
   ) => void;
 }

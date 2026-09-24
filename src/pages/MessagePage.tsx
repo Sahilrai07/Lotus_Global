@@ -43,7 +43,7 @@ export const MessagePage: React.FC<MessagePageProps> = ({
             <img
               src={principal.photo || "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=600&q=80"}
               alt={principal.name || "Principal, Lotus Global School"}
-              className="w-full h-64 object-cover rounded border border-slate-300 shadow-sm"
+              className="w-full h-64 object-cover object-top rounded border border-slate-300 shadow-sm"
             />
             <div className="mt-3 text-center sm:text-left">
               <h4 className="font-display font-bold text-base text-[#2F5187]">
