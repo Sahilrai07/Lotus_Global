@@ -7,19 +7,21 @@ import { noticesRouter } from "./routes/notices";
 import { galleryRouter } from "./routes/gallery";
 import { documentsRouter } from "./routes/documents";
 import { inquiryRouter } from "./routes/inquiry";
+import { siteContentRouter } from "./routes/siteContent";
 
-const app = express();
+export const app = express();
 
-// 1. Enable CORS for local frontend communication
+// 1. Enable CORS for frontend communication
 app.use(
   cors({
-    origin: [ENV.CLIENT_URL, "http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: true,
     credentials: true,
   })
 );
 
-// 2. Parse incoming JSON request bodies
-app.use(express.json());
+// 2. Parse incoming JSON request bodies (increased limit for base64/large site data)
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ extended: true, limit: "25mb" }));
 
 // 3. Health-check endpoint
 app.get("/api/health", (_req: Request, res: Response) => {
@@ -35,7 +37,8 @@ app.use("/api/notices", noticesRouter);
 app.use("/api/gallery", galleryRouter);
 app.use("/api/documents", documentsRouter);
 app.use("/api/inquiries", inquiryRouter);
-
+app.use("/api/site-data", siteContentRouter);
+app.use("/api/admin/data", siteContentRouter);
 
 // 5. Fallback 404 handler for undefined routes
 app.use((_req: Request, res: Response) => {
@@ -54,12 +57,14 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   });
 });
 
-// 7. Start the Express server
-app.listen(ENV.PORT, () => {
-  console.log(`[Lotus Backend] Server is running on http://localhost:${ENV.PORT}`);
-  console.log(`[Lotus Backend] Health-check available at http://localhost:${ENV.PORT}/api/health`);
-  console.log(`[Lotus Backend] Notices endpoint available at http://localhost:${ENV.PORT}/api/notices`);
-  console.log(`[Lotus Backend] Gallery endpoint available at http://localhost:${ENV.PORT}/api/gallery`);
-  console.log(`[Lotus Backend] Documents endpoint available at http://localhost:${ENV.PORT}/api/documents`);
-  console.log(`[Lotus Backend] Inquiries endpoint available at http://localhost:${ENV.PORT}/api/inquiries`);
-});
+// 7. Start the Express server when run directly (not on Vercel serverless)
+if (!process.env.VERCEL) {
+  app.listen(ENV.PORT, () => {
+    console.log(`[Lotus Backend] Server is running on http://localhost:${ENV.PORT}`);
+    console.log(`[Lotus Backend] Health-check available at http://localhost:${ENV.PORT}/api/health`);
+    console.log(`[Lotus Backend] Site-data endpoint available at http://localhost:${ENV.PORT}/api/site-data`);
+    console.log(`[Lotus Backend] Inquiries endpoint available at http://localhost:${ENV.PORT}/api/inquiries`);
+  });
+}
+
+export default app;

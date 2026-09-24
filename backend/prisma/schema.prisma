@@ -82,3 +82,11 @@ model Inquiry {
   @@map("inquiries")
 }
 
+model SiteContent {
+  id        String   @id @default("active")
+  data      Json
+  updatedAt DateTime @updatedAt
+
+  @@map("site_content")
+}
+

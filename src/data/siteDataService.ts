@@ -53,11 +53,10 @@ export const useSiteData = () => {
   const [data, setData] = useState<SiteData>(currentData);
 
   useEffect(() => {
-    if (import.meta.env.DEV) {
-      fetchFreshData().then((fresh) => {
-        if (fresh) setData(fresh);
-      });
-    }
+    // Always fetch latest live site data from Neon PostgreSQL API
+    fetchFreshData().then((fresh) => {
+      if (fresh) setData(fresh);
+    });
 
     const unsubscribe = subscribeSiteData((updated) => {
       setData({ ...updated });
@@ -69,15 +68,11 @@ export const useSiteData = () => {
 };
 
 /**
- * Fetch fresh data from local dev server API if running in DEV mode
+ * Fetch fresh data from Neon PostgreSQL API (works in both dev and production)
  */
 export const fetchFreshData = async (): Promise<SiteData> => {
-  if (!import.meta.env.DEV) {
-    return currentData;
-  }
-
   try {
-    const res = await fetch('/api/admin/data');
+    const res = await fetch('/api/site-data');
     if (res.ok) {
       const data = await res.json();
       currentData = data;
@@ -91,66 +86,110 @@ export const fetchFreshData = async (): Promise<SiteData> => {
 };
 
 /**
- * Save updated data to disk through local dev API (only works in local dev)
+ * Save updated data to Neon PostgreSQL (works in both dev and production with JWT)
  */
 export const saveSiteData = async (updatedData: SiteData): Promise<{ success: boolean; message?: string }> => {
   currentData = updatedData;
   notifyListeners();
 
-  if (!import.meta.env.DEV) {
-    return { success: false, message: 'Editing is only available in local development mode.' };
-  }
+  const token = localStorage.getItem('lotus_admin_token') || sessionStorage.getItem('lotus_admin_token');
 
   try {
-    const res = await fetch('/api/admin/data', {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const res = await fetch('/api/site-data', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedData, null, 2),
+      headers,
+      body: JSON.stringify(updatedData),
     });
 
     if (res.ok) {
       const result = await res.json();
-      return { success: true, message: result.message || 'Saved successfully.' };
+      return { success: true, message: result.message || 'Saved successfully to database!' };
     }
-    return { success: false, message: 'Failed to write to local data file.' };
+
+    // If unauthorized
+    if (res.status === 401) {
+      return { success: false, message: 'Authentication required or session expired. Please log in.' };
+    }
+
+    // Try fallback dev endpoint if local dev
+    if (import.meta.env.DEV) {
+      const devRes = await fetch('/api/admin/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData, null, 2),
+      });
+      if (devRes.ok) {
+        return { success: true, message: 'Saved successfully to local disk.' };
+      }
+    }
+
+    return { success: false, message: 'Failed to write to database.' };
   } catch (err: unknown) {
     return { success: false, message: err instanceof Error ? err.message : 'Network error' };
   }
 };
 
 /**
- * Upload file to local disk (public/uploads/) via Vite dev API (only in DEV mode)
+ * Upload file or convert to Data URL for instant live cloud persistence
  */
 export const uploadFile = async (
   file: File,
   folder: 'images' | 'documents' | 'gallery'
 ): Promise<{ success: boolean; url?: string; fileName?: string; fileSize?: string; message?: string }> => {
-  if (!import.meta.env.DEV) {
-    return { success: false, message: 'Uploads are only available in local development mode.' };
-  }
+  // If in local DEV mode, try the local file server first
+  if (import.meta.env.DEV) {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', folder);
 
-  try {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('folder', folder);
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
 
-    const res = await fetch('/api/admin/upload', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      return {
-        success: true,
-        url: data.url,
-        fileName: data.fileName,
-        fileSize: data.fileSize,
-        message: 'File uploaded successfully',
-      };
+      if (res.ok) {
+        const data = await res.json();
+        return {
+          success: true,
+          url: data.url,
+          fileName: data.fileName,
+          fileSize: data.fileSize,
+          message: 'File uploaded successfully',
+        };
+      }
+    } catch {
+      // Fallback to base64 below
     }
-    return { success: false, message: 'Server failed to save file' };
-  } catch (err: unknown) {
-    return { success: false, message: err instanceof Error ? err.message : 'Upload error' };
   }
+
+  // Convert to Base64 Data URL (guarantees images work 100% on Vercel without cloud bucket dependencies)
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64Url = reader.result as string;
+      const sizeKb = Math.round(file.size / 1024);
+      resolve({
+        success: true,
+        url: base64Url,
+        fileName: file.name,
+        fileSize: sizeKb > 1024 ? `${(sizeKb / 1024).toFixed(1)} MB` : `${sizeKb} KB`,
+        message: 'File converted and stored successfully',
+      });
+    };
+    reader.onerror = () => {
+      resolve({
+        success: false,
+        message: 'Failed to read file',
+      });
+    };
+    reader.readAsDataURL(file);
+  });
 };

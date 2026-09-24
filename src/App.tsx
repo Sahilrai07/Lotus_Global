@@ -40,12 +40,13 @@ const NewsEventsPage = React.lazy(() => import("./pages/NewsEventsPage").then((m
 import { MessageSquare, ArrowUp, Settings } from "lucide-react";
 import { getSiteData, subscribeSiteData } from "./data/siteDataService";
 
-// Developer CMS is strictly local and only loaded during development (npm run dev)
-const AdminDashboard = import.meta.env.DEV
-  ? React.lazy(() =>
-    import("./pages/admin/AdminDashboard").then((m) => ({ default: m.AdminDashboard }))
-  )
-  : null;
+// Admin CMS and Login Portal
+const AdminDashboard = React.lazy(() =>
+  import("./pages/admin/AdminDashboard").then((m) => ({ default: m.AdminDashboard }))
+);
+const AdminLoginPage = React.lazy(() =>
+  import("./pages/admin/AdminLoginPage").then((m) => ({ default: m.AdminLoginPage }))
+);
 
 const PAGE_SEO_META: Record<string, { title: string; description: string }> = {
   home: {
@@ -182,11 +183,56 @@ const PAGE_SEO_META: Record<string, { title: string; description: string }> = {
   },
 };
 
+const isAdminRoute = () => {
+  if (typeof window === "undefined") return false;
+  const host = window.location.hostname.toLowerCase();
+  const path = window.location.pathname.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+
+  return (
+    host.startsWith("admin.") ||
+    host.startsWith("cms.") ||
+    host.includes("admin-lotus") ||
+    path === "/admin" ||
+    path === "/admin/" ||
+    path.startsWith("/admin/") ||
+    hash === "#admin" ||
+    hash === "#/admin"
+  );
+};
+
 export const App: React.FC = () => {
-  const [activePage, setActivePage] = useState<string>("home");
+  const [activePage, setActivePage] = useState<string>(() => {
+    if (isAdminRoute()) return "admin";
+    if (typeof window !== "undefined" && window.location.hash) {
+      const h = window.location.hash.replace("#", "").replace(/^\//, "");
+      if (h) return h;
+    }
+    return "home";
+  });
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [siteData, setSiteData] = useState(getSiteData());
+
+  // Admin authentication state
+  const [adminUser, setAdminUser] = useState<{ id?: string; email?: string; name?: string; role?: string } | null>(() => {
+    try {
+      const token = localStorage.getItem("lotus_admin_token") || sessionStorage.getItem("lotus_admin_token");
+      const userStr = localStorage.getItem("lotus_admin_user") || sessionStorage.getItem("lotus_admin_user");
+      if (token && userStr) {
+        return JSON.parse(userStr);
+      }
+    } catch {}
+    return null;
+  });
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem("lotus_admin_token");
+    localStorage.removeItem("lotus_admin_user");
+    sessionStorage.removeItem("lotus_admin_token");
+    sessionStorage.removeItem("lotus_admin_user");
+    setAdminUser(null);
+  };
 
   useEffect(() => {
     return subscribeSiteData((newData) => setSiteData(newData));
@@ -206,10 +252,15 @@ export const App: React.FC = () => {
 
   const school = siteData.schoolInfo;
 
-  // Sync with window.location.hash for deep linking
+  // Sync with window.location and hash for deep linking
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace("#", "");
+    const handleLocationChange = () => {
+      if (isAdminRoute()) {
+        setActivePage("admin");
+        return;
+      }
+
+      const hash = window.location.hash.replace("#", "").replace(/^\//, "");
       const validPages = [
         "home",
         "about",
@@ -258,12 +309,14 @@ export const App: React.FC = () => {
       }
     };
 
-    if (window.location.hash) {
-      handleHashChange();
-    }
+    handleLocationChange();
 
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener("hashchange", handleLocationChange);
+    window.addEventListener("popstate", handleLocationChange);
+    return () => {
+      window.removeEventListener("hashchange", handleLocationChange);
+      window.removeEventListener("popstate", handleLocationChange);
+    };
   }, []);
 
   const handlePageChange = (page: string) => {
@@ -284,17 +337,38 @@ export const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // If on admin dashboard in development mode, render full-screen admin panel
-  if (activePage === "admin" && import.meta.env.DEV && AdminDashboard) {
+  // Render Protected Institutional CMS Portal
+  if (activePage === "admin") {
+    if (adminUser) {
+      return (
+        <React.Suspense
+          fallback={
+            <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white text-sm font-semibold">
+              Loading CMS Dashboard...
+            </div>
+          }
+        >
+          <AdminDashboard
+            currentUser={adminUser}
+            onLogout={handleAdminLogout}
+            onBackToSite={() => handlePageChange("home")}
+          />
+        </React.Suspense>
+      );
+    }
+
     return (
       <React.Suspense
         fallback={
           <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white text-sm font-semibold">
-            Loading Local CMS Dashboard...
+            Loading Login Portal...
           </div>
         }
       >
-        <AdminDashboard onBackToSite={() => handlePageChange("home")} />
+        <AdminLoginPage
+          onLoginSuccess={(user) => setAdminUser(user)}
+          onBackToSite={() => handlePageChange("home")}
+        />
       </React.Suspense>
     );
   }

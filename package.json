@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host",
     "server": "tsx watch backend/server/index.ts",
-    "create-admin": "tsx backend/scripts/createSuperAdmin.ts",
+    "create-admin": "tsx backend/scripts/createAdminAccount.ts",
+    "pull-content": "tsx backend/scripts/pullLiveContent.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
