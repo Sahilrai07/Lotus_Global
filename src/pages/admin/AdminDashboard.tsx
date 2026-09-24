@@ -89,25 +89,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [statusMessage, setStatusMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  // Security check: If accessed in production, show strict 404 / access denied
-  if (!import.meta.env.DEV) {
-    return (
-      <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-6 text-center">
-        <h1 className="text-4xl font-bold mb-3">404 - Page Not Found</h1>
-        <p className="text-slate-400 mb-6 max-w-md">
-          The requested administrative endpoint does not exist in production builds.
-        </p>
-        <button
-          onClick={onBackToSite}
-          className="px-5 py-2.5 rounded bg-[#E87737] text-white font-bold text-xs uppercase tracking-wider"
-        >
-          Return to School Website
-        </button>
-      </div>
-    );
-  }
-
-  // Load fresh data from disk on mount
+  // Load fresh data from cloud database on mount
   useEffect(() => {
     fetchFreshData().then((fresh) => setData(fresh));
   }, []);
@@ -122,7 +104,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     const result = await saveSiteData(data);
     setIsSaving(false);
     if (result.success) {
-      showStatus("All changes saved successfully to src/data/siteData.json!");
+      showStatus("All changes saved live to cloud database! Changes are now live on the school website.");
     } else {
       showStatus(result.message || "Failed to save data.", "error");
     }
