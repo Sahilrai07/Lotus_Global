@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { SCHOOL_INFO } from "../../data/schoolData";
-import { Send, Phone, Mail, MapPin, MessageSquare, CheckCircle2, HelpCircle, Clock, ShieldCheck } from "lucide-react";
+import { Send, Phone, Mail, MapPin, MessageSquare, CheckCircle2, HelpCircle, Clock, ShieldCheck, Loader2, AlertCircle } from "lucide-react";
 import { useSiteData } from "../../data/siteDataService";
+import { submitInquiry, SubmitInquiryResult } from "../../services/inquiryService";
 
 interface InquiryDeskPageProps {
   openInquiry: () => void;
@@ -28,15 +29,39 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [submitResult, setSubmitResult] = useState<SubmitInquiryResult | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
+    setErrorMessage(null);
+
+    const notesCombined = [
+      formData.locality ? `Locality: ${formData.locality}` : "",
+      formData.message ? `Query: ${formData.message}` : "",
+    ].filter(Boolean).join("\n");
+
+    const result = await submitInquiry({
+      parentName: formData.parentName,
+      studentName: formData.childName,
+      gradeSeeking: formData.grade,
+      phone: formData.phone,
+      email: formData.email,
+      notes: notesCombined,
+      source: "Online Admissions Desk Page",
+    });
+
+    setSubmitting(false);
+
+    if (result.success) {
+      setSubmitResult(result);
       setSubmitted(true);
-    }, 800);
+    } else {
+      setErrorMessage(result.error || "Failed to submit inquiry. Please try again or reach out directly on WhatsApp.");
+    }
   };
+
 
   return (
     <InternalPageLayout
@@ -78,9 +103,17 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
                   Inquiry Successfully Registered!
                 </h3>
                 <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
-                  Thank you, <strong>{formData.parentName}</strong>. Our admissions officer has received your registration for <strong>{formData.childName}</strong> ({formData.grade}) and will contact you within 24 business hours at <strong>{formData.phone}</strong>.
+                  Thank you, <strong>{formData.parentName}</strong>. Your inquiry for <strong>{formData.childName || "your child"}</strong> ({formData.grade}) has been officially registered and queued for admissions review.
                 </p>
-                <div className="pt-4">
+
+                <div className="bg-blue-50 border border-blue-200 rounded p-3 text-xs text-blue-800 max-w-md mx-auto flex items-center justify-center gap-2">
+                  <Mail className="w-4 h-4 text-blue-600 shrink-0" />
+                  <span>
+                    Official Notification Dispatched to: <strong>{SCHOOL_INFO.email}</strong>
+                  </span>
+                </div>
+
+                <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
                   <button
                     onClick={() => {
                       setSubmitted(false);
@@ -94,10 +127,19 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
                         message: "",
                       });
                     }}
-                    className="btn-portal-secondary text-xs uppercase font-bold py-2 px-6"
+                    className="btn-portal-secondary text-xs uppercase font-bold py-2.5 px-6"
                   >
                     Submit Another Inquiry
                   </button>
+                  <a
+                    href={`https://wa.me/91${SCHOOL_INFO.whatsapp}?text=${encodeURIComponent(`Hello Lotus Global School Admissions, I submitted an inquiry for ${formData.childName || formData.parentName} (${formData.grade}). Phone: ${formData.phone}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    <span>WhatsApp Admissions</span>
+                  </a>
                 </div>
               </div>
             ) : (
@@ -224,13 +266,32 @@ export const InquiryDeskPage: React.FC<InquiryDeskPageProps> = ({
                   />
                 </div>
 
+                {errorMessage && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded text-red-700 text-xs flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
+                    <div>
+                      <span className="font-semibold">Notice:</span> {errorMessage}
+                    </div>
+                  </div>
+                )}
+
                 <div className="pt-2">
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full btn-portal-primary py-3 text-xs font-bold uppercase tracking-wider justify-center shadow-md"
+                    className="w-full btn-portal-primary py-3 text-xs font-bold uppercase tracking-wider justify-center shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    {submitting ? "Transmitting Inquiry..." : "Submit Official Inquiry"}
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Transmitting & Dispatching Email...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Submit Official Inquiry</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

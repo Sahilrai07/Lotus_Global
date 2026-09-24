@@ -1,0 +1,28 @@
+[
+  {
+    "id": "inq-1790261484625-46zmey",
+    "parentName": "XYZ",
+    "studentName": "XYZZ",
+    "gradeSeeking": "Grade 10",
+    "phone": "0987654321",
+    "email": "testmail@gmail.com",
+    "notes": "This email is for testing purposes only and has no actual admission intent",
+    "source": "Admissions Modal Form",
+    "status": "CONTACTED",
+    "createdAt": "2026-09-24T14:51:24.625Z",
+    "updatedAt": "2026-09-24T14:52:20.546Z"
+  },
+  {
+    "id": "inq-welcome-sample",
+    "parentName": "Admissions Sample Record",
+    "studentName": "Aarav Sharma",
+    "gradeSeeking": "Grade 1",
+    "phone": "9054592424",
+    "email": "lotusglobalschool@gmail.com",
+    "notes": "Sample inquiry to test admission desk communication. Please feel free to update or delete.",
+    "source": "Sample Test",
+    "status": "CONTACTED",
+    "createdAt": "2026-09-24T10:00:00.000Z",
+    "updatedAt": "2026-09-24T10:15:03.817Z"
+  }
+]

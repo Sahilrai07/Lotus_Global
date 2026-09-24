@@ -28,6 +28,7 @@ import {
   Compass,
   ShieldCheck,
   Award,
+  Mail,
 } from "lucide-react";
 import {
   getSiteData,
@@ -49,6 +50,7 @@ import { AdmissionsEditor } from "./AdmissionsEditor";
 import { ActivitiesEditor } from "./ActivitiesEditor";
 import { DisclosureEditor } from "./DisclosureEditor";
 import { FacultyStandardsEditor } from "./FacultyStandardsEditor";
+import { InquiriesDeskEditor } from "./InquiriesDeskEditor";
 
 interface AdminDashboardProps {
   onBackToSite: () => void;
@@ -56,6 +58,7 @@ interface AdminDashboardProps {
 
 type TabType =
   | "overview"
+  | "inquiries"
   | "banners"
   | "hero"
   | "about"
@@ -70,6 +73,7 @@ type TabType =
   | "notices"
   | "documents"
   | "contact";
+
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) => {
   const [data, setData] = useState<SiteData>(getSiteData());
@@ -205,6 +209,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
           <nav className="space-y-1">
             {[
               { id: "overview", label: "Dashboard Overview", icon: LayoutDashboard },
+              { id: "inquiries", label: "Admissions Inquiries Desk", icon: Mail },
               { id: "banners", label: "Category Header Banners", icon: ImageIcon },
               { id: "hero", label: "Hero & Banner Slides", icon: Sliders },
               { id: "about", label: "About, Vision & Values", icon: Info },
@@ -287,6 +292,28 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
               {/* Quick Jump Action Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
+                  onClick={() => setActiveTab("inquiries")}
+                  className="p-5 bg-gradient-to-br from-white to-blue-50/50 rounded-lg border-2 border-blue-200 hover:border-[#2F5187] text-left transition-all shadow-sm flex items-start gap-4 group col-span-1 md:col-span-2"
+                >
+                  <div className="p-3 rounded-lg bg-blue-100 text-[#2F5187]">
+                    <Mail className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-bold text-sm text-[#2F5187] group-hover:text-[#E87737] transition-colors">
+                        Review Online Admission Inquiries
+                      </h3>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
+                        Email Auto-Dispatch Active
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-600 mt-1">
+                      View all inquiries submitted by prospective parents from the website. Direct call, WhatsApp, update review status, or export records to CSV.
+                    </p>
+                  </div>
+                </button>
+
+                <button
                   onClick={() => setActiveTab("documents")}
                   className="p-5 bg-white rounded-lg border border-slate-200 hover:border-[#2F5187] text-left transition-all shadow-sm flex items-start gap-4 group"
                 >
@@ -322,6 +349,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
               </div>
             </div>
           )}
+
+          {/* TAB: ADMISSIONS INQUIRIES DESK */}
+          {activeTab === "inquiries" && (
+            <InquiriesDeskEditor />
+          )}
+
 
           {/* TAB: CATEGORY HEADER BANNERS */}
           {activeTab === "banners" && (
@@ -628,8 +661,25 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToSite }) 
                 const member = data.leadership[key];
                 return (
                   <div key={key} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
-                    <div className="border-b border-slate-100 pb-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#E87737]">{member.title}</span>
+                    <div className="border-b border-slate-100 pb-3">
+                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                        Desk Title / Heading <span className="text-slate-400 font-normal">(e.g. From The President's Desk, From The Managing Director's Desk)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={member.title || ""}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            leadership: {
+                              ...data.leadership,
+                              [key]: { ...member, title: e.target.value },
+                            },
+                          })
+                        }
+                        placeholder="Desk Title (e.g. From The President's Desk)"
+                        className="w-full p-2 text-xs font-bold text-[#2F5187] uppercase tracking-wide bg-slate-50 border border-slate-200 rounded focus:border-[#2F5187] focus:bg-white"
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
 import { SCHOOL_INFO } from "../data/schoolData";
-import { MapPin, Phone, Mail, Clock, Send, MessageSquare, CheckCircle2, ShieldCheck } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, MessageSquare, CheckCircle2, ShieldCheck, Loader2, AlertCircle } from "lucide-react";
 import { InstagramIcon } from "../components/InstagramIcon";
 import { useSiteData } from "../data/siteDataService";
+import { submitInquiry, SubmitInquiryResult } from "../services/inquiryService";
 
 interface ContactPageProps {
   onNavigate?: (pageId: string) => void;
@@ -19,6 +20,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   const banner = siteData.pageBanners?.contact || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80";
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [submitResult, setSubmitResult] = useState<SubmitInquiryResult | null>(null);
+
   const [formData, setFormData] = useState({
     parentName: "",
     phone: "",
@@ -27,9 +32,28 @@ export const ContactPage: React.FC<ContactPageProps> = ({
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    const result = await submitInquiry({
+      parentName: formData.parentName,
+      gradeSeeking: formData.gradeSeeking,
+      phone: formData.phone,
+      email: formData.email,
+      notes: formData.message,
+      source: "Contact Us Page Form",
+    });
+
+    setIsSubmitting(false);
+
+    if (result.success) {
+      setSubmitResult(result);
+      setFormSubmitted(true);
+    } else {
+      setErrorMessage(result.error || "Failed to submit message. Please try again or reach out on WhatsApp.");
+    }
   };
 
   return (
@@ -168,14 +192,40 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                   Thank You for Your Inquiry!
                 </h4>
                 <p className="text-xs text-slate-600">
-                  We have received your message. Our admissions desk will reach out to you via telephone shortly.
+                  Your message has been registered and forwarded to the Lotus Global School admissions desk.
                 </p>
-                <button
-                  onClick={() => setFormSubmitted(false)}
-                  className="text-xs font-bold text-[#E87737] uppercase underline pt-2"
-                >
-                  Send another inquiry
-                </button>
+                <div className="bg-blue-50 border border-blue-200 rounded p-2.5 text-xs text-blue-800 flex items-center justify-center gap-2">
+                  <Mail className="w-4 h-4 text-blue-600 shrink-0" />
+                  <span>
+                    Notification Dispatched to: <strong>{SCHOOL_INFO.email}</strong>
+                  </span>
+                </div>
+                <div className="pt-2 flex flex-wrap justify-center gap-3">
+                  <button
+                    onClick={() => {
+                      setFormSubmitted(false);
+                      setFormData({
+                        parentName: "",
+                        phone: "",
+                        email: "",
+                        gradeSeeking: "Grade 1",
+                        message: "",
+                      });
+                    }}
+                    className="text-xs font-bold text-[#E87737] uppercase underline"
+                  >
+                    Send another inquiry
+                  </button>
+                  <a
+                    href={`https://wa.me/91${SCHOOL_INFO.whatsapp}?text=${encodeURIComponent(`Hello Lotus Global School, I submitted a contact inquiry: Name: ${formData.parentName}, Phone: ${formData.phone}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-[11px] font-bold uppercase transition-colors"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>WhatsApp Desk</span>
+                  </a>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3 text-xs">
@@ -270,12 +320,31 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                   />
                 </div>
 
+                {errorMessage && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded text-red-700 text-xs flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
+                    <div>
+                      <span className="font-semibold">Notice:</span> {errorMessage}
+                    </div>
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-3 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full py-3 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>Submit Inquiry</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Sending Message & Dispatching Mail...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Submit Inquiry</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}

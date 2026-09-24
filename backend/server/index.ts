@@ -6,6 +6,7 @@ import { authRouter } from "./routes/auth";
 import { noticesRouter } from "./routes/notices";
 import { galleryRouter } from "./routes/gallery";
 import { documentsRouter } from "./routes/documents";
+import { inquiryRouter } from "./routes/inquiry";
 
 const app = express();
 
@@ -33,6 +34,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/notices", noticesRouter);
 app.use("/api/gallery", galleryRouter);
 app.use("/api/documents", documentsRouter);
+app.use("/api/inquiries", inquiryRouter);
+
 
 // 5. Fallback 404 handler for undefined routes
 app.use((_req: Request, res: Response) => {
@@ -58,4 +61,5 @@ app.listen(ENV.PORT, () => {
   console.log(`[Lotus Backend] Notices endpoint available at http://localhost:${ENV.PORT}/api/notices`);
   console.log(`[Lotus Backend] Gallery endpoint available at http://localhost:${ENV.PORT}/api/gallery`);
   console.log(`[Lotus Backend] Documents endpoint available at http://localhost:${ENV.PORT}/api/documents`);
+  console.log(`[Lotus Backend] Inquiries endpoint available at http://localhost:${ENV.PORT}/api/inquiries`);
 });
