@@ -32,7 +32,14 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onLoginSuccess, 
         body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      const data = await res.json();
+      let data: any = {};
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const errorText = await res.text();
+        throw new Error(errorText || `Server responded with error status ${res.status}`);
+      }
 
       if (!res.ok || !data.success) {
         throw new Error(data.message || "Invalid credentials. Please verify your email and password.");

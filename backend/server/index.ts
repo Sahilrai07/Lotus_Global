@@ -31,14 +31,14 @@ app.get("/api/health", (_req: Request, res: Response) => {
   });
 });
 
-// 4. API routes
-app.use("/api/auth", authRouter);
-app.use("/api/notices", noticesRouter);
-app.use("/api/gallery", galleryRouter);
-app.use("/api/documents", documentsRouter);
-app.use("/api/inquiries", inquiryRouter);
-app.use("/api/site-data", siteContentRouter);
-app.use("/api/admin/data", siteContentRouter);
+// 4. API routes (Supports both /api/* and direct routes for Vercel serverless compatibility)
+app.use(["/api/auth", "/auth"], authRouter);
+app.use(["/api/notices", "/notices"], noticesRouter);
+app.use(["/api/gallery", "/gallery"], galleryRouter);
+app.use(["/api/documents", "/documents"], documentsRouter);
+app.use(["/api/inquiries", "/inquiries"], inquiryRouter);
+app.use(["/api/site-data", "/site-data"], siteContentRouter);
+app.use(["/api/admin/data", "/admin/data"], siteContentRouter);
 
 // 5. Fallback 404 handler for undefined routes
 app.use((_req: Request, res: Response) => {
