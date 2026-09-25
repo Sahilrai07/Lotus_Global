@@ -1,19 +1,22 @@
 import React from "react";
 import { ArrowRight, Quote } from "lucide-react";
-import { getSiteData, LeadershipMember } from "../data/siteDataService";
+import { useSiteData, LeadershipMember } from "../data/siteDataService";
 
 interface LeadershipDeskSectionProps {
   onNavigate: (pageId: string) => void;
 }
 
 export const LeadershipDeskSection: React.FC<LeadershipDeskSectionProps> = ({ onNavigate }) => {
-  const leadership = getSiteData().leadership;
+  const { siteData } = useSiteData();
+  const leadership = (siteData.leadership || {}) as Record<string, LeadershipMember>;
 
-  const cards: Array<{ key: string; data: LeadershipMember; pageId: string }> = [
-    { key: "president", data: leadership.president, pageId: "about" },
-    { key: "managingDirector", data: leadership.managingDirector, pageId: "about" },
-    { key: "principal", data: leadership.principal, pageId: "message" },
-  ];
+  const cards: Array<{ key: string; data: LeadershipMember; pageId: string }> = Object.entries(leadership).map(
+    ([key, data]) => {
+      let pageId = "about";
+      if (key === "principal") pageId = "message";
+      return { key, data, pageId };
+    }
+  );
 
   return (
     <section className="py-16 bg-[#F8FAFC] border-b border-slate-200" aria-label="Leadership Desk">
@@ -29,7 +32,7 @@ export const LeadershipDeskSection: React.FC<LeadershipDeskSectionProps> = ({ on
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {cards.map(({ key, data, pageId }) => (
             <div
               key={key}

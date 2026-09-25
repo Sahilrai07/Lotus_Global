@@ -292,6 +292,216 @@ export const AcademicsEditor: React.FC<AcademicsEditorProps> = ({ data, setData 
                 />
               </div>
             </div>
+
+            {/* Scholastic Components List */}
+            <div className="border-t border-slate-100 pt-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-[#2F5187]">Scholastic Assessment Components</h4>
+                  <p className="text-[11px] text-slate-500">Milestones evaluated under formal academic appraisals.</p>
+                </div>
+                <button
+                  onClick={() => {
+                    const updated = [...(data.assessmentScheme?.scholastic?.components || [])];
+                    updated.push({
+                      name: `New Assessment Milestone ${updated.length + 1}`,
+                      note: "Formative evaluation tracking student competency and conceptual understanding.",
+                    });
+                    setData({
+                      ...data,
+                      assessmentScheme: {
+                        ...data.assessmentScheme,
+                        scholastic: {
+                          ...data.assessmentScheme.scholastic,
+                          components: updated,
+                        },
+                      },
+                    });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#2F5187] rounded text-xs font-bold transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ Add Scholastic Component</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {(data.assessmentScheme?.scholastic?.components || []).map((comp, idx) => (
+                  <div key={idx} className="p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-[#E87737] uppercase">Component #{idx + 1}</span>
+                      <button
+                        onClick={() => {
+                          const updated = data.assessmentScheme.scholastic.components.filter((_, i) => i !== idx);
+                          setData({
+                            ...data,
+                            assessmentScheme: {
+                              ...data.assessmentScheme,
+                              scholastic: {
+                                ...data.assessmentScheme.scholastic,
+                                components: updated,
+                              },
+                            },
+                          });
+                        }}
+                        className="p-1 text-rose-500 hover:bg-rose-100 rounded text-xs"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Milestone Name / Title</label>
+                      <input
+                        type="text"
+                        value={comp.name}
+                        onChange={(e) => {
+                          const updated = [...data.assessmentScheme.scholastic.components];
+                          updated[idx].name = e.target.value;
+                          setData({
+                            ...data,
+                            assessmentScheme: {
+                              ...data.assessmentScheme,
+                              scholastic: {
+                                ...data.assessmentScheme.scholastic,
+                                components: updated,
+                              },
+                            },
+                          });
+                        }}
+                        className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Weightage & Purpose Note</label>
+                      <input
+                        type="text"
+                        value={comp.note}
+                        onChange={(e) => {
+                          const updated = [...data.assessmentScheme.scholastic.components];
+                          updated[idx].note = e.target.value;
+                          setData({
+                            ...data,
+                            assessmentScheme: {
+                              ...data.assessmentScheme,
+                              scholastic: {
+                                ...data.assessmentScheme.scholastic,
+                                components: updated,
+                              },
+                            },
+                          });
+                        }}
+                        className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded text-slate-600"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Co-Scholastic Components List */}
+            <div className="border-t border-slate-100 pt-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-[#E87737]">Co-Scholastic Assessment Domains</h4>
+                  <p className="text-[11px] text-slate-500">Character, sportsmanship, and artistic expression domains.</p>
+                </div>
+                <button
+                  onClick={() => {
+                    const updated = [...(data.assessmentScheme?.coScholastic?.components || [])];
+                    updated.push({
+                      name: `New Co-Scholastic Domain ${updated.length + 1}`,
+                      note: "Evaluation parameters, discipline, sportsmanship, and creative involvement.",
+                    });
+                    setData({
+                      ...data,
+                      assessmentScheme: {
+                        ...data.assessmentScheme,
+                        coScholastic: {
+                          ...data.assessmentScheme.coScholastic,
+                          components: updated,
+                        },
+                      },
+                    });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#E87737] rounded text-xs font-bold transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ Add Co-Scholastic Component</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {(data.assessmentScheme?.coScholastic?.components || []).map((comp, idx) => (
+                  <div key={idx} className="p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-[#E87737] uppercase">Domain #{idx + 1}</span>
+                      <button
+                        onClick={() => {
+                          const updated = data.assessmentScheme.coScholastic.components.filter((_, i) => i !== idx);
+                          setData({
+                            ...data,
+                            assessmentScheme: {
+                              ...data.assessmentScheme,
+                              coScholastic: {
+                                ...data.assessmentScheme.coScholastic,
+                                components: updated,
+                              },
+                            },
+                          });
+                        }}
+                        className="p-1 text-rose-500 hover:bg-rose-100 rounded text-xs"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Domain Name / Title</label>
+                      <input
+                        type="text"
+                        value={comp.name}
+                        onChange={(e) => {
+                          const updated = [...data.assessmentScheme.coScholastic.components];
+                          updated[idx].name = e.target.value;
+                          setData({
+                            ...data,
+                            assessmentScheme: {
+                              ...data.assessmentScheme,
+                              coScholastic: {
+                                ...data.assessmentScheme.coScholastic,
+                                components: updated,
+                              },
+                            },
+                          });
+                        }}
+                        className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Parameters Evaluated Note</label>
+                      <input
+                        type="text"
+                        value={comp.note}
+                        onChange={(e) => {
+                          const updated = [...data.assessmentScheme.coScholastic.components];
+                          updated[idx].note = e.target.value;
+                          setData({
+                            ...data,
+                            assessmentScheme: {
+                              ...data.assessmentScheme,
+                              coScholastic: {
+                                ...data.assessmentScheme.coScholastic,
+                                components: updated,
+                              },
+                            },
+                          });
+                        }}
+                        className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded text-slate-600"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Grading Scale Table */}
@@ -307,10 +517,10 @@ export const AcademicsEditor: React.FC<AcademicsEditorProps> = ({ data, setData 
                     assessmentScheme: { ...data.assessmentScheme, gradingScale: updated },
                   });
                 }}
-                className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#2F5187] rounded text-xs font-bold transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] hover:bg-[#1E375F] text-white rounded text-xs font-bold transition-all shadow-sm"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>Add Grade Row</span>
+                <span>+ Add Grade Row</span>
               </button>
             </div>
 

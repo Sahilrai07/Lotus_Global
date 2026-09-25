@@ -42,6 +42,8 @@ import {
   FacultyMember,
   GalleryItem,
   NoticeItem,
+  EventItem,
+  NewsItem,
   DocumentItem,
   QuickFeature,
   fetchFreshData,
@@ -775,15 +777,59 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           {/* TAB 4: LEADERSHIP DESKS */}
           {activeTab === "leadership" && (
             <div className="space-y-6">
-              <div>
-                <h2 className="text-lg font-bold text-[#2F5187]">Institutional Leadership Desks</h2>
-                <p className="text-xs text-slate-500">Edit President, Managing Director, and Principal profiles and messages.</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-bold text-[#2F5187]">Institutional Leadership Desks</h2>
+                  <p className="text-xs text-slate-500">Edit President, Managing Director, Principal, or add new custom leadership desks.</p>
+                </div>
+                <button
+                  onClick={() => {
+                    const newKey = `desk_${Date.now()}`;
+                    const newDesk = {
+                      name: "Executive Leader Name",
+                      title: "From The Executive Desk",
+                      designation: "Executive Director · Lotus Global School",
+                      photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
+                      quote: "Fostering academic excellence, moral integrity, and purposeful growth.",
+                      excerpt: "Welcome message from our institutional leadership guiding our educational vision.",
+                      fullMessage: "Welcome to Lotus Global School. Education stands as the single most transformative instrument in shaping character and societal progress.",
+                    };
+                    setData({
+                      ...data,
+                      leadership: {
+                        ...data.leadership,
+                        [newKey]: newDesk as any,
+                      },
+                    });
+                  }}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-all shadow-sm"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ Add New Leadership Desk Block</span>
+                </button>
               </div>
 
-              {(["president", "managingDirector", "principal"] as const).map((key) => {
-                const member = data.leadership[key];
+              {Object.entries(data.leadership || {}).map(([key, member], idx) => {
                 return (
                   <div key={key} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                      <span className="text-xs font-bold text-[#E87737] uppercase">Leadership Desk #{idx + 1} ({key})</span>
+                      {Object.keys(data.leadership || {}).length > 1 && (
+                        <button
+                          onClick={() => {
+                            const updated = { ...data.leadership };
+                            delete (updated as any)[key];
+                            setData({ ...data, leadership: updated });
+                          }}
+                          className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1 font-semibold p-1 hover:bg-rose-50 rounded"
+                          title="Delete Desk"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete Desk</span>
+                        </button>
+                      )}
+                    </div>
+
                     <div className="border-b border-slate-100 pb-3">
                       <label className="block text-xs font-bold text-slate-700 mb-1">
                         Desk Title / Heading <span className="text-slate-400 font-normal">(e.g. From The President's Desk, From The Managing Director's Desk)</span>
@@ -951,10 +997,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     };
                     setData({ ...data, facilities: [...data.facilities, newFacility] });
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] text-white text-xs font-bold uppercase"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-all shadow-sm"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>Add Facility</span>
+                  <span>+ Add Facility Block</span>
                 </button>
               </div>
 
@@ -968,16 +1014,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           const updated = data.facilities.filter((f) => f.id !== facility.id);
                           setData({ ...data, facilities: updated });
                         }}
-                        className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1"
+                        className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1 font-semibold"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
-                        <span>Remove</span>
+                        <span>Delete</span>
                       </button>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Facility Name</label>
+                        <label className="block text-xs font-bold text-[#2F5187] mb-1">Facility Name / Title</label>
                         <input
                           type="text"
                           value={facility.name}
@@ -1084,10 +1130,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     };
                     setData({ ...data, faculty: [...data.faculty, newFaculty] });
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] text-white text-xs font-bold uppercase"
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-all shadow-sm"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>Add Faculty</span>
+                  <span>+ Add New Educator / Faculty Block</span>
                 </button>
               </div>
 
@@ -1095,22 +1141,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 {data.faculty.map((f, idx) => (
                   <div key={f.id} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3">
                     <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                      <span className="text-xs font-bold text-[#2F5187]">Profile #{idx + 1}</span>
+                      <span className="text-xs font-bold text-[#2F5187]">Educator Profile #{idx + 1}</span>
                       <button
                         onClick={() => {
                           const updated = data.faculty.filter((item) => item.id !== f.id);
                           setData({ ...data, faculty: updated });
                         }}
-                        className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1"
+                        className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1 font-semibold"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
-                        <span>Delete</span>
+                        <span>Delete Profile</span>
                       </button>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Name</label>
+                        <label className="block text-xs font-bold text-[#2F5187] mb-1">Educator Name / Card Title</label>
                         <input
                           type="text"
                           value={f.name}
@@ -1119,7 +1165,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             updated[idx].name = e.target.value;
                             setData({ ...data, faculty: updated });
                           }}
-                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded font-bold text-[#2F5187]"
                         />
                       </div>
                       <div>
@@ -1387,10 +1433,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     };
                     setData({ ...data, notices: [newNotice, ...data.notices] });
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] text-white text-xs font-bold uppercase"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-all shadow-sm"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>Add Notice</span>
+                  <span>+ Add Notice Block</span>
                 </button>
               </div>
 
@@ -1554,6 +1600,138 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             }}
                             className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
                           />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* SECTION: CAMPUS NEWS & HIGHLIGHTS */}
+              <div className="border-t border-slate-200 pt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold text-sm text-[#2F5187]">Campus News & Feature Highlights</h3>
+                    <p className="text-xs text-slate-500">Edit or add institutional achievements, sports triumphs, and festival celebrations.</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      const newNews: NewsItem = {
+                        id: `news-${Date.now()}`,
+                        title: "New Campus News Story",
+                        date: "March 2026",
+                        summary: "Summary of new school event, academic milestone, or competition victory.",
+                        thumbnail: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=800&q=80",
+                      };
+                      setData({ ...data, news: [newNews, ...(data.news || [])] });
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-colors shadow-sm"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>+ Add News Block</span>
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  {(data.news || []).map((item, idx) => (
+                    <div key={item.id || idx} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <span className="text-xs font-bold text-[#E87737]">News Story #{idx + 1}</span>
+                        <button
+                          onClick={() => {
+                            const updated = data.news.filter((_, i) => i !== idx);
+                            setData({ ...data, news: updated });
+                          }}
+                          className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1 font-semibold"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="sm:col-span-2">
+                          <label className="block text-xs font-bold text-[#2F5187] mb-1">News Headline / Title</label>
+                          <input
+                            type="text"
+                            value={item.title}
+                            onChange={(e) => {
+                              const updated = [...data.news];
+                              updated[idx].title = e.target.value;
+                              setData({ ...data, news: updated });
+                            }}
+                            className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded font-bold text-[#2F5187]"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Date</label>
+                          <input
+                            type="text"
+                            value={item.date}
+                            onChange={(e) => {
+                              const updated = [...data.news];
+                              updated[idx].date = e.target.value;
+                              setData({ ...data, news: updated });
+                            }}
+                            className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Summary / Excerpt</label>
+                        <textarea
+                          rows={2}
+                          value={item.summary}
+                          onChange={(e) => {
+                            const updated = [...data.news];
+                            updated[idx].summary = e.target.value;
+                            setData({ ...data, news: updated });
+                          }}
+                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded leading-relaxed"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <div className="w-16 h-12 rounded overflow-hidden border border-slate-200 shrink-0 bg-slate-100">
+                          {item.thumbnail ? (
+                            <img src={item.thumbnail} alt={item.title} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-slate-400">
+                              <ImageIcon className="w-4 h-4" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Featured Photo URL / Upload</label>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              value={item.thumbnail || ""}
+                              onChange={(e) => {
+                                const updated = [...data.news];
+                                updated[idx].thumbnail = e.target.value;
+                                setData({ ...data, news: updated });
+                              }}
+                              className="flex-1 p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                            />
+                            <label className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1">
+                              <Upload className="w-3.5 h-3.5" />
+                              <span>Upload</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) =>
+                                  handleFileUpload(e, "gallery", (url) => {
+                                    const updated = [...data.news];
+                                    updated[idx].thumbnail = url;
+                                    setData({ ...data, news: updated });
+                                  })
+                                }
+                              />
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>

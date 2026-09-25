@@ -1,5 +1,6 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
+import { useSiteData } from "../../data/siteDataService";
 import { SCHOOL_INFO } from "../../data/schoolData";
 import { Target, BookOpen, HeartHandshake, ShieldCheck, CheckCircle2, Award } from "lucide-react";
 
@@ -12,7 +13,9 @@ export const CoreValuesPage: React.FC<CoreValuesPageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const { dedication, diligence, discipline } = SCHOOL_INFO.mottoValues;
+  const { siteData } = useSiteData();
+  const mottoValues = siteData.schoolInfo?.mottoValues || SCHOOL_INFO.mottoValues;
+  const { dedication, diligence, discipline } = mottoValues;
 
   return (
     <InternalPageLayout

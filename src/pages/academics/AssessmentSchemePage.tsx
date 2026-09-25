@@ -1,6 +1,6 @@
 import React from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
-import { getSiteData } from "../../data/siteDataService";
+import { useSiteData } from "../../data/siteDataService";
 import { Award, ClipboardCheck, BarChart3 } from "lucide-react";
 
 interface AssessmentSchemePageProps {
@@ -12,7 +12,7 @@ export const AssessmentSchemePage: React.FC<AssessmentSchemePageProps> = ({
   openInquiry,
   onNavigate = () => {},
 }) => {
-  const siteData = getSiteData();
+  const { siteData } = useSiteData();
   const scheme = siteData.assessmentScheme;
   const bannerImage = siteData.pageBanners?.academics || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80";
 

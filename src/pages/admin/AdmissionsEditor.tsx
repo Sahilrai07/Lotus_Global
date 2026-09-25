@@ -169,10 +169,10 @@ export const AdmissionsEditor: React.FC<AdmissionsEditorProps> = ({ data, setDat
                 });
                 setData({ ...data, admissionsPathway: { ...data.admissionsPathway, ageEligibility: updated } });
               }}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#2F5187] rounded text-xs font-bold transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] hover:bg-[#1E375F] text-white rounded text-xs font-bold transition-colors shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Add Grade Row</span>
+              <span>+ Add Grade Eligibility Row</span>
             </button>
           </div>
 
@@ -248,7 +248,10 @@ export const AdmissionsEditor: React.FC<AdmissionsEditorProps> = ({ data, setDat
       {subTab === "documents" && (
         <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <h3 className="font-bold text-sm text-[#2F5187]">Registration Documents Checklist</h3>
+            <div>
+              <h3 className="font-bold text-sm text-[#2F5187]">Registration Documents Checklist</h3>
+              <p className="text-xs text-slate-500">Add or edit required certificates and verification instructions.</p>
+            </div>
             <button
               onClick={() => {
                 const updated = [...(data.admissionsPathway?.requiredDocuments || [])];
@@ -262,10 +265,10 @@ export const AdmissionsEditor: React.FC<AdmissionsEditorProps> = ({ data, setDat
                 });
                 setData({ ...data, admissionsPathway: { ...data.admissionsPathway, requiredDocuments: updated } });
               }}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#2F5187] rounded text-xs font-bold transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] hover:bg-[#1E375F] text-white rounded text-xs font-bold transition-colors shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Add Document</span>
+              <span>+ Add Document Checklist Block</span>
             </button>
           </div>
 

@@ -63,10 +63,10 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
                 });
                 setData({ ...data, coCurricular: { ...data.coCurricular, sportsTournaments: updated } });
               }}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#2F5187] rounded text-xs font-bold transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#1E375F] rounded-lg text-xs font-bold transition-all shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Add Tournament</span>
+              <span>+ Add Tournament Block</span>
             </button>
           </div>
 
@@ -74,21 +74,23 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
             {data.coCurricular?.sportsTournaments?.map((tourney, idx) => (
               <div key={idx} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <span className="text-xs font-bold uppercase text-[#E87737]">Tournament {idx + 1}</span>
+                  <span className="text-xs font-bold uppercase text-[#E87737]">Tournament #{idx + 1}</span>
                   <button
                     onClick={() => {
                       const updated = data.coCurricular.sportsTournaments.filter((_, i) => i !== idx);
                       setData({ ...data, coCurricular: { ...data.coCurricular, sportsTournaments: updated } });
                     }}
-                    className="p-1 text-rose-500 hover:bg-rose-50 rounded"
+                    className="p-1 text-rose-500 hover:bg-rose-50 rounded text-xs flex items-center gap-1 font-semibold"
+                    title="Delete Tournament"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete</span>
                   </button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase">Title</label>
+                    <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Tournament Title / Block Heading</label>
                     <input
                       type="text"
                       value={tourney.title}
@@ -273,10 +275,10 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
                 });
                 setData({ ...data, coCurricular: { ...data.coCurricular, studentClubs: updated } });
               }}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#2F5187] rounded text-xs font-bold transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#1E375F] rounded-lg text-xs font-bold transition-all shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Add Club</span>
+              <span>+ Add Student Club Block</span>
             </button>
           </div>
 
@@ -284,21 +286,23 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
             {data.coCurricular?.studentClubs?.map((club, idx) => (
               <div key={idx} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <span className="text-xs font-bold uppercase text-[#E87737]">Club {idx + 1}</span>
+                  <span className="text-xs font-bold uppercase text-[#E87737]">Club #{idx + 1}</span>
                   <button
                     onClick={() => {
                       const updated = data.coCurricular.studentClubs.filter((_, i) => i !== idx);
                       setData({ ...data, coCurricular: { ...data.coCurricular, studentClubs: updated } });
                     }}
-                    className="p-1 text-rose-500 hover:bg-rose-50 rounded"
+                    className="p-1 text-rose-500 hover:bg-rose-50 rounded text-xs flex items-center gap-1 font-semibold"
+                    title="Delete Club"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete</span>
                   </button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase">Club Name</label>
+                    <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Club Name / Block Heading</label>
                     <input
                       type="text"
                       value={club.name}
