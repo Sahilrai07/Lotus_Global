@@ -43,9 +43,9 @@ export const DevelopmentalStagesPage: React.FC<DevelopmentalStagesPageProps> = (
           In alignment with the National Curriculum Framework (NCERT) and NEP 2020 pedagogical design, schooling at Lotus Global School is structured into four distinct developmental stages. Each phase meets children at their specific cognitive, motor, and emotional developmental milestones.
         </p>
 
-        {/* 4 Detailed Stages */}
+        {/* Detailed Stages */}
         <div className="space-y-6">
-          {ACADEMIC_STAGES.map((stage, idx) => (
+          {(getSiteData().academicStages || ACADEMIC_STAGES).map((stage, idx) => (
             <div
               key={idx}
               className="p-6 rounded border border-slate-200 bg-[#F8FAFC] space-y-3 shadow-sm hover:border-[#2F5187]/40 transition-all"

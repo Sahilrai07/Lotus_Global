@@ -1,13 +1,14 @@
 import React from "react";
 import { BookOpen, Building2, Palette, Award, ArrowRight } from "lucide-react";
-import { getSiteData, QuickFeature } from "../data/siteDataService";
+import { useSiteData, getSiteData, QuickFeature } from "../data/siteDataService";
 
 interface QuickFeaturesRowProps {
   onNavigate: (pageId: string) => void;
 }
 
 export const QuickFeaturesRow: React.FC<QuickFeaturesRowProps> = ({ onNavigate }) => {
-  const features = getSiteData().quickFeatures;
+  const { siteData } = useSiteData();
+  const features = siteData.quickFeatures || getSiteData().quickFeatures;
 
   const getIcon = (iconName: string) => {
     switch (iconName) {

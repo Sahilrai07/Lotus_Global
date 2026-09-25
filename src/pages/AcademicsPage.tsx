@@ -69,7 +69,7 @@ export const AcademicsPage: React.FC<AcademicsPageProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-700">
-                {ACADEMIC_STAGES.map((stage, idx) => (
+                {(siteData.academicStages || ACADEMIC_STAGES).map((stage, idx) => (
                   <tr
                     key={idx}
                     className={idx % 2 === 0 ? "bg-white" : "bg-[#F8FAFC] hover:bg-slate-50"}

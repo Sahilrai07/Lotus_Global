@@ -49,28 +49,63 @@ export const AdmissionsEditor: React.FC<AdmissionsEditorProps> = ({ data, setDat
       {subTab === "steps" && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-sm text-[#2F5187]">Admission Milestone Steps</h3>
+            <div>
+              <h3 className="font-bold text-sm text-[#2F5187]">Admission Milestone Steps</h3>
+              <p className="text-xs text-slate-500">Configure progressive application milestones and consultation steps.</p>
+            </div>
+            <button
+              onClick={() => {
+                const updated = [...(data.admissionsPathway?.steps || [])];
+                const nextNum = updated.length + 1;
+                updated.push({
+                  step: `Step 0${nextNum}`,
+                  title: `New Admission Step ${nextNum}`,
+                  summary: "Short description of what the parent or student completes at this milestone.",
+                  details: "Required documents, timeline or appointment details.",
+                });
+                setData({ ...data, admissionsPathway: { ...data.admissionsPathway, steps: updated } });
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#233d66] rounded-lg text-xs font-bold transition-all shadow-sm"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>+ Add Step Block</span>
+            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {data.admissionsPathway?.steps?.map((step, idx) => (
               <div key={idx} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <input
-                    type="text"
-                    value={step.step}
-                    onChange={(e) => {
-                      const updated = [...data.admissionsPathway.steps];
-                      updated[idx].step = e.target.value;
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={step.step}
+                      onChange={(e) => {
+                        const updated = [...data.admissionsPathway.steps];
+                        updated[idx].step = e.target.value;
+                        setData({ ...data, admissionsPathway: { ...data.admissionsPathway, steps: updated } });
+                      }}
+                      className="w-24 text-xs font-extrabold text-[#E87737] p-1 border border-slate-200 rounded"
+                    />
+                    <span className="text-[10px] font-semibold text-slate-400">Step #{idx + 1}</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      const updated = data.admissionsPathway.steps.filter((_, i) => i !== idx);
                       setData({ ...data, admissionsPathway: { ...data.admissionsPathway, steps: updated } });
                     }}
-                    className="w-20 text-xs font-extrabold text-[#E87737] p-1 border border-slate-200 rounded"
-                  />
-                  <span className="text-[10px] font-semibold text-slate-400">Step {idx + 1}</span>
+                    className="p-1 text-rose-500 hover:bg-rose-50 rounded text-xs flex items-center gap-1"
+                    title="Delete Step"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete</span>
+                  </button>
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-700 mb-1">Step Heading</label>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Step Title / Block Heading
+                  </label>
                   <input
                     type="text"
                     value={step.title}
@@ -79,7 +114,8 @@ export const AdmissionsEditor: React.FC<AdmissionsEditorProps> = ({ data, setDat
                       updated[idx].title = e.target.value;
                       setData({ ...data, admissionsPathway: { ...data.admissionsPathway, steps: updated } });
                     }}
-                    className="w-full text-xs p-2 rounded border border-slate-300 font-bold text-[#2F5187]"
+                    placeholder="e.g. Online Inquiry & Document Verification"
+                    className="w-full text-xs p-2 rounded border border-slate-300 font-bold text-[#2F5187] bg-slate-50 focus:bg-white focus:border-[#2F5187]"
                   />
                 </div>
 

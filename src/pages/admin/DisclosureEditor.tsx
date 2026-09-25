@@ -28,13 +28,35 @@ export const DisclosureEditor: React.FC<DisclosureEditorProps> = ({
 
       {/* General Institutional Information */}
       <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
-        <h3 className="font-bold text-sm text-[#2F5187] border-b border-slate-100 pb-2">
-          A. General Information Table
-        </h3>
+        <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+          <div>
+            <h3 className="font-bold text-sm text-[#2F5187]">A. General Information Table</h3>
+            <p className="text-xs text-slate-500">School affiliation number, school code, address, email, and principal details.</p>
+          </div>
+          <button
+            onClick={() => {
+              const updated = [...(data.mandatoryDisclosure?.generalInfo || [])];
+              updated.push({
+                label: `New Information Field ${updated.length + 1}`,
+                value: "Information Details",
+              });
+              setData({
+                ...data,
+                mandatoryDisclosure: { ...data.mandatoryDisclosure, generalInfo: updated },
+              });
+            }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#233d66] rounded-lg text-xs font-bold transition-all shadow-sm"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>+ Add Info Row Block</span>
+          </button>
+        </div>
+
         <div className="space-y-3">
           {data.mandatoryDisclosure?.generalInfo?.map((info, idx) => (
-            <div key={idx} className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-2 bg-slate-50 rounded border border-slate-200">
-              <div className="sm:col-span-1">
+            <div key={idx} className="grid grid-cols-1 sm:grid-cols-12 gap-3 p-2.5 bg-slate-50 rounded-lg border border-slate-200 items-center">
+              <div className="sm:col-span-4">
+                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Field Label / Title</label>
                 <input
                   type="text"
                   value={info.label}
@@ -46,10 +68,12 @@ export const DisclosureEditor: React.FC<DisclosureEditorProps> = ({
                       mandatoryDisclosure: { ...data.mandatoryDisclosure, generalInfo: updated },
                     });
                   }}
-                  className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-slate-700"
+                  placeholder="e.g. CBSE Affiliation Number"
+                  className="w-full text-xs p-2 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
                 />
               </div>
-              <div className="sm:col-span-2">
+              <div className="sm:col-span-7">
+                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Value / Disclosure Content</label>
                 <input
                   type="text"
                   value={info.value}
@@ -61,8 +85,24 @@ export const DisclosureEditor: React.FC<DisclosureEditorProps> = ({
                       mandatoryDisclosure: { ...data.mandatoryDisclosure, generalInfo: updated },
                     });
                   }}
-                  className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded text-slate-600"
+                  placeholder="e.g. 430489 (Status: Applied / In Process)"
+                  className="w-full text-xs p-2 bg-white border border-slate-300 rounded text-slate-700"
                 />
+              </div>
+              <div className="sm:col-span-1 flex justify-end">
+                <button
+                  onClick={() => {
+                    const updated = data.mandatoryDisclosure.generalInfo.filter((_, i) => i !== idx);
+                    setData({
+                      ...data,
+                      mandatoryDisclosure: { ...data.mandatoryDisclosure, generalInfo: updated },
+                    });
+                  }}
+                  className="p-1.5 text-rose-500 hover:bg-rose-100 rounded text-xs"
+                  title="Delete Row"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
               </div>
             </div>
           ))}
@@ -88,10 +128,10 @@ export const DisclosureEditor: React.FC<DisclosureEditorProps> = ({
                 mandatoryDisclosure: { ...data.mandatoryDisclosure, complianceDocuments: updated },
               });
             }}
-            className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#2F5187] rounded text-xs font-bold transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#233d66] rounded-lg text-xs font-bold transition-all shadow-sm"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>Add Compliance Document</span>
+            <span>+ Add Compliance Document Block</span>
           </button>
         </div>
 
@@ -99,21 +139,24 @@ export const DisclosureEditor: React.FC<DisclosureEditorProps> = ({
           {data.mandatoryDisclosure?.complianceDocuments?.map((doc, idx) => (
             <div key={idx} className="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-1 mr-4">
                   <span className="text-xs font-bold text-[#E87737]">#{doc.sno}</span>
-                  <input
-                    type="text"
-                    value={doc.title}
-                    onChange={(e) => {
-                      const updated = [...data.mandatoryDisclosure.complianceDocuments];
-                      updated[idx].title = e.target.value;
-                      setData({
-                        ...data,
-                        mandatoryDisclosure: { ...data.mandatoryDisclosure, complianceDocuments: updated },
-                      });
-                    }}
-                    className="w-80 text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
-                  />
+                  <div className="flex-1">
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Certificate / Document Title</label>
+                    <input
+                      type="text"
+                      value={doc.title}
+                      onChange={(e) => {
+                        const updated = [...data.mandatoryDisclosure.complianceDocuments];
+                        updated[idx].title = e.target.value;
+                        setData({
+                          ...data,
+                          mandatoryDisclosure: { ...data.mandatoryDisclosure, complianceDocuments: updated },
+                        });
+                      }}
+                      className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
+                    />
+                  </div>
                 </div>
                 <button
                   onClick={() => {

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
 import { FileText, Download, Search, Filter, Calendar, CheckCircle2, ShieldCheck, AlertCircle } from "lucide-react";
-import { getSiteData, subscribeSiteData, DocumentItem } from "../data/siteDataService";
+import { useSiteData, DocumentItem } from "../data/siteDataService";
 
 interface DocumentsPageProps {
   onNavigate?: (pageId: string) => void;
@@ -12,25 +12,24 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
   onNavigate = () => {},
   openInquiry = () => {},
 }) => {
-  const [documents, setDocuments] = useState<DocumentItem[]>(getSiteData().documents);
+  const { siteData } = useSiteData();
+  const documents: DocumentItem[] = siteData.documents || [];
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  useEffect(() => {
-    return subscribeSiteData((newData) => {
-      setDocuments(newData.documents);
-    });
-  }, []);
+  const pageHeading = (siteData as any).documentsPage?.heading || "Downloadable School Documents & Guidelines";
+  const pageSubheading = (siteData as any).documentsPage?.subheading || "Access official registration application forms, curriculum guides, approved fee structures, safety certifications, and academic calendars for Lotus Global School, Vatar, Vapi.";
+  const bannerImage = siteData.pageBanners?.documents || "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1600&q=80";
 
-  const categories = ["All", "Admissions", "Academics", "Regulatory & Disclosures"];
+  const categories = ["All", "Admissions", "Academics", "Regulatory & Disclosures", "Circulars"];
 
   const filteredDocs = documents.filter((doc) => {
     if (doc.active === false) return false;
     const matchesCategory = selectedCategory === "All" || doc.category === selectedCategory;
     const matchesSearch =
       searchQuery.trim() === "" ||
-      doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.description.toLowerCase().includes(searchQuery.toLowerCase());
+      (doc.title && doc.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (doc.description && doc.description.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
 
@@ -50,7 +49,7 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
       activePageId="documents"
       onNavigate={onNavigate}
       openInquiry={openInquiry}
-      bannerImage="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1600&q=80"
+      bannerImage={bannerImage}
       breadcrumbs={[
         { label: "Home", pageId: "home" },
         { label: "Documents & Downloads", pageId: "documents" },
@@ -64,10 +63,10 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
             <span>Official Institutional Repository</span>
           </div>
           <h2 className="font-display font-bold text-xl sm:text-2xl text-[#2F5187]">
-            Downloadable School Documents & Guidelines
+            {pageHeading}
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
-            Access official registration application forms, curriculum guides, approved fee structures, safety certifications, and academic calendars for Lotus Global School, Vatar, Vapi.
+            {pageSubheading}
           </p>
         </div>
 

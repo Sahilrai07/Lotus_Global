@@ -43,6 +43,7 @@ import {
   GalleryItem,
   NoticeItem,
   DocumentItem,
+  QuickFeature,
   fetchFreshData,
 } from "../../data/siteDataService";
 import { PageBannersEditor } from "./PageBannersEditor";
@@ -393,10 +394,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     };
                     setData({ ...data, heroSlides: [...data.heroSlides, newSlide] });
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] text-white text-xs font-bold uppercase"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] text-white text-xs font-bold uppercase shadow-sm hover:bg-[#1E375F] transition-colors"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>Add Slide</span>
+                  <span>+ Add New Slide Block</span>
                 </button>
               </div>
 
@@ -644,6 +645,119 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Homepage Quick Features / Key Pillars */}
+              <div className="border-t border-slate-200 pt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold text-sm text-[#2F5187]">Homepage Key Institutional Pillars (Quick Features)</h3>
+                    <p className="text-xs text-slate-500">Edit or add cards in the key features row directly below the homepage hero carousel.</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      const newPillar: QuickFeature = {
+                        id: `feat-${Date.now()}`,
+                        title: "New Institutional Pillar",
+                        description: "Empowering students with holistic curriculum, athletic infrastructure, and creative arts.",
+                        icon: "Award",
+                        link: "academics",
+                      };
+                      setData({ ...data, quickFeatures: [...(data.quickFeatures || []), newPillar] });
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-colors shadow-sm"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>+ Add Pillar Tile</span>
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {(data.quickFeatures || []).map((feat, idx) => (
+                    <div key={feat.id || idx} className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-3">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <span className="text-xs font-bold text-[#E87737]">Pillar #{idx + 1}</span>
+                        <button
+                          onClick={() => {
+                            const updated = data.quickFeatures.filter((_, i) => i !== idx);
+                            setData({ ...data, quickFeatures: updated });
+                          }}
+                          className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Pillar Title / Heading</label>
+                          <input
+                            type="text"
+                            value={feat.title}
+                            onChange={(e) => {
+                              const updated = [...data.quickFeatures];
+                              updated[idx].title = e.target.value;
+                              setData({ ...data, quickFeatures: updated });
+                            }}
+                            className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded font-bold text-[#2F5187]"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Icon Style</label>
+                          <select
+                            value={feat.icon}
+                            onChange={(e) => {
+                              const updated = [...data.quickFeatures];
+                              updated[idx].icon = e.target.value;
+                              setData({ ...data, quickFeatures: updated });
+                            }}
+                            className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded font-medium"
+                          >
+                            <option value="BookOpen">BookOpen (Curriculum)</option>
+                            <option value="Building2">Building2 (Campus)</option>
+                            <option value="Palette">Palette (Arts & Studio)</option>
+                            <option value="Award">Award (Sports & Values)</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
+                        <textarea
+                          rows={2}
+                          value={feat.description}
+                          onChange={(e) => {
+                            const updated = [...data.quickFeatures];
+                            updated[idx].description = e.target.value;
+                            setData({ ...data, quickFeatures: updated });
+                          }}
+                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Navigation Target Page</label>
+                        <select
+                          value={feat.link}
+                          onChange={(e) => {
+                            const updated = [...data.quickFeatures];
+                            updated[idx].link = e.target.value;
+                            setData({ ...data, quickFeatures: updated });
+                          }}
+                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                        >
+                          <option value="academics">Academics & Pedagogy</option>
+                          <option value="facilities">Campus Facilities & Labs</option>
+                          <option value="activities">Co-Curricular & Arts</option>
+                          <option value="admissions">Admissions Pathway</option>
+                          <option value="about">About Us & Vision</option>
+                          <option value="faculty">Faculty Directory</option>
+                        </select>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -1096,34 +1210,54 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           {/* TAB 7: GALLERY MANAGER */}
           {activeTab === "gallery" && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h2 className="text-lg font-bold text-[#2F5187]">Photo Gallery Manager</h2>
-                  <p className="text-xs text-slate-500">Upload school photographs, select category, add caption, and delete.</p>
+                  <p className="text-xs text-slate-500">Upload school photographs, customize titles and captions, select categories, or add photo blocks.</p>
                 </div>
-                <label className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white text-xs font-bold uppercase cursor-pointer shadow-sm">
-                  <Upload className="w-3.5 h-3.5" />
-                  <span>Upload New Photo</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) =>
-                      handleFileUpload(e, "gallery", (url) => {
-                        const newItem: GalleryItem = {
-                          id: `g-${Date.now()}`,
-                          title: "Campus Activity Photograph",
-                          category: "Campus Architecture",
-                          image: url,
-                          caption: "Student activities at Lotus Global School campus.",
-                          active: true,
-                          order: data.gallery.length + 1,
-                        };
-                        setData({ ...data, gallery: [newItem, ...data.gallery] });
-                      })
-                    }
-                  />
-                </label>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      const newItem: GalleryItem = {
+                        id: `g-${Date.now()}`,
+                        title: "Campus Activity Photograph",
+                        category: "Campus Architecture",
+                        image: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80",
+                        caption: "Student activities at Lotus Global School campus.",
+                        active: true,
+                        order: data.gallery.length + 1,
+                      };
+                      setData({ ...data, gallery: [newItem, ...data.gallery] });
+                    }}
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-colors shadow-sm"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>+ Add Photo Block</span>
+                  </button>
+                  <label className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white text-xs font-bold uppercase cursor-pointer shadow-sm">
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>Upload New Photo</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) =>
+                        handleFileUpload(e, "gallery", (url) => {
+                          const newItem: GalleryItem = {
+                            id: `g-${Date.now()}`,
+                            title: "Campus Activity Photograph",
+                            category: "Campus Architecture",
+                            image: url,
+                            caption: "Student activities at Lotus Global School campus.",
+                            active: true,
+                            order: data.gallery.length + 1,
+                          };
+                          setData({ ...data, gallery: [newItem, ...data.gallery] });
+                        })
+                      }
+                    />
+                  </label>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1145,7 +1279,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
                     <div className="space-y-2">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-700 mb-1">Title</label>
+                        <label className="block text-[11px] font-bold text-[#2F5187] mb-1">Photo Title / Card Heading</label>
                         <input
                           type="text"
                           value={item.title}
@@ -1154,7 +1288,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             updated[idx].title = e.target.value;
                             setData({ ...data, gallery: updated });
                           }}
-                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded font-bold text-[#2F5187]"
                         />
                       </div>
 
@@ -1180,7 +1314,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       </div>
 
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-700 mb-1">Caption</label>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">Caption / Description</label>
                         <input
                           type="text"
                           value={item.caption}
@@ -1191,6 +1325,38 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           }}
                           className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
                         />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">Image URL / Replace</label>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={item.image}
+                            onChange={(e) => {
+                              const updated = [...data.gallery];
+                              updated[idx].image = e.target.value;
+                              setData({ ...data, gallery: updated });
+                            }}
+                            className="flex-1 p-1.5 text-xs bg-slate-50 border border-slate-200 rounded font-mono"
+                          />
+                          <label className="px-2.5 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1">
+                            <Upload className="w-3 h-3" />
+                            <span>Replace</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) =>
+                                handleFileUpload(e, "gallery", (url) => {
+                                  const updated = [...data.gallery];
+                                  updated[idx].image = url;
+                                  setData({ ...data, gallery: updated });
+                                })
+                              }
+                            />
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1290,43 +1456,215 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
                 ))}
               </div>
+
+              {/* SECTION: UPCOMING EVENTS */}
+              <div className="border-t border-slate-200 pt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold text-sm text-[#2F5187]">Upcoming Events & Academic Calendar</h3>
+                    <p className="text-xs text-slate-500">Manage dates and descriptions for upcoming campus events and sports meets.</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      const newEvent = {
+                        id: `e-${Date.now()}`,
+                        title: "New Campus Event",
+                        date: "May 2026",
+                        category: "Academics",
+                        description: "Event schedule, participation details, and venue instructions.",
+                      };
+                      setData({ ...data, events: [newEvent, ...(data.events || [])] });
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-colors shadow-sm"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>+ Add Event Block</span>
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {(data.events || []).map((ev, idx) => (
+                    <div key={ev.id || idx} className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-3">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <span className="text-xs font-bold text-[#E87737]">Event #{idx + 1}</span>
+                        <button
+                          onClick={() => {
+                            const updated = data.events.filter((_, i) => i !== idx);
+                            setData({ ...data, events: updated });
+                          }}
+                          className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1 font-semibold"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="sm:col-span-2">
+                          <label className="block text-xs font-bold text-[#2F5187] mb-1">Event Title / Heading</label>
+                          <input
+                            type="text"
+                            value={ev.title}
+                            onChange={(e) => {
+                              const updated = [...data.events];
+                              updated[idx].title = e.target.value;
+                              setData({ ...data, events: updated });
+                            }}
+                            className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded font-bold text-[#2F5187]"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Date</label>
+                          <input
+                            type="text"
+                            value={ev.date}
+                            onChange={(e) => {
+                              const updated = [...data.events];
+                              updated[idx].date = e.target.value;
+                              setData({ ...data, events: updated });
+                            }}
+                            className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Category</label>
+                          <input
+                            type="text"
+                            value={ev.category}
+                            onChange={(e) => {
+                              const updated = [...data.events];
+                              updated[idx].category = e.target.value;
+                              setData({ ...data, events: updated });
+                            }}
+                            className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                          />
+                        </div>
+                        <div className="sm:col-span-2">
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
+                          <textarea
+                            rows={2}
+                            value={ev.description}
+                            onChange={(e) => {
+                              const updated = [...data.events];
+                              updated[idx].description = e.target.value;
+                              setData({ ...data, events: updated });
+                            }}
+                            className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
           {/* TAB 9: DOCUMENTS & DOWNLOADS */}
           {activeTab === "documents" && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h2 className="text-lg font-bold text-[#2F5187]">Documents & Downloads Manager</h2>
-                  <p className="text-xs text-slate-500">Upload PDF forms, brochures, fee structures, and compliance certificates.</p>
+                  <p className="text-xs text-slate-500">Edit titles, upload PDF forms, brochures, fee structures, and add custom document blocks.</p>
                 </div>
-                <label className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white text-xs font-bold uppercase cursor-pointer shadow-sm">
-                  <Upload className="w-3.5 h-3.5" />
-                  <span>Upload New Document / PDF</span>
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    className="hidden"
-                    onChange={(e) =>
-                      handleFileUpload(e, "documents", (url, fileName, fileSize) => {
-                        const newDoc: DocumentItem = {
-                          id: `doc-${Date.now()}`,
-                          title: fileName?.replace(/^[0-9]+-/, "").replace(/\.pdf$/i, "") || "New Document",
-                          category: "Admissions",
-                          description: "Official institutional downloadable document.",
-                          fileUrl: url,
-                          fileName: fileName || "document.pdf",
-                          fileSize: fileSize || "PDF",
-                          date: new Date().toISOString().split("T")[0],
-                          active: true,
-                          order: data.documents.length + 1,
-                        };
-                        setData({ ...data, documents: [newDoc, ...data.documents] });
-                      })
-                    }
-                  />
-                </label>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      const newDoc: DocumentItem = {
+                        id: `doc-${Date.now()}`,
+                        title: "School Prospectus & Information Brochure",
+                        category: "Admissions",
+                        description: "Comprehensive institutional overview of Lotus Global School, educational philosophy, and campus life.",
+                        fileUrl: "/uploads/documents/lotus-school-prospectus.pdf",
+                        fileName: "lotus-school-prospectus.pdf",
+                        fileSize: "2.4 MB",
+                        date: new Date().toISOString().split("T")[0],
+                        active: true,
+                        order: data.documents.length + 1,
+                      };
+                      setData({ ...data, documents: [newDoc, ...data.documents] });
+                    }}
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold uppercase transition-colors shadow-sm"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>+ Add New Document Block</span>
+                  </button>
+                  <label className="flex items-center gap-1.5 px-3.5 py-2 rounded bg-[#E87737] hover:bg-[#D26425] text-white text-xs font-bold uppercase cursor-pointer shadow-sm">
+                    <Upload className="w-4 h-4" />
+                    <span>Upload New PDF</span>
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      className="hidden"
+                      onChange={(e) =>
+                        handleFileUpload(e, "documents", (url, fileName, fileSize) => {
+                          const newDoc: DocumentItem = {
+                            id: `doc-${Date.now()}`,
+                            title: fileName?.replace(/^[0-9]+-/, "").replace(/\.pdf$/i, "") || "New Document",
+                            category: "Admissions",
+                            description: "Official institutional downloadable document.",
+                            fileUrl: url,
+                            fileName: fileName || "document.pdf",
+                            fileSize: fileSize || "PDF",
+                            date: new Date().toISOString().split("T")[0],
+                            active: true,
+                            order: data.documents.length + 1,
+                          };
+                          setData({ ...data, documents: [newDoc, ...data.documents] });
+                        })
+                      }
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {/* Documents Page Heading & Banner Introduction */}
+              <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-3">
+                <div className="border-b border-slate-100 pb-2">
+                  <h3 className="font-bold text-xs text-[#2F5187] uppercase tracking-wider">
+                    Documents Page Heading & Banner Introduction
+                  </h3>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Page Section Heading</label>
+                    <input
+                      type="text"
+                      value={(data as any).documentsPage?.heading || "Downloadable School Documents & Guidelines"}
+                      onChange={(e) => {
+                        setData({
+                          ...data,
+                          documentsPage: {
+                            ...((data as any).documentsPage || {}),
+                            heading: e.target.value,
+                          },
+                        } as any);
+                      }}
+                      className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded font-bold text-[#2F5187]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Page Description / Instructions</label>
+                    <input
+                      type="text"
+                      value={(data as any).documentsPage?.subheading || "Access official registration application forms, curriculum guides, approved fee structures, safety certifications, and academic calendars for Lotus Global School, Vatar, Vapi."}
+                      onChange={(e) => {
+                        setData({
+                          ...data,
+                          documentsPage: {
+                            ...((data as any).documentsPage || {}),
+                            subheading: e.target.value,
+                          },
+                        } as any);
+                      }}
+                      className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded text-slate-600"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -1334,35 +1672,57 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <div key={doc.id} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3">
                     <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                       <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded bg-[#EEF3FA] text-[#2F5187] font-extrabold text-[11px] border border-[#2F5187]/20">
+                          Block #{idx + 1}
+                        </span>
                         <FileText className="w-4 h-4 text-rose-600" />
-                        <span className="text-xs font-bold text-[#2F5187]">{doc.title}</span>
+                        <span className="text-xs font-bold text-[#2F5187] truncate max-w-xs">{doc.title || "Untitled Document"}</span>
                       </div>
-                      <button
-                        onClick={() => {
-                          const updated = data.documents.filter((d) => d.id !== doc.id);
+                      <div className="flex items-center gap-3">
+                        <label className="flex items-center gap-1.5 text-xs text-slate-600 font-semibold cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={doc.active !== false}
+                            onChange={(e) => {
+                              const updated = [...data.documents];
+                              updated[idx].active = e.target.checked;
+                              setData({ ...data, documents: updated });
+                            }}
+                            className="rounded text-[#E87737]"
+                          />
+                          <span>Visible</span>
+                        </label>
+                        <button
+                          onClick={() => {
+                            const updated = data.documents.filter((d) => d.id !== doc.id);
+                            setData({ ...data, documents: updated });
+                          }}
+                          className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1 font-semibold"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete Block</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-[#2F5187] mb-1">
+                        Document Title / Card Heading <span className="text-[#E87737] font-semibold">(e.g. School Prospectus & Information Brochure)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={doc.title}
+                        onChange={(e) => {
+                          const updated = [...data.documents];
+                          updated[idx].title = e.target.value;
                           setData({ ...data, documents: updated });
                         }}
-                        className="text-rose-600 hover:text-rose-700 text-xs flex items-center gap-1"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        <span>Delete</span>
-                      </button>
+                        placeholder="e.g. School Prospectus & Information Brochure"
+                        className="w-full p-2.5 text-xs font-bold text-[#2F5187] bg-amber-50/30 border-2 border-amber-200/80 focus:border-[#2F5187] focus:bg-white rounded"
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Document Title</label>
-                        <input
-                          type="text"
-                          value={doc.title}
-                          onChange={(e) => {
-                            const updated = [...data.documents];
-                            updated[idx].title = e.target.value;
-                            setData({ ...data, documents: updated });
-                          }}
-                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
-                        />
-                      </div>
                       <div>
                         <label className="block text-xs font-bold text-slate-700 mb-1">Category</label>
                         <select
@@ -1372,7 +1732,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             updated[idx].category = e.target.value;
                             setData({ ...data, documents: updated });
                           }}
-                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded font-medium"
                         >
                           <option value="Admissions">Admissions</option>
                           <option value="Academics">Academics</option>
@@ -1381,7 +1741,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Date</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Publication / Release Date</label>
                         <input
                           type="text"
                           value={doc.date}
@@ -1393,18 +1753,33 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
                         />
                       </div>
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">File Size / Format Badge</label>
+                        <input
+                          type="text"
+                          value={doc.fileSize || "PDF"}
+                          onChange={(e) => {
+                            const updated = [...data.documents];
+                            updated[idx].fileSize = e.target.value;
+                            setData({ ...data, documents: updated });
+                          }}
+                          placeholder="e.g. 2.4 MB or PDF"
+                          className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                        />
+                      </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
-                      <input
-                        type="text"
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Document Summary / Description</label>
+                      <textarea
+                        rows={2}
                         value={doc.description}
                         onChange={(e) => {
                           const updated = [...data.documents];
                           updated[idx].description = e.target.value;
                           setData({ ...data, documents: updated });
                         }}
+                        placeholder="Comprehensive institutional overview and guidelines..."
                         className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded"
                       />
                     </div>
@@ -1420,11 +1795,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             updated[idx].fileUrl = e.target.value;
                             setData({ ...data, documents: updated });
                           }}
-                          className="flex-1 p-2 text-xs bg-slate-50 border border-slate-200 rounded"
+                          placeholder="/uploads/documents/example.pdf or https://..."
+                          className="flex-1 p-2 text-xs bg-slate-50 border border-slate-200 rounded font-mono"
                         />
                         <label className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1">
                           <Upload className="w-3.5 h-3.5" />
-                          <span>Replace PDF</span>
+                          <span>Replace / Upload PDF</span>
                           <input
                             type="file"
                             accept=".pdf,.doc,.docx"

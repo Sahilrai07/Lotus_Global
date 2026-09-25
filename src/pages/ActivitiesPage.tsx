@@ -166,7 +166,7 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
     },
   ];
 
-  const artsDisciplines = [
+  const artsDisciplines = siteData.coCurricular?.artsDisciplines || [
     {
       name: "Vocal & Instrumental Music Ensemble",
       icon: Music,
@@ -193,7 +193,7 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
     },
   ];
 
-  const studentClubs = [
+  const studentClubs = siteData.coCurricular?.studentClubs || [
     {
       name: "STEM & Young Innovators Club",
       icon: Lightbulb,
@@ -220,7 +220,7 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
     },
   ];
 
-  const houses = [
+  const defaultHouses = [
     {
       name: "Agni",
       element: "Fire",
@@ -266,6 +266,29 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
       description: "Embodying emotional intelligence, adaptability in shifting currents, collaborative empathy, and creative depth.",
     },
   ];
+
+  const houseStyles = [
+    { color: "bg-red-500", border: "border-red-500", text: "text-red-600", lightBg: "bg-red-50", icon: Flame },
+    { color: "bg-emerald-600", border: "border-emerald-600", text: "text-emerald-700", lightBg: "bg-emerald-50", icon: Mountain },
+    { color: "bg-blue-600", border: "border-blue-600", text: "text-blue-700", lightBg: "bg-blue-50", icon: Wind },
+    { color: "bg-cyan-600", border: "border-cyan-600", text: "text-cyan-700", lightBg: "bg-cyan-50", icon: Droplets },
+    { color: "bg-purple-600", border: "border-purple-600", text: "text-purple-700", lightBg: "bg-purple-50", icon: Sparkles },
+    { color: "bg-amber-600", border: "border-amber-600", text: "text-amber-700", lightBg: "bg-amber-50", icon: Trophy },
+  ];
+
+  const houses = (siteData.coCurricular?.houses && siteData.coCurricular.houses.length > 0)
+    ? siteData.coCurricular.houses.map((h, i) => {
+        const style = houseStyles[i % houseStyles.length];
+        return {
+          ...h,
+          color: (h as any).color || style.color,
+          border: (h as any).border || style.border,
+          text: (h as any).text || style.text,
+          lightBg: (h as any).lightBg || style.lightBg,
+          icon: (h as any).icon || style.icon,
+        };
+      })
+    : defaultHouses;
 
   const annualCalendar = [
     { month: "June - July", event: "Investiture Ceremony & Student Council Badging", category: "Leadership" },
@@ -466,7 +489,7 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {artsDisciplines.map((art, idx) => {
-                const Icon = art.icon;
+                const Icon = typeof art.icon === "function" ? (art.icon as any) : Sparkles;
                 return (
                   <div
                     key={idx}
@@ -513,7 +536,7 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {studentClubs.map((club, idx) => {
-                const Icon = club.icon;
+                const Icon = typeof club.icon === "function" ? (club.icon as any) : Lightbulb;
                 return (
                   <div
                     key={idx}

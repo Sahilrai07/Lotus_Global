@@ -197,33 +197,76 @@ export const AboutEditor: React.FC<AboutEditorProps> = ({
 
           {/* Institutional Distinctions */}
           <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
-            <h3 className="font-bold text-sm text-[#2F5187] border-b border-slate-100 pb-2">
-              Four Core Distinctions
-            </h3>
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+              <div>
+                <h3 className="font-bold text-sm text-[#2F5187]">Core Institutional Distinctions</h3>
+                <p className="text-xs text-slate-500">Pillars defining Lotus Global School's pedagogical and infrastructural distinction.</p>
+              </div>
+              <button
+                onClick={() => {
+                  const updated = [...(data.aboutPage?.distinctions || [])];
+                  updated.push({
+                    icon: "Award",
+                    title: `Distinction Pillar ${updated.length + 1}`,
+                    description: "Description of this foundational pillar and institutional standard.",
+                  });
+                  setData({ ...data, aboutPage: { ...data.aboutPage, distinctions: updated } });
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#233d66] rounded-lg text-xs font-bold transition-all shadow-sm"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Add Distinction Block</span>
+              </button>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {data.aboutPage?.distinctions?.map((dist, idx) => (
-                <div key={idx} className="p-3 bg-slate-50 border border-slate-200 rounded space-y-2">
-                  <span className="text-[10px] font-bold text-[#E87737] uppercase">Pillar {idx + 1}</span>
-                  <input
-                    type="text"
-                    value={dist.title}
-                    onChange={(e) => {
-                      const updated = [...data.aboutPage.distinctions];
-                      updated[idx].title = e.target.value;
-                      setData({ ...data, aboutPage: { ...data.aboutPage, distinctions: updated } });
-                    }}
-                    className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
-                  />
-                  <textarea
-                    rows={2}
-                    value={dist.description}
-                    onChange={(e) => {
-                      const updated = [...data.aboutPage.distinctions];
-                      updated[idx].description = e.target.value;
-                      setData({ ...data, aboutPage: { ...data.aboutPage, distinctions: updated } });
-                    }}
-                    className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded text-slate-600"
-                  />
+                <div key={idx} className="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-[#E87737] uppercase">Pillar #{idx + 1}</span>
+                    <button
+                      onClick={() => {
+                        const updated = data.aboutPage.distinctions.filter((_, i) => i !== idx);
+                        setData({ ...data, aboutPage: { ...data.aboutPage, distinctions: updated } });
+                      }}
+                      className="p-1 text-rose-500 hover:bg-rose-100 rounded text-xs flex items-center gap-1"
+                      title="Delete Distinction"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                      Distinction Title / Heading
+                    </label>
+                    <input
+                      type="text"
+                      value={dist.title}
+                      onChange={(e) => {
+                        const updated = [...data.aboutPage.distinctions];
+                        updated[idx].title = e.target.value;
+                        setData({ ...data, aboutPage: { ...data.aboutPage, distinctions: updated } });
+                      }}
+                      placeholder="e.g. CBSE Pedagogical Alignment"
+                      className="w-full text-xs p-2 bg-white border border-slate-300 rounded font-bold text-[#2F5187] focus:border-[#2F5187]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                      Distinction Description
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={dist.description}
+                      onChange={(e) => {
+                        const updated = [...data.aboutPage.distinctions];
+                        updated[idx].description = e.target.value;
+                        setData({ ...data, aboutPage: { ...data.aboutPage, distinctions: updated } });
+                      }}
+                      className="w-full text-xs p-2 bg-white border border-slate-300 rounded text-slate-600 leading-relaxed"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
@@ -272,11 +315,34 @@ export const AboutEditor: React.FC<AboutEditorProps> = ({
           </div>
 
           <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
-            <h3 className="font-bold text-sm text-[#2F5187] border-b border-slate-100 pb-2">
-              Mission Statement & Commitments
-            </h3>
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+              <div>
+                <h3 className="font-bold text-sm text-[#2F5187]">Mission Statement & Institutional Commitments</h3>
+                <p className="text-xs text-slate-500">Core action pillars through which the school fulfills its educational mission.</p>
+              </div>
+              <button
+                onClick={() => {
+                  const updated = [...(data.visionMissionPage?.missionCommitments || [])];
+                  updated.push({
+                    title: `Action Commitment ${updated.length + 1}`,
+                    description: "Details regarding educational pledge and operational commitment to student growth.",
+                  });
+                  setData({
+                    ...data,
+                    visionMissionPage: {
+                      ...data.visionMissionPage,
+                      missionCommitments: updated,
+                    },
+                  });
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#233d66] rounded-lg text-xs font-bold transition-all shadow-sm"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Add Commitment Block</span>
+              </button>
+            </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Mission Statement</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Overarching Mission Statement</label>
               <textarea
                 rows={3}
                 value={data.visionMissionPage?.missionStatement || ""}
@@ -294,40 +360,70 @@ export const AboutEditor: React.FC<AboutEditorProps> = ({
             </div>
             <div className="space-y-3">
               {data.visionMissionPage?.missionCommitments?.map((comm, idx) => (
-                <div key={idx} className="p-3 bg-slate-50 border border-slate-200 rounded space-y-2">
-                  <span className="text-[10px] font-bold text-[#E87737] uppercase">Commitment {idx + 1}</span>
-                  <input
-                    type="text"
-                    value={comm.title}
-                    onChange={(e) => {
-                      const updated = [...data.visionMissionPage.missionCommitments];
-                      updated[idx].title = e.target.value;
-                      setData({
-                        ...data,
-                        visionMissionPage: {
-                          ...data.visionMissionPage,
-                          missionCommitments: updated,
-                        },
-                      });
-                    }}
-                    className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
-                  />
-                  <textarea
-                    rows={2}
-                    value={comm.description}
-                    onChange={(e) => {
-                      const updated = [...data.visionMissionPage.missionCommitments];
-                      updated[idx].description = e.target.value;
-                      setData({
-                        ...data,
-                        visionMissionPage: {
-                          ...data.visionMissionPage,
-                          missionCommitments: updated,
-                        },
-                      });
-                    }}
-                    className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded text-slate-600"
-                  />
+                <div key={idx} className="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-[#E87737] uppercase">Commitment #{idx + 1}</span>
+                    <button
+                      onClick={() => {
+                        const updated = data.visionMissionPage.missionCommitments.filter((_, i) => i !== idx);
+                        setData({
+                          ...data,
+                          visionMissionPage: {
+                            ...data.visionMissionPage,
+                            missionCommitments: updated,
+                          },
+                        });
+                      }}
+                      className="p-1 text-rose-500 hover:bg-rose-100 rounded text-xs flex items-center gap-1"
+                      title="Delete Commitment"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                      Commitment Title / Heading
+                    </label>
+                    <input
+                      type="text"
+                      value={comm.title}
+                      onChange={(e) => {
+                        const updated = [...data.visionMissionPage.missionCommitments];
+                        updated[idx].title = e.target.value;
+                        setData({
+                          ...data,
+                          visionMissionPage: {
+                            ...data.visionMissionPage,
+                            missionCommitments: updated,
+                          },
+                        });
+                      }}
+                      placeholder="e.g. Cognitive Excellence & Inquisitiveness"
+                      className="w-full text-xs p-2 bg-white border border-slate-300 rounded font-bold text-[#2F5187] focus:border-[#2F5187]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                      Action Description
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={comm.description}
+                      onChange={(e) => {
+                        const updated = [...data.visionMissionPage.missionCommitments];
+                        updated[idx].description = e.target.value;
+                        setData({
+                          ...data,
+                          visionMissionPage: {
+                            ...data.visionMissionPage,
+                            missionCommitments: updated,
+                          },
+                        });
+                      }}
+                      className="w-full text-xs p-2 bg-white border border-slate-300 rounded text-slate-600 leading-relaxed"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
@@ -526,30 +622,66 @@ export const AboutEditor: React.FC<AboutEditorProps> = ({
 
           {/* Transit Corridors */}
           <div className="space-y-3 pt-2">
-            <span className="font-bold text-xs text-slate-700 block">Accessibility & Transit Corridors</span>
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-xs text-slate-700 block">Accessibility & Transit Corridors</span>
+              <button
+                onClick={() => {
+                  const updated = [...(data.locationPage?.transitCorridors || [])];
+                  updated.push({
+                    access: "Regional Transit Route",
+                    corridor: "New Transit Corridor / Route",
+                    distance: "Approx. Distance / Time",
+                  });
+                  setData({ ...data, locationPage: { ...data.locationPage, transitCorridors: updated } });
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#2F5187] rounded text-xs font-bold transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Add Corridor Block</span>
+              </button>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {data.locationPage?.transitCorridors?.map((corridor, idx) => (
-                <div key={idx} className="p-3 bg-slate-50 border border-slate-200 rounded space-y-2">
-                  <input
-                    type="text"
-                    value={corridor.corridor}
-                    onChange={(e) => {
-                      const updated = [...data.locationPage.transitCorridors];
-                      updated[idx].corridor = e.target.value;
-                      setData({ ...data, locationPage: { ...data.locationPage, transitCorridors: updated } });
-                    }}
-                    className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
-                  />
-                  <input
-                    type="text"
-                    value={corridor.distance}
-                    onChange={(e) => {
-                      const updated = [...data.locationPage.transitCorridors];
-                      updated[idx].distance = e.target.value;
-                      setData({ ...data, locationPage: { ...data.locationPage, transitCorridors: updated } });
-                    }}
-                    className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded text-slate-600"
-                  />
+                <div key={idx} className="p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-[#E87737] uppercase">Route #{idx + 1}</span>
+                    <button
+                      onClick={() => {
+                        const updated = data.locationPage.transitCorridors.filter((_, i) => i !== idx);
+                        setData({ ...data, locationPage: { ...data.locationPage, transitCorridors: updated } });
+                      }}
+                      className="p-1 text-rose-500 hover:bg-rose-100 rounded text-xs"
+                      title="Delete Corridor"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Route / Corridor Name</label>
+                    <input
+                      type="text"
+                      value={corridor.corridor}
+                      onChange={(e) => {
+                        const updated = [...data.locationPage.transitCorridors];
+                        updated[idx].corridor = e.target.value;
+                        setData({ ...data, locationPage: { ...data.locationPage, transitCorridors: updated } });
+                      }}
+                      className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded font-bold text-[#2F5187]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Distance / Travel Time</label>
+                    <input
+                      type="text"
+                      value={corridor.distance}
+                      onChange={(e) => {
+                        const updated = [...data.locationPage.transitCorridors];
+                        updated[idx].distance = e.target.value;
+                        setData({ ...data, locationPage: { ...data.locationPage, transitCorridors: updated } });
+                      }}
+                      className="w-full text-xs p-1.5 bg-white border border-slate-300 rounded text-slate-600"
+                    />
+                  </div>
                 </div>
               ))}
             </div>

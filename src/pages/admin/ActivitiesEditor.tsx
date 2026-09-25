@@ -166,16 +166,51 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
       {/* SUB-TAB 2: ARTS & CULTURE */}
       {subTab === "arts" && (
         <div className="space-y-4">
-          <h3 className="font-bold text-sm text-[#2F5187]">Visual & Performing Arts Disciplines</h3>
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-bold text-sm text-[#2F5187]">Visual & Performing Arts Disciplines</h3>
+              <p className="text-xs text-slate-500">Add or edit fine arts, music, dance, and theatre programs.</p>
+            </div>
+            <button
+              onClick={() => {
+                const updated = [...(data.coCurricular?.artsDisciplines || [])];
+                updated.push({
+                  name: `Art Discipline ${updated.length + 1}`,
+                  desc: "Curricular overview of this creative and artistic discipline.",
+                  outcomes: "Creative expression, technical discipline and confidence.",
+                  icon: "Sparkles",
+                });
+                setData({ ...data, coCurricular: { ...data.coCurricular, artsDisciplines: updated } });
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#233d66] rounded-lg text-xs font-bold transition-all shadow-sm"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>+ Add Art Discipline Block</span>
+            </button>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {data.coCurricular?.artsDisciplines?.map((art, idx) => (
               <div key={idx} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <span className="text-xs font-bold uppercase text-[#E87737]">Art Stream {idx + 1}</span>
+                  <span className="text-xs font-bold uppercase text-[#E87737]">Art Stream #{idx + 1}</span>
+                  <button
+                    onClick={() => {
+                      const updated = data.coCurricular.artsDisciplines.filter((_, i) => i !== idx);
+                      setData({ ...data, coCurricular: { ...data.coCurricular, artsDisciplines: updated } });
+                    }}
+                    className="p-1 text-rose-500 hover:bg-rose-50 rounded text-xs flex items-center gap-1"
+                    title="Delete Art Discipline"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete</span>
+                  </button>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase">Discipline Name</label>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Discipline Title / Card Heading
+                  </label>
                   <input
                     type="text"
                     value={art.name}
@@ -184,7 +219,8 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
                       updated[idx].name = e.target.value;
                       setData({ ...data, coCurricular: { ...data.coCurricular, artsDisciplines: updated } });
                     }}
-                    className="w-full text-xs p-1.5 border border-slate-300 rounded font-bold text-[#2F5187]"
+                    placeholder="e.g. Hindustani Classical Vocal & Instrumental"
+                    className="w-full text-xs p-2 border border-slate-300 rounded font-bold text-[#2F5187] bg-slate-50 focus:bg-white focus:border-[#2F5187]"
                   />
                 </div>
 
@@ -311,20 +347,58 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
       {/* SUB-TAB 4: FOUR-HOUSE SYSTEM */}
       {subTab === "houses" && (
         <div className="space-y-4">
-          <h3 className="font-bold text-sm text-[#2F5187]">Four-House System & Elements</h3>
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-bold text-sm text-[#2F5187]">Four-House System & Elements</h3>
+              <p className="text-xs text-slate-500">Add or customize institutional house names, elemental values, and mottos.</p>
+            </div>
+            <button
+              onClick={() => {
+                const updated = [...(data.coCurricular?.houses || [])];
+                updated.push({
+                  name: `House ${updated.length + 1}`,
+                  element: "Ether",
+                  color: "#E87737",
+                  border: "border-orange-500",
+                  text: "text-orange-600",
+                  motto: "Honor, Wisdom, and Harmony",
+                  description: "Philosophy and cultural ethos representing this student house.",
+                });
+                setData({ ...data, coCurricular: { ...data.coCurricular, houses: updated } });
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2F5187] text-white hover:bg-[#233d66] rounded-lg text-xs font-bold transition-all shadow-sm"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>+ Add House Block</span>
+            </button>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {data.coCurricular?.houses?.map((house, idx) => (
               <div key={idx} className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <span className="text-xs font-bold uppercase text-[#E87737]">House {house.name}</span>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
-                    Element of {house.element}
-                  </span>
+                  <span className="text-xs font-bold uppercase text-[#E87737]">House #{idx + 1}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                      Element: {house.element}
+                    </span>
+                    <button
+                      onClick={() => {
+                        const updated = data.coCurricular.houses.filter((_, i) => i !== idx);
+                        setData({ ...data, coCurricular: { ...data.coCurricular, houses: updated } });
+                      }}
+                      className="p-1 text-rose-500 hover:bg-rose-50 rounded text-xs flex items-center gap-1"
+                      title="Delete House"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase">House Name</label>
+                    <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">House Name / Block Heading</label>
                     <input
                       type="text"
                       value={house.name}
@@ -333,11 +407,11 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
                         updated[idx].name = e.target.value;
                         setData({ ...data, coCurricular: { ...data.coCurricular, houses: updated } });
                       }}
-                      className="w-full text-xs p-1.5 border border-slate-300 rounded font-bold text-[#2F5187]"
+                      className="w-full text-xs p-2 border border-slate-300 rounded font-bold text-[#2F5187] bg-slate-50 focus:bg-white focus:border-[#2F5187]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase">Natural Element</label>
+                    <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Natural Element</label>
                     <input
                       type="text"
                       value={house.element}
@@ -346,7 +420,7 @@ export const ActivitiesEditor: React.FC<ActivitiesEditorProps> = ({ data, setDat
                         updated[idx].element = e.target.value;
                         setData({ ...data, coCurricular: { ...data.coCurricular, houses: updated } });
                       }}
-                      className="w-full text-xs p-1.5 border border-slate-300 rounded"
+                      className="w-full text-xs p-2 border border-slate-300 rounded"
                     />
                   </div>
                 </div>
