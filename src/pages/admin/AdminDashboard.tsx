@@ -1976,6 +1976,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           placeholder="/uploads/documents/example.pdf or https://..."
                           className="flex-1 p-2 text-xs bg-slate-50 border border-slate-200 rounded font-mono"
                         />
+                        {doc.fileUrl && (
+                          <a
+                            href={doc.fileUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-[#2F5187] border border-slate-300 rounded text-xs font-bold shrink-0 flex items-center gap-1 transition-colors"
+                            title="View / Download PDF"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">View PDF</span>
+                          </a>
+                        )}
                         <label className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1">
                           <Upload className="w-3.5 h-3.5" />
                           <span>Replace / Upload PDF</span>

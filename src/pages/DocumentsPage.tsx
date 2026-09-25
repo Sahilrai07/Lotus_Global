@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
-import { FileText, Download, Search, Filter, Calendar, CheckCircle2, ShieldCheck, AlertCircle } from "lucide-react";
+import { FileText, Download, Search, Filter, Calendar, CheckCircle2, ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
 import { useSiteData, DocumentItem } from "../data/siteDataService";
 
 interface DocumentsPageProps {
@@ -16,6 +16,7 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
   const documents: DocumentItem[] = siteData.documents || [];
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   const pageHeading = (siteData as any).documentsPage?.heading || "Downloadable School Documents & Guidelines";
   const pageSubheading = (siteData as any).documentsPage?.subheading || "Access official registration application forms, curriculum guides, approved fee structures, safety certifications, and academic calendars for Lotus Global School, Vatar, Vapi.";
@@ -33,12 +34,65 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
     return matchesCategory && matchesSearch;
   });
 
-  const handleDownload = (doc: DocumentItem) => {
-    // If local file exists, trigger download or open PDF in new tab
-    if (doc.fileUrl) {
-      window.open(doc.fileUrl, "_blank");
-    } else {
-      window.open(`/docs/${doc.id || "document"}.pdf`, "_blank");
+  const handleDownload = async (doc: DocumentItem) => {
+    let fileUrl = doc.fileUrl || `/uploads/documents/${doc.fileName || `${doc.id}.pdf`}`;
+    setDownloadingId(doc.id);
+
+    const safeTitle = (doc.title || "Document")
+      .trim()
+      .replace(/[^a-zA-Z0-9_\-\s]/g, "")
+      .replace(/\s+/g, "_");
+    const targetFilename = safeTitle.endsWith(".pdf") ? safeTitle : `${safeTitle}.pdf`;
+
+    try {
+      // If it's a data URI (base64)
+      if (fileUrl.startsWith("data:")) {
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = fileUrl;
+        a.download = targetFilename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        return;
+      }
+
+      // Route static /uploads/documents paths through /api/files?id=... to ensure attachment headers
+      if (fileUrl.startsWith("/uploads/documents/")) {
+        const fileParam = fileUrl.replace("/uploads/documents/", "");
+        fileUrl = `/api/files?id=${encodeURIComponent(fileParam)}`;
+      }
+
+      const downloadUrl = fileUrl.includes("?") ? `${fileUrl}&download=1` : `${fileUrl}?download=1`;
+      const res = await fetch(downloadUrl);
+      if (!res.ok) throw new Error("Fetch failed");
+      const blob = await res.blob();
+      const pdfBlob = blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" });
+
+      const blobUrl = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = blobUrl;
+      a.download = targetFilename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 3000);
+    } catch {
+      const a = document.createElement("a");
+      a.style.display = "none";
+      let fallbackUrl = fileUrl;
+      if (!fallbackUrl.startsWith("data:")) {
+        fallbackUrl = fallbackUrl.includes("?") ? `${fallbackUrl}&download=1` : `${fallbackUrl}?download=1`;
+      }
+      a.href = fallbackUrl;
+      a.download = targetFilename;
+      a.target = "_blank";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } finally {
+      setTimeout(() => setDownloadingId(null), 800);
     }
   };
 
@@ -142,10 +196,20 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
                   </span>
                   <button
                     onClick={() => handleDownload(doc)}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#2F5187] text-white hover:bg-[#1E375F] font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
+                    disabled={downloadingId === doc.id}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#2F5187] text-white hover:bg-[#1E375F] font-bold text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer disabled:opacity-75"
                   >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download PDF</span>
+                    {downloadingId === doc.id ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-300" />
+                        <span className="text-amber-200">Saving...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Download PDF</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>

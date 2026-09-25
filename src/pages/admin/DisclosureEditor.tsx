@@ -206,6 +206,18 @@ export const DisclosureEditor: React.FC<DisclosureEditorProps> = ({
                       }}
                       className="flex-1 text-xs p-1.5 bg-white border border-slate-300 rounded"
                     />
+                    {doc.link && (
+                      <a
+                        href={doc.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-[#2F5187] border border-slate-300 rounded text-xs font-bold shrink-0 flex items-center gap-1 transition-colors"
+                        title="Preview attached document"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">View PDF</span>
+                      </a>
+                    )}
                     <label className="px-3 py-1.5 bg-[#2F5187] hover:bg-[#1E375F] text-white rounded text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1 transition-colors">
                       <Upload className="w-3.5 h-3.5" />
                       <span>Upload PDF</span>

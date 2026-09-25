@@ -119,7 +119,7 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
     });
 
     if (res.ok) {
-      const result = await res.json();
+      const result = await res.json().catch(() => ({}));
       return { success: true, message: result.message || 'Saved successfully to database!' };
     }
 
@@ -128,33 +128,55 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
       return { success: false, message: 'Authentication required or session expired. Please log in.' };
     }
 
-    // Try fallback dev endpoint if local dev
-    if (import.meta.env.DEV) {
-      const devRes = await fetch('/api/admin/data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dataToSave, null, 2),
-      });
-      if (devRes.ok) {
-        return { success: true, message: 'Saved successfully to local disk.' };
-      }
+    if (res.status === 413) {
+      return {
+        success: false,
+        message: 'Payload Too Large: One or more attached documents exceed the database transmission limit. Please upload PDFs via the "Upload PDF" button.',
+      };
     }
 
-    return { success: false, message: 'Failed to write to database.' };
+    let serverErrMsg = '';
+    try {
+      const errJson = await res.json();
+      serverErrMsg = errJson.message || errJson.error || '';
+    } catch {
+      try {
+        serverErrMsg = await res.text();
+      } catch {}
+    }
+
+    // Try fallback dev endpoint if local dev
+    if (import.meta.env.DEV) {
+      try {
+        const devRes = await fetch('/api/admin/data', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToSave, null, 2),
+        });
+        if (devRes.ok) {
+          return { success: true, message: 'Saved successfully to local disk.' };
+        }
+      } catch {}
+    }
+
+    return { success: false, message: serverErrMsg || 'Failed to write to database.' };
   } catch (err: unknown) {
     return { success: false, message: err instanceof Error ? err.message : 'Network error' };
   }
 };
 
 /**
- * Upload file with automatic intelligent compression and auto-fit optimization.
- * Compresses 5-10MB photos down to ~50-120KB WebP (95%+ reduction) so thousands
- * of photos fit safely within Neon PostgreSQL's 500MB storage quota.
+ * Upload file with automatic intelligent compression for images and cloud database storage for documents.
+ * Compresses 5-10MB photos down to ~50-120KB WebP (95%+ reduction).
+ * Uploads PDFs directly to cloud storage table (/api/upload -> /api/files?id=...), avoiding bloated siteData.json.
  */
 export const uploadFile = async (
   file: File,
   folder: UploadFolder = 'images'
 ): Promise<{ success: boolean; url?: string; fileName?: string; fileSize?: string; message?: string }> => {
+  const token = localStorage.getItem('lotus_admin_token') || sessionStorage.getItem('lotus_admin_token');
+  const sizeMb = file.size / (1024 * 1024);
+
   // If image file, run high-efficiency client-side compression and auto-fitting
   if (file.type.startsWith('image/')) {
     try {
@@ -176,26 +198,95 @@ export const uploadFile = async (
     }
   }
 
-  // Fallback / Document handling (PDFs, docs)
-  return new Promise((resolve) => {
+  // Document handling (PDFs, Word docs, etc.)
+  if (sizeMb > 10) {
+    return {
+      success: false,
+      message: `File is too large (${sizeMb.toFixed(1)} MB). Maximum allowed size for document upload is 10 MB.`,
+    };
+  }
+
+  // Read file as Base64 for cloud database persistence
+  const base64Data = await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64Url = reader.result as string;
-      const sizeKb = Math.round(file.size / 1024);
-      resolve({
-        success: true,
-        url: base64Url,
-        fileName: file.name,
-        fileSize: sizeKb > 1024 ? `${(sizeKb / 1024).toFixed(1)} MB` : `${sizeKb} KB`,
-        message: 'File converted and stored successfully',
-      });
-    };
-    reader.onerror = () => {
-      resolve({
-        success: false,
-        message: 'Failed to read file',
-      });
-    };
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = () => reject(new Error('Failed to read file'));
     reader.readAsDataURL(file);
   });
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  // 1. Try uploading to cloud API endpoint (/api/upload)
+  try {
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        fileName: file.name,
+        folder,
+        base64: base64Data,
+        mimeType: file.type || 'application/pdf',
+      }),
+    });
+
+    if (res.ok) {
+      const result = await res.json();
+      if (result.success && result.url) {
+        return {
+          success: true,
+          url: result.url,
+          fileName: result.fileName || file.name,
+          fileSize: result.fileSize || `${Math.round(file.size / 1024)} KB`,
+          message: result.message || 'File uploaded successfully!',
+        };
+      }
+    } else {
+      const errData = await res.json().catch(() => ({}));
+      if (errData.message) {
+        console.warn('[Upload endpoint error]:', errData.message);
+      }
+    }
+  } catch (err) {
+    console.warn('[Upload to /api/upload failed, trying fallback]:', err);
+  }
+
+  // 2. Fallback to local dev endpoint (/api/admin/upload) in development
+  if (import.meta.env.DEV) {
+    try {
+      const devRes = await fetch('/api/admin/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fileName: file.name,
+          folder,
+          base64: base64Data,
+        }),
+      });
+
+      if (devRes.ok) {
+        const devResult = await devRes.json();
+        if (devResult.success && devResult.url) {
+          return {
+            success: true,
+            url: devResult.url,
+            fileName: devResult.fileName || file.name,
+            fileSize: devResult.fileSize || `${Math.round(file.size / 1024)} KB`,
+            message: 'File saved locally to disk successfully.',
+          };
+        }
+      }
+    } catch (devErr) {
+      console.error('[Local upload failed]:', devErr);
+    }
+  }
+
+  return {
+    success: false,
+    message: 'Failed to upload document to cloud storage. Please check connection and try again.',
+  };
 };

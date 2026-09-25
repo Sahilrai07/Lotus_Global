@@ -21,8 +21,8 @@ function localAdminPlugin(): Plugin {
       server.middlewares.use(async (req, res, next) => {
         const url = req.url?.split('?')[0];
 
-        // GET /api/admin/data -> Return siteData.json
-        if (url === '/api/admin/data' && req.method === 'GET') {
+        // GET /api/admin/data or /api/site-data -> Return siteData.json
+        if ((url === '/api/admin/data' || url === '/api/site-data') && req.method === 'GET') {
           const dataPath = path.resolve(import.meta.dirname, 'src/data/siteData.json');
           try {
             if (!fs.existsSync(dataPath)) {
@@ -43,8 +43,8 @@ function localAdminPlugin(): Plugin {
           return;
         }
 
-        // POST /api/admin/data -> Write updated siteData.json
-        if (url === '/api/admin/data' && req.method === 'POST') {
+        // POST /api/admin/data or /api/site-data -> Write updated siteData.json
+        if ((url === '/api/admin/data' || url === '/api/site-data') && req.method === 'POST') {
           const dataPath = path.resolve(import.meta.dirname, 'src/data/siteData.json');
           const chunks: Buffer[] = [];
           req.on('data', (chunk) => chunks.push(chunk));
@@ -249,8 +249,8 @@ function localAdminPlugin(): Plugin {
         }
 
 
-        // POST /api/admin/upload -> Save file to public/uploads/[images|documents|gallery]
-        if (url === '/api/admin/upload' && req.method === 'POST') {
+        // POST /api/admin/upload or /api/upload -> Save file to public/uploads/[images|documents|gallery]
+        if ((url === '/api/admin/upload' || url === '/api/upload') && req.method === 'POST') {
           const contentType = req.headers['content-type'] || '';
           const chunks: Buffer[] = [];
 
@@ -286,7 +286,7 @@ function localAdminPlugin(): Plugin {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({
                   success: true,
-                  url: `/uploads/${safeFolder}/${cleanFileName}`,
+                  url: `/api/files?id=${encodeURIComponent(cleanFileName)}`,
                   fileName: cleanFileName,
                   fileSize,
                 }));
@@ -337,7 +337,7 @@ function localAdminPlugin(): Plugin {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({
                   success: true,
-                  url: `/uploads/${safeFolder}/${cleanFileName}`,
+                  url: `/api/files?id=${encodeURIComponent(cleanFileName)}`,
                   fileName: cleanFileName,
                   fileSize,
                 }));
@@ -351,6 +351,56 @@ function localAdminPlugin(): Plugin {
               res.end(JSON.stringify({ error: err instanceof Error ? err.message : 'Upload failed' }));
             }
           });
+          return;
+        }
+
+        // GET /api/files -> Serve uploaded document/file directly
+        if (url === '/api/files' && (req.method === 'GET' || req.method === 'HEAD')) {
+          const urlObj = new URL(req.url || '', 'http://localhost');
+          const fileId = urlObj.searchParams.get('id') || urlObj.searchParams.get('name') || '';
+          const isDownload = urlObj.searchParams.get('download') === '1' || urlObj.searchParams.get('download') === 'true';
+
+          if (!fileId) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Missing file id parameter' }));
+            return;
+          }
+
+          const possibleDirs = [
+            path.resolve(import.meta.dirname, 'public/uploads/documents'),
+            path.resolve(import.meta.dirname, 'public/uploads/images'),
+            path.resolve(import.meta.dirname, 'public/uploads/gallery'),
+            path.resolve(import.meta.dirname, 'public'),
+          ];
+
+          for (const dir of possibleDirs) {
+            const filePath = path.join(dir, fileId);
+            if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+              const mime = fileId.endsWith('.pdf')
+                ? 'application/pdf'
+                : fileId.endsWith('.webp')
+                ? 'image/webp'
+                : fileId.endsWith('.png')
+                ? 'image/png'
+                : fileId.endsWith('.jpg') || fileId.endsWith('.jpeg')
+                ? 'image/jpeg'
+                : 'application/octet-stream';
+
+              const content = fs.readFileSync(filePath);
+              const disposition = isDownload ? 'attachment' : 'inline';
+              res.writeHead(200, {
+                'Content-Type': mime,
+                'Content-Disposition': `${disposition}; filename="${path.basename(filePath)}"`,
+                'Content-Length': content.length,
+                'Cache-Control': 'public, max-age=31536000',
+              });
+              res.end(req.method === 'HEAD' ? undefined : content);
+              return;
+            }
+          }
+
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'File not found' }));
           return;
         }
 

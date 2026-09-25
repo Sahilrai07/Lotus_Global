@@ -1455,8 +1455,8 @@
     "complianceDocuments": [
       {
         "sno": "01",
-        "link": "/uploads/documents/mandatory-disclosure-appendix-ix.pdf",
-        "title": "Copies of Affiliation / Upgradation Documentation",
+        "link": "/api/files?id=fire-safety-certificate.pdf",
+        "title": "Fire Safety Certificate",
         "status": "Available for Inspection"
       },
       {
@@ -1491,7 +1491,7 @@
       },
       {
         "sno": "07",
-        "link": "/uploads/documents/health-sanitation-certificate.pdf",
+        "link": "/api/files?id=health-sanitation-certificate.pdf",
         "title": "Copies of Valid Water, Health & Sanitation Certificates",
         "status": "Potable Water & Hygiene Certified"
       }

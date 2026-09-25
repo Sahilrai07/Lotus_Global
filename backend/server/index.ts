@@ -8,6 +8,8 @@ import { galleryRouter } from "./routes/gallery";
 import { documentsRouter } from "./routes/documents";
 import { inquiryRouter } from "./routes/inquiry";
 import { siteContentRouter } from "./routes/siteContent";
+import { filesRouter } from "./routes/files";
+import { uploadRouter } from "./routes/upload";
 
 export const app = express();
 
@@ -39,6 +41,8 @@ app.use(["/api/documents", "/documents"], documentsRouter);
 app.use(["/api/inquiries", "/inquiries"], inquiryRouter);
 app.use(["/api/site-data", "/site-data"], siteContentRouter);
 app.use(["/api/admin/data", "/admin/data"], siteContentRouter);
+app.use(["/api/files", "/files"], filesRouter);
+app.use(["/api/upload", "/upload"], uploadRouter);
 
 // 5. Fallback 404 handler for undefined routes
 app.use((_req: Request, res: Response) => {

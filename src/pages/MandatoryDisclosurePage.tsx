@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
-import { FileText, Download, CheckCircle2, ShieldCheck, ExternalLink, Building, Users, BookOpen } from "lucide-react";
+import { FileText, Download, CheckCircle2, ShieldCheck, ExternalLink, Building, Users, BookOpen, RefreshCw } from "lucide-react";
 import { useSiteData } from "../data/siteDataService";
 
 interface MandatoryDisclosurePageProps {
@@ -15,6 +15,99 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
   const { siteData } = useSiteData();
   const school = siteData.schoolInfo;
   const banner = siteData.pageBanners?.disclosure || "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1600&q=80";
+  const [downloadingSno, setDownloadingSno] = useState<string | null>(null);
+
+  const resolveDocUrl = (doc: { sno: string; link?: string; title?: string }) => {
+    if (doc.link && doc.link.trim()) {
+      return doc.link.trim();
+    }
+    if (doc.sno === "05" || doc.title?.toLowerCase().includes("building")) {
+      return "/api/files?id=building-safety-certificate.pdf";
+    }
+    if (doc.sno === "06" || doc.sno === "01" || doc.title?.toLowerCase().includes("fire")) {
+      return "/api/files?id=fire-safety-certificate.pdf";
+    }
+    if (doc.sno === "07" || doc.title?.toLowerCase().includes("water") || doc.title?.toLowerCase().includes("health") || doc.title?.toLowerCase().includes("sanitation")) {
+      return "/api/files?id=health-sanitation-certificate.pdf";
+    }
+    return "/api/files?id=mandatory-disclosure-appendix-ix.pdf";
+  };
+
+  const handleDownload = async (e: React.MouseEvent, docLink?: string, docTitle?: string, sno?: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (sno) setDownloadingSno(sno);
+
+    const safeTitle = (docTitle || "Certificate")
+      .trim()
+      .replace(/[^a-zA-Z0-9_\-\s]/g, "")
+      .replace(/\s+/g, "_");
+    const targetFilename = safeTitle.endsWith(".pdf") ? safeTitle : `${safeTitle}.pdf`;
+
+    try {
+      let resolvedUrl = docLink || "/api/files?id=mandatory-disclosure-appendix-ix.pdf";
+
+      // If it's a data URI (base64)
+      if (resolvedUrl.startsWith("data:")) {
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = resolvedUrl;
+        a.download = targetFilename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        return;
+      }
+
+      // Route static /uploads/documents paths through /api/files?id=... to ensure attachment headers
+      if (resolvedUrl.startsWith("/uploads/documents/")) {
+        const fileParam = resolvedUrl.replace("/uploads/documents/", "");
+        resolvedUrl = `/api/files?id=${encodeURIComponent(fileParam)}`;
+      }
+
+      // Append ?download=1 to signal server to send attachment headers
+      const downloadUrl = resolvedUrl.includes("?")
+        ? `${resolvedUrl}&download=1`
+        : `${resolvedUrl}?download=1`;
+
+      const response = await fetch(downloadUrl);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const blob = await response.blob();
+      const pdfBlob = blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" });
+
+      // Create object URL and trigger programmatic device download
+      const blobUrl = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = blobUrl;
+      a.download = targetFilename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Clean up memory
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 3000);
+    } catch {
+      // Fallback: browser direct anchor download
+      const a = document.createElement("a");
+      a.style.display = "none";
+      let fallbackUrl = docLink || "/api/files?id=mandatory-disclosure-appendix-ix.pdf";
+      if (!fallbackUrl.startsWith("data:")) {
+        fallbackUrl = fallbackUrl.includes("?") ? `${fallbackUrl}&download=1` : `${fallbackUrl}?download=1`;
+      }
+      a.href = fallbackUrl;
+      a.download = targetFilename;
+      a.target = "_blank";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } finally {
+      setTimeout(() => {
+        if (sno) setDownloadingSno(null);
+      }, 800);
+    }
+  };
 
   const generalInfo = siteData.mandatoryDisclosure?.generalInfo || [
     { label: "Name of the School", value: school.name },
@@ -182,11 +275,22 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
                     </td>
                     <td className="p-3.5 text-center">
                       <button
-                        onClick={() => onNavigate("documents")}
-                        className="inline-flex items-center gap-1 px-3 py-1 rounded bg-[#2F5187] text-white hover:bg-[#1E375F] font-bold text-[11px] uppercase tracking-wider transition-colors shadow-xs"
+                        onClick={(e) => handleDownload(e, resolveDocUrl(doc), doc.title, doc.sno)}
+                        disabled={downloadingSno === doc.sno}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer disabled:opacity-75"
+                        title={`Save ${doc.title} to device`}
                       >
-                        <Download className="w-3 h-3" />
-                        <span>Download</span>
+                        {downloadingSno === doc.sno ? (
+                          <>
+                            <RefreshCw className="w-3 h-3 animate-spin text-amber-300" />
+                            <span className="text-amber-200">Saving...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Download className="w-3 h-3" />
+                            <span>Download</span>
+                          </>
+                        )}
                       </button>
                     </td>
                   </tr>
