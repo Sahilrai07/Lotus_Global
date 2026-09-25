@@ -110,12 +110,20 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
     };
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
+      headers['X-Authorization'] = `Bearer ${token}`;
+      headers['X-Admin-Token'] = token;
     }
 
-    const res = await fetch('/api/site-data', {
+    const endpointUrl = token
+      ? `/api/site-data?token=${encodeURIComponent(token)}`
+      : '/api/site-data';
+
+    const payload = token ? { ...dataToSave, _token: token } : dataToSave;
+
+    const res = await fetch(endpointUrl, {
       method: 'POST',
       headers,
-      body: JSON.stringify(dataToSave),
+      body: JSON.stringify(payload),
     });
 
     if (res.ok) {
@@ -123,9 +131,27 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
       return { success: true, message: result.message || 'Saved successfully to database!' };
     }
 
+    // Safely extract server response text without stream consumption conflicts
+    let responseText = '';
+    let serverErrMsg = '';
+    try {
+      responseText = await res.text();
+      try {
+        const errJson = JSON.parse(responseText);
+        serverErrMsg = errJson.message || errJson.error || '';
+      } catch {
+        if (responseText && !responseText.trim().startsWith('<')) {
+          serverErrMsg = responseText.slice(0, 160);
+        }
+      }
+    } catch {}
+
     // If unauthorized
     if (res.status === 401) {
-      return { success: false, message: 'Authentication required or session expired. Please log in.' };
+      return {
+        success: false,
+        message: serverErrMsg || 'Authentication required or session expired. Please sign in again.',
+      };
     }
 
     if (res.status === 413) {
@@ -133,16 +159,6 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
         success: false,
         message: 'Payload Too Large: One or more attached documents exceed the database transmission limit. Please upload PDFs via the "Upload PDF" button.',
       };
-    }
-
-    let serverErrMsg = '';
-    try {
-      const errJson = await res.json();
-      serverErrMsg = errJson.message || errJson.error || '';
-    } catch {
-      try {
-        serverErrMsg = await res.text();
-      } catch {}
     }
 
     // Try fallback dev endpoint if local dev
@@ -159,7 +175,12 @@ export const saveSiteData = async (updatedData: SiteData): Promise<{ success: bo
       } catch {}
     }
 
-    return { success: false, message: serverErrMsg || 'Failed to write to database.' };
+    return {
+      success: false,
+      message: serverErrMsg
+        ? `Database error: ${serverErrMsg}`
+        : `Failed to write to database (Server status: ${res.status || 'unknown'}).`,
+    };
   } catch (err: unknown) {
     return { success: false, message: err instanceof Error ? err.message : 'Network error' };
   }
@@ -219,6 +240,8 @@ export const uploadFile = async (
   };
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
+    headers['X-Authorization'] = `Bearer ${token}`;
+    headers['X-Admin-Token'] = token;
   }
 
   // 1. Try uploading to cloud API endpoint (/api/upload)
