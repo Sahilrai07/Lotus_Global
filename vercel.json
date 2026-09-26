@@ -29,6 +29,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/inquiries/(.*)",
+      "destination": "/api/inquiries?id=$1"
+    },
+    {
       "source": "/((?!api/|uploads/).*)",
       "destination": "/index.html"
     }

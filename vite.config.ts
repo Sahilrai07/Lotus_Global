@@ -21,6 +21,86 @@ function localAdminPlugin(): Plugin {
       server.middlewares.use(async (req, res, next) => {
         const url = req.url?.split('?')[0];
 
+        // POST /api/auth/login -> Local developer authentication
+        if (url === '/api/auth/login' && req.method === 'POST') {
+          const chunks: Buffer[] = [];
+          req.on('data', (chunk) => chunks.push(chunk));
+          req.on('end', async () => {
+            try {
+              const body = JSON.parse(Buffer.concat(chunks).toString('utf-8'));
+              const { email, password } = body;
+              if (!email || !password) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, message: 'Email and password are required.' }));
+                return;
+              }
+
+              let user = null;
+
+              // Check Neon DB for real credentials
+              try {
+                const { Pool } = await import('pg');
+                const bcrypt = (await import('bcryptjs')).default;
+                const connStr =
+                  process.env.DATABASE_URL ||
+                  "postgresql://neondb_owner:npg_vzF4LudHWE3Q@ep-noisy-tree-b5xrljes-pooler.c-7.us-east-2.aws.neon.tech/neondb?sslmode=require";
+                const pool = new Pool({
+                  connectionString: connStr,
+                  ssl: { rejectUnauthorized: false },
+                  connectionTimeoutMillis: 5000,
+                });
+                const dbRes = await pool.query(
+                  'SELECT id, email, name, "passwordHash", role FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1',
+                  [String(email).trim().toLowerCase()]
+                );
+                await pool.end();
+
+                if (dbRes.rows.length > 0) {
+                  const dbUser = dbRes.rows[0];
+                  const match = await bcrypt.compare(password, dbUser.passwordHash);
+                  if (match) {
+                    user = {
+                      id: dbUser.id,
+                      email: dbUser.email,
+                      name: dbUser.name || 'Admin',
+                      role: dbUser.role || 'ADMIN',
+                    };
+                  }
+                }
+              } catch (dbErr) {
+                console.warn('[Vite Auth Dev Fallback error]:', dbErr);
+              }
+
+              if (!user) {
+                res.writeHead(401, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, message: 'Invalid email or password.' }));
+                return;
+              }
+
+              const jwt = (await import('jsonwebtoken')).default;
+              const secret = process.env.JWT_SECRET || 'lotus_session_secret_key_2026';
+              const token = jwt.sign(
+                { sub: user.id, role: user.role, email: user.email },
+                secret,
+                { expiresIn: '7d' }
+              );
+
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({
+                success: true,
+                data: {
+                  token,
+                  user,
+                },
+              }));
+            } catch (err: unknown) {
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ success: false, message: 'Authentication error' }));
+            }
+          });
+          return;
+        }
+
         // GET /api/admin/data or /api/site-data -> Return siteData.json
         if ((url === '/api/admin/data' || url === '/api/site-data') && req.method === 'GET') {
           const dataPath = path.resolve(import.meta.dirname, 'src/data/siteData.json');
