@@ -19,13 +19,13 @@ export const EligibilityCriteriaPage: React.FC<EligibilityCriteriaPageProps> = (
     grade: item.grade,
     minAge: item.minAge,
     cutoff: item.note,
-    stage: item.grade.includes("Nursery") || item.grade.includes("KG") ? "Foundational" : item.grade.includes("1") || item.grade.includes("2") || item.grade.includes("3") || item.grade.includes("4") || item.grade.includes("5") ? "Preparatory Stage" : item.grade.includes("6") || item.grade.includes("7") || item.grade.includes("8") ? "Middle Stage" : "Secondary Stage"
+    stage: item.stage || (item.grade.includes("Nursery") || item.grade.includes("KG") || item.grade === "Grade 1" || item.grade === "Grade 2" ? "Foundational Stage" : item.grade.includes("3") || item.grade.includes("4") || item.grade.includes("5") ? "Preparatory Stage" : item.grade.includes("6") || item.grade.includes("7") || item.grade.includes("8") ? "Middle Stage" : "Secondary Stage")
   })) || [
     { grade: "Nursery", minAge: "3 Years Completed", cutoff: "Born on or before 1st June 2023", stage: "Foundational (Early Years)" },
     { grade: "Junior KG (LKG)", minAge: "4 Years Completed", cutoff: "Born on or before 1st June 2022", stage: "Foundational" },
     { grade: "Senior KG (UKG)", minAge: "5 Years Completed", cutoff: "Born on or before 1st June 2021", stage: "Foundational" },
-    { grade: "Grade 1", minAge: "6 Years Completed (Mandatory NEP)", cutoff: "Born on or before 1st June 2020", stage: "Preparatory Stage" },
-    { grade: "Grade 2", minAge: "7 Years Completed", cutoff: "Pass certificate of Grade 1", stage: "Preparatory Stage" },
+    { grade: "Grade 1", minAge: "6 Years Completed (Mandatory NEP)", cutoff: "Born on or before 1st June 2020", stage: "Foundational Stage" },
+    { grade: "Grade 2", minAge: "7 Years Completed", cutoff: "Pass certificate of Grade 1", stage: "Foundational Stage" },
     { grade: "Grade 3 – 5", minAge: "8 – 10 Years", cutoff: "Promoted from previous recognized grade", stage: "Preparatory Stage" },
     { grade: "Grade 6 – 8", minAge: "11 – 13 Years", cutoff: "Scholastic transcript & TC from recognized board", stage: "Middle Stage" },
     { grade: "Grade 9", minAge: "14 Years Completed", cutoff: "Clearance of Grade 8 + CBSE registration", stage: "Secondary Stage" },

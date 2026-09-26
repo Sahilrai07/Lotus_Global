@@ -51,43 +51,65 @@ export const AcademicsPage: React.FC<AcademicsPageProps> = ({
 
         {/* 1. ACADEMIC STAGES - NATURALLY TABULAR (As requested in prompt) */}
         <div className="space-y-4">
-          <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
-            <BookOpen className="w-5 h-5 text-[#2F5187]" />
-            <h3 className="font-display font-bold text-xl text-[#2F5187]">
-              Four-Stage Developmental Continuum
-            </h3>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-200 pb-2">
+            <div className="flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-[#2F5187]" />
+              <h3 className="font-display font-bold text-xl text-[#2F5187]">
+                New Academic Structure (NEP 2020: 5+3+3+4)
+              </h3>
+            </div>
+            <span className="text-xs font-semibold text-slate-500">
+              3 Years Pre-school + 12 Years School
+            </span>
           </div>
 
-          <div className="overflow-x-auto border border-slate-200 rounded">
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            New pedagogical and curricular structure of school education (5+3+3+4): 3 years in Anganwadi/pre-school and 12 years in school, tailored to specific developmental and cognitive milestones.
+          </p>
+
+          <div className="overflow-x-auto border border-slate-200 rounded shadow-sm">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-[#2F5187] text-white uppercase text-[11px] tracking-wider">
-                  <th className="p-3 border-r border-[#3d65a3]">Developmental Stage</th>
-                  <th className="p-3 border-r border-[#3d65a3]">Grade Levels</th>
-                  <th className="p-3 border-r border-[#3d65a3]">Primary Focus</th>
-                  <th className="p-3">Pedagogical Approach</th>
+                  <th className="p-3 border-r border-[#3d65a3] w-[20%]">Developmental Stage</th>
+                  <th className="p-3 border-r border-[#3d65a3] w-[22%]">Grade Levels & Ages</th>
+                  <th className="p-3 border-r border-[#3d65a3] w-[28%]">Curricular & Pedagogical Focus</th>
+                  <th className="p-3 w-[30%]">Pedagogical Model & Approach</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-700">
-                {(siteData.academicStages || ACADEMIC_STAGES).map((stage, idx) => (
-                  <tr
-                    key={idx}
-                    className={idx % 2 === 0 ? "bg-white" : "bg-[#F8FAFC] hover:bg-slate-50"}
-                  >
-                    <td className="p-3 font-bold text-[#2F5187] border-r border-slate-200 whitespace-nowrap">
-                      {stage.phase}
-                    </td>
-                    <td className="p-3 font-semibold text-[#E87737] border-r border-slate-200 whitespace-nowrap">
-                      {stage.levels}
-                    </td>
-                    <td className="p-3 font-medium text-slate-800 border-r border-slate-200">
-                      {stage.focus}
-                    </td>
-                    <td className="p-3 text-slate-600 leading-relaxed">
-                      {stage.description}
-                    </td>
-                  </tr>
-                ))}
+                {(siteData.academicStages || ACADEMIC_STAGES).map((stage, idx) => {
+                  const stageStyles = [
+                    { badge: "bg-sky-100 text-sky-800 border-sky-300", dot: "bg-sky-500", highlight: "border-l-4 border-l-sky-500" },
+                    { badge: "bg-emerald-100 text-emerald-800 border-emerald-300", dot: "bg-emerald-500", highlight: "border-l-4 border-l-emerald-500" },
+                    { badge: "bg-slate-800 text-white border-slate-700", dot: "bg-slate-900", highlight: "border-l-4 border-l-slate-800" },
+                    { badge: "bg-amber-100 text-amber-900 border-amber-300", dot: "bg-amber-400", highlight: "border-l-4 border-l-amber-400" },
+                  ][idx % 4];
+
+                  return (
+                    <tr
+                      key={idx}
+                      className={`${idx % 2 === 0 ? "bg-white" : "bg-[#F8FAFC]"} ${stageStyles.highlight} hover:bg-slate-50 transition-colors`}
+                    >
+                      <td className="p-3 border-r border-slate-200 align-top">
+                        <div className="space-y-1">
+                          <span className={`inline-block text-[11px] font-bold px-2 py-0.5 rounded border ${stageStyles.badge}`}>
+                            {stage.phase}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="p-3 font-semibold text-[#2F5187] border-r border-slate-200 align-top">
+                        <div className="leading-snug">{stage.levels}</div>
+                      </td>
+                      <td className="p-3 font-medium text-slate-800 border-r border-slate-200 align-top leading-relaxed">
+                        {stage.focus}
+                      </td>
+                      <td className="p-3 text-slate-600 leading-relaxed align-top">
+                        {stage.description}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

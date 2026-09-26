@@ -950,31 +950,31 @@
   },
   "academicStages": [
     {
-      "focus": "Early Literacy, Motor Coordination & Joy of Play",
-      "phase": "Foundation Stage",
-      "levels": "Nursery, LKG, UKG",
-      "description": "Nurturing early childhood curiosity through hands-on sensory exploration, storycraft, rhythm, and cooperative play in a safe, stimulating environment.",
+      "focus": "Multilevel, play/activity-based learning",
+      "phase": "Foundational Stage (5 Years)",
+      "levels": "Anganwadi / Pre-school / Balvatika (3 yrs, Ages 3–6) & Class 1 & 2 (2 yrs, Ages 6–8)",
+      "description": "Covering 5 years (3 years in Anganwadi/pre-school/Balvatika and 2 years in primary school for Class 1 & 2), focusing on multilevel, play and activity-based learning, motor skills development, and foundational literacy and numeracy.",
       "stageNumber": "01"
     },
     {
-      "focus": "Foundational Numeracy, Language & Activity-Based Inquiry",
-      "phase": "Preparatory Stage",
-      "levels": "Grade 1 to Grade 3",
-      "description": "Building confident literacy, logical thinking, and foundational sciences through interactive visual learning and structured inquiry.",
+      "focus": "Play, discovery, and activity-based and interactive classroom learning",
+      "phase": "Preparatory Stage (3 Years)",
+      "levels": "Class 3 to 5 (Ages 8–11)",
+      "description": "Covering 3 years from Class 3 to 5 for ages 8 to 11, facilitating gradual transition to interactive classroom learning with foundational concepts across reading, writing, speaking, mathematics, arts, sciences, and physical education.",
       "stageNumber": "02"
     },
     {
-      "focus": "Critical Inquiry, Scientific Method & Experiential Arts",
-      "phase": "Middle Stage",
-      "levels": "Grade 4 to Grade 7",
-      "description": "Transitioning to specialized disciplines across STEM, humanities, and creative expressions with rigorous laboratory work and collaborative projects.",
+      "focus": "Experiential learning in the sciences, mathematics, arts, social sciences, and humanities",
+      "phase": "Middle Stage (3 Years)",
+      "levels": "Class 6 to 8 (Ages 11–14)",
+      "description": "Covering 3 years from Class 6 to 8 for ages 11 to 14, introducing specialized subject teachers for experiential learning in the sciences, mathematics, arts, social sciences, and humanities, cultivating analytical and critical inquiry.",
       "stageNumber": "03"
     },
     {
-      "focus": "Analytical Rigor, Board Preparation & Leadership Agility",
-      "phase": "Secondary Stage",
-      "levels": "Grade 8 to Grade 10",
-      "description": "Synthesizing deep conceptual comprehension, independent research, board-examination readiness, and strategic problem-solving.",
+      "focus": "Multidisciplinary study, greater critical thinking, flexibility and student choice of subjects",
+      "phase": "Secondary Stage (4 Years)",
+      "levels": "Class 9 to 12 (Ages 14–18)",
+      "description": "Covering 4 years from Class 9 to 12 for ages 14 to 18, providing multidisciplinary study, greater depth, critical thinking, flexibility and student choice of subjects across arts, sciences, and commerce without rigid boundaries.",
       "stageNumber": "04"
     }
   ],
@@ -1223,14 +1223,14 @@
       {
         "note": "Mandatory as per NEP 2020 framework",
         "grade": "Grade 1",
-        "stage": "Preparatory Stage",
+        "stage": "Foundational Stage",
         "cutoff": "Born on or before 1st June 2020",
         "minAge": "6 Years Completed (Mandatory NEP)"
       },
       {
         "note": "TC and previous grade marksheet mandatory",
         "grade": "Grade 2",
-        "stage": "Preparatory Stage",
+        "stage": "Foundational Stage",
         "cutoff": "Pass certificate of Grade 1",
         "minAge": "7 Years Completed"
       },
