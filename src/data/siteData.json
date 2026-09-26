@@ -1461,15 +1461,15 @@
       },
       {
         "sno": "02",
-        "link": "/uploads/documents/mandatory-disclosure-appendix-ix.pdf",
-        "title": "Copies of Society / Trust Registration Certificate",
-        "status": "Registered Institutional Trust"
+        "link": "/api/files?id=1790361737383-WATER_AND_SANITATION.pdf",
+        "title": "WATER AND SANITATION",
+        "status": "Available for Inspection"
       },
       {
         "sno": "03",
-        "link": "/uploads/documents/mandatory-disclosure-appendix-ix.pdf",
-        "title": "Copy of No Objection Certificate (NOC) by State Government",
-        "status": "Issued / In Compliance"
+        "link": "/api/files?id=1790361743104-SAFE_DRINKING_WATER-_CONVERTED.pdf",
+        "title": "Safe Drinking water Certificate",
+        "status": "Available for Inspection"
       },
       {
         "sno": "04",
