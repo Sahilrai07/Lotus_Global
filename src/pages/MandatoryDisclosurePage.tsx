@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
-import { FileText, Download, CheckCircle2, ShieldCheck, ExternalLink, Building, Users, BookOpen, RefreshCw } from "lucide-react";
+import { FileText, Download, CheckCircle2, ShieldCheck, ExternalLink, Building, Users, BookOpen, RefreshCw, Eye } from "lucide-react";
 import { useSiteData } from "../data/siteDataService";
+import { PdfViewerModal } from "../components/PdfViewerModal";
 
 interface MandatoryDisclosurePageProps {
   onNavigate?: (pageId: string) => void;
@@ -16,6 +17,12 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
   const school = siteData.schoolInfo;
   const banner = siteData.pageBanners?.disclosure || "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1600&q=80";
   const [downloadingSno, setDownloadingSno] = useState<string | null>(null);
+  const [viewingDoc, setViewingDoc] = useState<{
+    sno: string;
+    title: string;
+    link?: string;
+    status?: string;
+  } | null>(null);
 
   const resolveDocUrl = (doc: { sno: string; link?: string; title?: string }) => {
     if (doc.link && doc.link.trim()) {
@@ -255,7 +262,7 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
                   <th className="p-3.5 w-16 text-center">S.No.</th>
                   <th className="p-3.5">Document / Compliance Certificate</th>
                   <th className="p-3.5 w-44">Verification Status</th>
-                  <th className="p-3.5 w-36 text-center">Action</th>
+                  <th className="p-3.5 w-48 sm:w-56 text-center">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -274,24 +281,36 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
                       </span>
                     </td>
                     <td className="p-3.5 text-center">
-                      <button
-                        onClick={(e) => handleDownload(e, resolveDocUrl(doc), doc.title, doc.sno)}
-                        disabled={downloadingSno === doc.sno}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer disabled:opacity-75"
-                        title={`Save ${doc.title} to device`}
-                      >
-                        {downloadingSno === doc.sno ? (
-                          <>
-                            <RefreshCw className="w-3 h-3 animate-spin text-amber-300" />
-                            <span className="text-amber-200">Saving...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Download className="w-3 h-3" />
-                            <span>Download</span>
-                          </>
-                        )}
-                      </button>
+                      <div className="flex items-center justify-center gap-1.5 flex-wrap sm:flex-nowrap">
+                        <button
+                          type="button"
+                          onClick={() => setViewingDoc(doc)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer"
+                          title={`View ${doc.title} online`}
+                        >
+                          <Eye className="w-3 h-3" />
+                          <span>View</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => handleDownload(e, resolveDocUrl(doc), doc.title, doc.sno)}
+                          disabled={downloadingSno === doc.sno}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer disabled:opacity-75"
+                          title={`Save ${doc.title} to device`}
+                        >
+                          {downloadingSno === doc.sno ? (
+                            <>
+                              <RefreshCw className="w-3 h-3 animate-spin text-amber-300" />
+                              <span className="text-amber-200">Saving...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Download className="w-3 h-3" />
+                              <span>Download</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -360,6 +379,26 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
           </button>
         </div>
       </div>
+
+      {/* Online PDF Viewer Modal */}
+      {viewingDoc && (
+        <PdfViewerModal
+          isOpen={!!viewingDoc}
+          onClose={() => setViewingDoc(null)}
+          title={viewingDoc.title}
+          subtitle={viewingDoc.status ? `Verification Status: ${viewingDoc.status}` : "CBSE Regulatory Compliance Certificate"}
+          fileUrl={resolveDocUrl(viewingDoc)}
+          onDownload={() => {
+            handleDownload(
+              { preventDefault: () => {}, stopPropagation: () => {} } as any,
+              resolveDocUrl(viewingDoc),
+              viewingDoc.title,
+              viewingDoc.sno
+            );
+          }}
+          isDownloading={downloadingSno === viewingDoc.sno}
+        />
+      )}
     </InternalPageLayout>
   );
 };

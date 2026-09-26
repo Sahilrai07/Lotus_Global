@@ -62,8 +62,9 @@ filesRouter.get("/", async (req: Request, res: Response) => {
           : "application/octet-stream";
 
         const content = fs.readFileSync(filePath);
+        const disposition = isDownload ? "attachment" : "inline";
         res.setHeader("Content-Type", mime);
-        res.setHeader("Content-Disposition", `inline; filename="${path.basename(filePath)}"`);
+        res.setHeader("Content-Disposition", `${disposition}; filename="${path.basename(filePath)}"`);
         res.setHeader("Content-Length", content.length);
         res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
         res.status(200).send(content);

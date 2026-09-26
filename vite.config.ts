@@ -354,6 +354,17 @@ function localAdminPlugin(): Plugin {
           return;
         }
 
+        // OPTIONS /api/files -> CORS preflight
+        if (url === '/api/files' && req.method === 'OPTIONS') {
+          res.writeHead(204, {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+            'Access-Control-Allow-Headers': '*',
+          });
+          res.end();
+          return;
+        }
+
         // GET /api/files -> Serve uploaded document/file directly
         if (url === '/api/files' && (req.method === 'GET' || req.method === 'HEAD')) {
           const urlObj = new URL(req.url || '', 'http://localhost');
@@ -361,7 +372,10 @@ function localAdminPlugin(): Plugin {
           const isDownload = urlObj.searchParams.get('download') === '1' || urlObj.searchParams.get('download') === 'true';
 
           if (!fileId) {
-            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.writeHead(400, {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            });
             res.end(JSON.stringify({ error: 'Missing file id parameter' }));
             return;
           }
@@ -392,14 +406,60 @@ function localAdminPlugin(): Plugin {
                 'Content-Type': mime,
                 'Content-Disposition': `${disposition}; filename="${path.basename(filePath)}"`,
                 'Content-Length': content.length,
-                'Cache-Control': 'public, max-age=31536000',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+                'Access-Control-Allow-Headers': '*',
               });
               res.end(req.method === 'HEAD' ? undefined : content);
               return;
             }
           }
 
-          res.writeHead(404, { 'Content-Type': 'application/json' });
+          // Fallback: Check Neon DB uploaded_files if not found on disk
+          try {
+            const { Pool } = await import('pg');
+            const connStr =
+              process.env.DATABASE_URL ||
+              "postgresql://neondb_owner:npg_vzF4LudHWE3Q@ep-noisy-tree-b5xrljes-pooler.c-7.us-east-2.aws.neon.tech/neondb?sslmode=require";
+            const pool = new Pool({
+              connectionString: connStr,
+              ssl: { rejectUnauthorized: false },
+              connectionTimeoutMillis: 4000,
+            });
+            const dbRes = await pool.query(
+              'SELECT filename, mime_type, file_size, data FROM uploaded_files WHERE id = $1 LIMIT 1',
+              [fileId]
+            );
+            await pool.end();
+
+            if (dbRes.rows && dbRes.rows.length > 0) {
+              const row = dbRes.rows[0];
+              const rawBase64 = (row.data || '').replace(/^data:.*?;base64,/, '');
+              const fileBuffer = Buffer.from(rawBase64, 'base64');
+              const disposition = isDownload ? 'attachment' : 'inline';
+              res.writeHead(200, {
+                'Content-Type': row.mime_type || 'application/pdf',
+                'Content-Disposition': `${disposition}; filename="${row.filename || 'document.pdf'}"`,
+                'Content-Length': fileBuffer.length,
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+                'Access-Control-Allow-Headers': '*',
+              });
+              res.end(req.method === 'HEAD' ? undefined : fileBuffer);
+              return;
+            }
+          } catch (neonErr) {
+            console.warn('[Vite /api/files DB fallback error]:', neonErr);
+          }
+
+          res.writeHead(404, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          });
           res.end(JSON.stringify({ error: 'File not found' }));
           return;
         }

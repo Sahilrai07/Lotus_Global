@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
-import { FileText, Download, Search, Filter, Calendar, CheckCircle2, ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
+import { FileText, Download, Search, Filter, Calendar, CheckCircle2, ShieldCheck, AlertCircle, RefreshCw, Eye } from "lucide-react";
 import { useSiteData, DocumentItem } from "../data/siteDataService";
+import { PdfViewerModal } from "../components/PdfViewerModal";
 
 interface DocumentsPageProps {
   onNavigate?: (pageId: string) => void;
@@ -17,6 +18,7 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [viewingDoc, setViewingDoc] = useState<DocumentItem | null>(null);
 
   const pageHeading = (siteData as any).documentsPage?.heading || "Downloadable School Documents & Guidelines";
   const pageSubheading = (siteData as any).documentsPage?.subheading || "Access official registration application forms, curriculum guides, approved fee structures, safety certifications, and academic calendars for Lotus Global School, Vatar, Vapi.";
@@ -190,27 +192,39 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs flex-wrap gap-2">
                   <span className="text-[11px] text-slate-500 font-medium">
                     {doc.fileSize || "PDF Document"}
                   </span>
-                  <button
-                    onClick={() => handleDownload(doc)}
-                    disabled={downloadingId === doc.id}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#2F5187] text-white hover:bg-[#1E375F] font-bold text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer disabled:opacity-75"
-                  >
-                    {downloadingId === doc.id ? (
-                      <>
-                        <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-300" />
-                        <span className="text-amber-200">Saving...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Download className="w-3.5 h-3.5" />
-                        <span>Download PDF</span>
-                      </>
-                    )}
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setViewingDoc(doc)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer"
+                      title={`View ${doc.title} online`}
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>View</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDownload(doc)}
+                      disabled={downloadingId === doc.id}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#2F5187] text-white hover:bg-[#1E375F] font-bold text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer disabled:opacity-75"
+                    >
+                      {downloadingId === doc.id ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-300" />
+                          <span className="text-amber-200">Saving...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-3.5 h-3.5" />
+                          <span>Download</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -245,6 +259,19 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Online PDF Viewer Modal */}
+      {viewingDoc && (
+        <PdfViewerModal
+          isOpen={!!viewingDoc}
+          onClose={() => setViewingDoc(null)}
+          title={viewingDoc.title}
+          subtitle={`Category: ${viewingDoc.category} · Size: ${viewingDoc.fileSize || "PDF"}`}
+          fileUrl={viewingDoc.fileUrl || `/uploads/documents/${viewingDoc.fileName || `${viewingDoc.id}.pdf`}`}
+          onDownload={() => handleDownload(viewingDoc)}
+          isDownloading={downloadingId === viewingDoc.id}
+        />
+      )}
     </InternalPageLayout>
   );
 };
