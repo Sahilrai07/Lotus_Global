@@ -20,11 +20,13 @@ interface PdfPageProps {
   pdf: pdfjsLib.PDFDocumentProxy;
   pageNumber: number;
   scale: number;
+  isFitMode: boolean;
 }
 
-const PdfPageItem: React.FC<PdfPageProps> = ({ pdf, pageNumber, scale }) => {
+const PdfPageItem: React.FC<PdfPageProps> = ({ pdf, pageNumber, scale, isFitMode }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
+  const [pageSize, setPageSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
 
   useEffect(() => {
     let cancelRender = false;
@@ -37,18 +39,27 @@ const PdfPageItem: React.FC<PdfPageProps> = ({ pdf, pageNumber, scale }) => {
         if (cancelRender) return;
 
         const viewport = page.getViewport({ scale });
+        setPageSize({
+          width: Math.floor(viewport.width),
+          height: Math.floor(viewport.height),
+        });
+
         const canvas = canvasRef.current;
         if (!canvas) return;
 
         const context = canvas.getContext("2d");
         if (!context) return;
 
-        // Device pixel ratio for crisp rendering on high-DPI displays
-        const outputScale = window.devicePixelRatio || 1;
+        // Device pixel ratio for crisp rendering on high-DPI displays (capped at 2.5)
+        const outputScale = Math.min(window.devicePixelRatio || 1, 2.5);
         canvas.width = Math.floor(viewport.width * outputScale);
         canvas.height = Math.floor(viewport.height * outputScale);
-        canvas.style.width = `${Math.floor(viewport.width)}px`;
-        canvas.style.height = `${Math.floor(viewport.height)}px`;
+
+        // Strict aspect-ratio preservation: width is 100% of container, height is auto
+        canvas.style.width = "100%";
+        canvas.style.height = "auto";
+        canvas.style.aspectRatio = `${viewport.width} / ${viewport.height}`;
+        canvas.style.display = "block";
 
         const transform = outputScale !== 1
           ? [outputScale, 0, 0, outputScale, 0, 0]
@@ -85,18 +96,41 @@ const PdfPageItem: React.FC<PdfPageProps> = ({ pdf, pageNumber, scale }) => {
   }, [pdf, pageNumber, scale]);
 
   return (
-    <div className="relative my-4 bg-white shadow-xl rounded border border-slate-300 mx-auto overflow-hidden">
+    <div
+      className="relative my-3 sm:my-4 bg-white shadow-xl rounded-lg border border-slate-300 mx-auto overflow-hidden shrink-0 transition-[width] duration-150"
+      style={{
+        width: pageSize.width ? `${pageSize.width}px` : "100%",
+        maxWidth: isFitMode ? "100%" : undefined,
+      }}
+    >
       {isPageLoading && (
-        <div className="absolute inset-0 bg-white/80 backdrop-blur-xs flex items-center justify-center z-10">
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-xs flex items-center justify-center z-10 min-h-[280px]">
           <Loader2 className="w-7 h-7 animate-spin text-[#2F5187]" />
         </div>
       )}
-      <canvas ref={canvasRef} className="block mx-auto max-w-full h-auto" />
+      <canvas
+        ref={canvasRef}
+        className="block mx-auto"
+        style={{
+          width: "100%",
+          height: "auto",
+          aspectRatio: pageSize.width && pageSize.height ? `${pageSize.width} / ${pageSize.height}` : undefined,
+        }}
+      />
       <div className="bg-slate-50 border-t border-slate-200 py-1.5 px-3 text-center text-[11px] text-slate-500 font-medium select-none">
         Page {pageNumber} of {pdf.numPages}
       </div>
     </div>
   );
+};
+
+const calculateFitScale = (unscaledWidth: number = 595): number => {
+  if (typeof window === "undefined") return 1.15;
+  const isMobile = window.innerWidth < 640;
+  if (!isMobile) return 1.15;
+  const availableWidth = Math.max(260, window.innerWidth - 24);
+  const fit = +(availableWidth / unscaledWidth).toFixed(2);
+  return Math.min(1.0, Math.max(0.4, fit));
 };
 
 export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
@@ -109,7 +143,8 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
   isDownloading = false,
 }) => {
   const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
-  const [scale, setScale] = useState<number>(1.15);
+  const [scale, setScale] = useState<number>(() => calculateFitScale());
+  const [initialScale, setInitialScale] = useState<number>(() => calculateFitScale());
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [directUrl, setDirectUrl] = useState<string>("");
@@ -214,7 +249,17 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
         const doc = await loadingTask.promise;
         if (!cancel) {
+          let fit = 1.15;
+          try {
+            const firstPage = await doc.getPage(1);
+            const unscaled = firstPage.getViewport({ scale: 1.0 });
+            fit = calculateFitScale(unscaled.width);
+          } catch {
+            fit = calculateFitScale(595);
+          }
           setPdfDoc(doc);
+          setScale(fit);
+          setInitialScale(fit);
           setIsLoading(false);
         }
       } catch (err: any) {
@@ -237,6 +282,23 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
       }
     };
   }, [isOpen, fileUrl]);
+
+  // Handle mobile orientation changes and window resizing
+  useEffect(() => {
+    if (!isOpen || !pdfDoc) return;
+    const handleResize = () => {
+      if (Math.abs(scale - initialScale) < 0.02) {
+        pdfDoc.getPage(1).then((page) => {
+          const unscaled = page.getViewport({ scale: 1.0 });
+          const newFit = calculateFitScale(unscaled.width);
+          setScale(newFit);
+          setInitialScale(newFit);
+        }).catch(() => {});
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isOpen, pdfDoc, scale, initialScale]);
 
   // Handle ESC key and lock body scroll
   useEffect(() => {
@@ -347,9 +409,9 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
         {/* Secondary Toolbar: Zoom & Page Info */}
         {pdfDoc && !isLoading && !loadError && (
-          <div className="bg-slate-100 border-b border-slate-200 px-4 py-2 flex items-center justify-between gap-3 text-xs text-slate-700 shrink-0 select-none">
+          <div className="bg-slate-100 border-b border-slate-200 px-3 sm:px-4 py-2 flex items-center justify-between gap-2 sm:gap-3 text-xs text-slate-700 shrink-0 select-none">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-slate-600">
+              <span className="font-semibold text-slate-600 text-[11px] sm:text-xs">
                 {pdfDoc.numPages} {pdfDoc.numPages === 1 ? "Page" : "Pages"}
               </span>
             </div>
@@ -357,16 +419,16 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
             <div className="flex items-center gap-1 sm:gap-2">
               <button
                 type="button"
-                onClick={() => setScale((s) => Math.max(0.6, +(s - 0.15).toFixed(2)))}
-                disabled={scale <= 0.6}
+                onClick={() => setScale((s) => Math.max(0.4, +(s - 0.15).toFixed(2)))}
+                disabled={scale <= 0.4}
                 className="p-1.5 rounded hover:bg-slate-200 text-slate-700 disabled:opacity-40 transition-colors cursor-pointer"
                 title="Zoom Out"
               >
                 <ZoomOut className="w-3.5 h-3.5" />
               </button>
 
-              <span className="font-mono text-xs font-bold text-slate-600 px-1 min-w-[48px] text-center">
-                {Math.round(scale * 100)}%
+              <span className="font-mono text-xs font-bold text-slate-600 px-1 min-w-[44px] text-center">
+                {Math.abs(scale - initialScale) < 0.02 ? "Fit" : `${Math.round(scale * 100)}%`}
               </span>
 
               <button
@@ -381,9 +443,9 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
               <button
                 type="button"
-                onClick={() => setScale(1.15)}
+                onClick={() => setScale(initialScale)}
                 className="p-1.5 rounded hover:bg-slate-200 text-slate-700 transition-colors ml-1 cursor-pointer"
-                title="Reset Zoom"
+                title="Fit to Screen"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
@@ -402,7 +464,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
         )}
 
         {/* PDF Viewer Canvas Body */}
-        <div className="flex-1 bg-slate-200/80 relative overflow-y-auto overflow-x-auto p-4 sm:p-6 flex flex-col">
+        <div className="flex-1 bg-slate-200/80 relative overflow-y-auto overflow-x-auto p-2 sm:p-6 flex flex-col">
           {isLoading && (
             <div className="m-auto flex flex-col items-center justify-center gap-3 py-16">
               <Loader2 className="w-10 h-10 animate-spin text-[#2F5187]" />
@@ -458,6 +520,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                   pdf={pdfDoc}
                   pageNumber={i + 1}
                   scale={scale}
+                  isFitMode={scale <= initialScale + 0.02}
                 />
               ))}
             </div>

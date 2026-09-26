@@ -196,11 +196,11 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
                   <span className="text-[11px] text-slate-500 font-medium">
                     {doc.fileSize || "PDF Document"}
                   </span>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-nowrap shrink-0">
                     <button
                       type="button"
                       onClick={() => setViewingDoc(doc)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer shrink-0"
                       title={`View ${doc.title} online`}
                     >
                       <Eye className="w-3.5 h-3.5" />
@@ -210,7 +210,7 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
                       type="button"
                       onClick={() => handleDownload(doc)}
                       disabled={downloadingId === doc.id}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#2F5187] text-white hover:bg-[#1E375F] font-bold text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer disabled:opacity-75"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#2F5187] text-white hover:bg-[#1E375F] font-bold text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer disabled:opacity-75 shrink-0"
                     >
                       {downloadingId === doc.id ? (
                         <>

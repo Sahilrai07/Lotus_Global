@@ -256,13 +256,13 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
             </h3>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <table className="w-full text-left text-xs border-collapse min-w-[580px]">
               <thead>
                 <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
                   <th className="p-3.5 w-16 text-center">S.No.</th>
                   <th className="p-3.5">Document / Compliance Certificate</th>
-                  <th className="p-3.5 w-44">Verification Status</th>
-                  <th className="p-3.5 w-48 sm:w-56 text-center">Action</th>
+                  <th className="p-3.5 w-48 whitespace-nowrap">Verification Status</th>
+                  <th className="p-3.5 w-44 sm:w-52 text-center whitespace-nowrap">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -274,18 +274,18 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
                     <td className="p-3.5 font-medium leading-relaxed">
                       {doc.title}
                     </td>
-                    <td className="p-3.5 font-semibold text-emerald-700">
+                    <td className="p-3.5 font-semibold text-emerald-700 whitespace-nowrap">
                       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-[11px]">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                        <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
                         <span>{doc.status}</span>
                       </span>
                     </td>
-                    <td className="p-3.5 text-center">
-                      <div className="flex items-center justify-center gap-1.5 flex-wrap sm:flex-nowrap">
+                    <td className="p-3 sm:p-3.5 text-center whitespace-nowrap">
+                      <div className="inline-flex items-center justify-center gap-1.5 flex-nowrap">
                         <button
                           type="button"
                           onClick={() => setViewingDoc(doc)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer"
+                          className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-[10px] sm:text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer shrink-0"
                           title={`View ${doc.title} online`}
                         >
                           <Eye className="w-3 h-3" />
@@ -295,7 +295,7 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
                           type="button"
                           onClick={(e) => handleDownload(e, resolveDocUrl(doc), doc.title, doc.sno)}
                           disabled={downloadingSno === doc.sno}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer disabled:opacity-75"
+                          className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white font-bold text-[10px] sm:text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer disabled:opacity-75 shrink-0"
                           title={`Save ${doc.title} to device`}
                         >
                           {downloadingSno === doc.sno ? (
@@ -328,12 +328,12 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
             </h3>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <table className="w-full text-left text-xs border-collapse min-w-[480px]">
               <thead>
                 <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
                   <th className="p-3.5 w-16 text-center">S.No.</th>
                   <th className="p-3.5">Academic Record</th>
-                  <th className="p-3.5 w-36 text-center">View Online</th>
+                  <th className="p-3.5 w-36 text-center whitespace-nowrap">View Online</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -345,7 +345,7 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
                     <td className="p-3.5 font-medium leading-relaxed">
                       {record.title}
                     </td>
-                    <td className="p-3.5 text-center">
+                    <td className="p-3.5 text-center whitespace-nowrap">
                       <button
                         onClick={() => onNavigate(record.pageId)}
                         className="inline-flex items-center gap-1 px-3 py-1 rounded bg-[#E87737] text-white hover:bg-[#D26425] font-bold text-[11px] uppercase tracking-wider transition-colors shadow-xs"
