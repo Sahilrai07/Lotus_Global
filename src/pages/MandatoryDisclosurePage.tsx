@@ -183,7 +183,7 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
     },
   ];
 
-  const academicDisclosures = [
+  const defaultAcademicDisclosures = [
     {
       sno: "01",
       title: "Approved Fee Structure for Academic Year 2026-27",
@@ -217,6 +217,11 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
       pageLabel: "Assessment Scheme",
     },
   ];
+
+  const academicDisclosures =
+    siteData.mandatoryDisclosure?.academicDisclosures && siteData.mandatoryDisclosure.academicDisclosures.length > 0
+      ? siteData.mandatoryDisclosure.academicDisclosures
+      : defaultAcademicDisclosures;
 
   return (
     <InternalPageLayout
@@ -412,7 +417,7 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
                             className="inline-flex items-center gap-1 px-2 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition-all border border-slate-200 cursor-pointer shrink-0"
                             title={`Open dedicated ${record.pageLabel || 'page'} overview`}
                           >
-                            <span>Page</span>
+                            <span>{record.pageLabel || 'Page'}</span>
                             <ExternalLink className="w-2.5 h-2.5 text-slate-500" />
                           </button>
                         )}

@@ -194,8 +194,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {statusMessage && (
         <div
           className={`fixed top-16 right-6 z-50 px-4 py-3 rounded-lg shadow-xl text-xs font-bold flex items-center gap-2 transition-all ${statusMessage.type === "success"
-              ? "bg-emerald-700 text-white"
-              : "bg-rose-700 text-white"
+            ? "bg-emerald-700 text-white"
+            : "bg-rose-700 text-white"
             }`}
         >
           {statusMessage.type === "success" ? (
@@ -243,8 +243,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as TabType)}
                   className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md text-xs font-bold transition-all text-left ${active
-                      ? "bg-[#2F5187] text-white shadow-sm"
-                      : "text-slate-600 hover:bg-slate-100"
+                    ? "bg-[#2F5187] text-white shadow-sm"
+                    : "text-slate-600 hover:bg-slate-100"
                     }`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
@@ -427,8 +427,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <div
                     onClick={() => setData({ ...data, heroDesignMode: "split" } as any)}
                     className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${((data as any).heroDesignMode || "split") === "split"
-                        ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
-                        : "border-slate-200 hover:border-slate-300 bg-white"
+                      ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
+                      : "border-slate-200 hover:border-slate-300 bg-white"
                       }`}
                   >
                     <div className="space-y-2">
@@ -456,8 +456,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <div
                     onClick={() => setData({ ...data, heroDesignMode: "glass" } as any)}
                     className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${(data as any).heroDesignMode === "glass"
-                        ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
-                        : "border-slate-200 hover:border-slate-300 bg-white"
+                      ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
+                      : "border-slate-200 hover:border-slate-300 bg-white"
                       }`}
                   >
                     <div className="space-y-2">
@@ -485,8 +485,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <div
                     onClick={() => setData({ ...data, heroDesignMode: "tray" } as any)}
                     className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${(data as any).heroDesignMode === "tray"
-                        ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
-                        : "border-slate-200 hover:border-slate-300 bg-white"
+                      ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
+                      : "border-slate-200 hover:border-slate-300 bg-white"
                       }`}
                   >
                     <div className="space-y-2">

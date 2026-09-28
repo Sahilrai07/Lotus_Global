@@ -28,6 +28,7 @@ export type FacultyStandardsData = SiteData['facultyStandards'];
 export type AdmissionsPathwayData = SiteData['admissionsPathway'];
 export type CoCurricularData = SiteData['coCurricular'];
 export type MandatoryDisclosureData = SiteData['mandatoryDisclosure'];
+export type AcademicDisclosureItem = SiteData['mandatoryDisclosure']['academicDisclosures'][number];
 
 // Cache in memory for quick reactive updates in SPA
 let currentData: SiteData = defaultSiteData;
