@@ -310,20 +310,20 @@
       "fileUrl": "/uploads/documents/academic-calendar-2026-27.pdf",
       "category": "Academics",
       "fileName": "academic-calendar-2026-27.pdf",
-      "fileSize": "354 KB",
-      "description": "Official 4-page annual planner covering day-to-day academic schedules, exams, celebrations, and holidays from June 2026 to March 2027."
+      "fileSize": "310 KB",
+      "description": "Scheduled term dates, examination windows, gazetted holidays, and extracurricular events."
     },
     {
       "id": "doc5",
       "date": "2026-02-28",
       "order": 5,
-      "title": "NCERT Prescribed Textbook List (Classes VI to VIII)",
+      "title": "Prescribed Book List & Stationary Guidelines",
       "active": true,
       "fileUrl": "/uploads/documents/prescribed-book-list.pdf",
       "category": "Academics",
       "fileName": "prescribed-book-list.pdf",
-      "fileSize": "115 KB",
-      "description": "Official NCERT textbook titles covering English (Poorvi), Hindi (Malhar), Mathematics (Ganita Prakash), Science (Curiosity), Social Science, and Sanskrit (Deepakam) for Classes VI–VIII."
+      "fileSize": "190 KB",
+      "description": "NCERT prescribed curriculum textbooks and notebooks specification per grade level."
     },
     {
       "id": "doc6",
@@ -334,8 +334,8 @@
       "fileUrl": "/uploads/documents/fee-structure-2026-27.pdf",
       "category": "Admissions",
       "fileName": "fee-structure-2026-27.pdf",
-      "fileSize": "352 KB",
-      "description": "Official approved fee structure and instalment schedules for Pre-Primary (Nursery, Jr KG, Sr KG) and Classes 1 to 8."
+      "fileSize": "175 KB",
+      "description": "Transparent breakdown of tuition, development, and laboratory charges for each grade."
     },
     {
       "id": "doc7",
@@ -384,18 +384,6 @@
       "fileName": "sample-transfer-certificate.pdf",
       "fileSize": "150 KB",
       "description": "Prescribed institutional format and procedure for issuing student Transfer Certificates."
-    },
-    {
-      "id": "doc11",
-      "date": "2026-03-01",
-      "order": 11,
-      "title": "Developmental Stages & Assessment Scheme (NEP 2020)",
-      "active": true,
-      "fileUrl": "/uploads/documents/developmental-stages-assessment-scheme.pdf",
-      "category": "Academics",
-      "fileName": "developmental-stages-assessment-scheme.pdf",
-      "fileSize": "410 KB",
-      "description": "Comprehensive developmental milestone frameworks and stage-wise 3-point assessment criteria aligned with NEP 2020."
     }
   ],
   "facilities": [
@@ -1029,19 +1017,39 @@
     },
     "gradingScale": [
       {
-        "grade": "A",
-        "remark": "Outstanding – Demonstrates exceptional conceptual clarity, initiative, and subject mastery.",
-        "marksRange": "Grade A"
+        "grade": "A1",
+        "remark": "Outstanding Conceptual Mastery",
+        "marksRange": "91% – 100%"
       },
       {
-        "grade": "B",
-        "remark": "Very Good – Demonstrates solid understanding, consistent effort, and practical application.",
-        "marksRange": "Grade B"
+        "grade": "A2",
+        "remark": "Excellent Subject Competency",
+        "marksRange": "81% – 90%"
       },
       {
-        "grade": "C",
-        "remark": "Satisfactory / Developing – Meets basic learning standards with continuous teacher mentoring.",
-        "marksRange": "Grade C"
+        "grade": "B1",
+        "remark": "Very Good Understanding",
+        "marksRange": "71% – 80%"
+      },
+      {
+        "grade": "B2",
+        "remark": "Good Academic Progression",
+        "marksRange": "61% – 70%"
+      },
+      {
+        "grade": "C1",
+        "remark": "Fair Performance & Steady Growth",
+        "marksRange": "51% – 60%"
+      },
+      {
+        "grade": "C2",
+        "remark": "Satisfactory with Remedial Support",
+        "marksRange": "41% – 50%"
+      },
+      {
+        "grade": "D",
+        "remark": "Marginal; Requires Targeted Guidance",
+        "marksRange": "33% – 40%"
       }
     ]
   },
