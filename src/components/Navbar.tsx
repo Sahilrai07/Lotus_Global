@@ -145,7 +145,11 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
   ];
 
   const handleNavigate = (pageId: string) => {
-    window.location.hash = pageId;
+    if (typeof window !== "undefined" && window.location.pathname.startsWith("/admin")) {
+      window.history.pushState(null, "", pageId === "home" ? "/" : `/#${pageId}`);
+    } else {
+      window.location.hash = pageId === "home" ? "" : pageId;
+    }
     setActivePage(pageId);
     setActiveDropdown(null);
     setIsMobileOpen(false);

@@ -193,11 +193,61 @@ const PAGE_SEO_META: Record<string, { title: string; description: string }> = {
   },
 };
 
+const VALID_PUBLIC_PAGES = new Set([
+  "home",
+  "about",
+  "about-values",
+  "about-location",
+  "vision-mission",
+  "mission-vision",
+  "vision",
+  "message",
+  "academics",
+  "academics-stages",
+  "academics-assessment",
+  "academics-timings",
+  "facilities",
+  "facility-chem-phys",
+  "facility-bio-composite",
+  "facility-computer-lab",
+  "facility-library",
+  "facility-sports",
+  "facility-indoor-games",
+  "facility-music",
+  "facility-infirmary",
+  "faculty",
+  "faculty-standards",
+  "faculty-development",
+  "faculty-ratio",
+  "admissions",
+  "admissions-documents",
+  "admissions-eligibility",
+  "admissions-inquiry",
+  "admissions-fee",
+  "fee-structure",
+  "fee",
+  "fees",
+  "academics-books",
+  "book-list",
+  "books",
+  "activities",
+  "gallery",
+  "contact",
+  "documents",
+  "disclosure",
+  "news-events",
+]);
+
 const isAdminRoute = () => {
   if (typeof window === "undefined") return false;
   const host = window.location.hostname.toLowerCase();
   const path = window.location.pathname.toLowerCase();
-  const hash = window.location.hash.toLowerCase();
+  const hash = window.location.hash.toLowerCase().replace("#", "").replace(/^\//, "");
+
+  // If the URL hash explicitly points to a valid public page, this is NOT an admin route
+  if (hash && VALID_PUBLIC_PAGES.has(hash)) {
+    return false;
+  }
 
   return (
     host.startsWith("admin.") ||
@@ -206,18 +256,20 @@ const isAdminRoute = () => {
     path === "/admin" ||
     path === "/admin/" ||
     path.startsWith("/admin/") ||
-    hash === "#admin" ||
-    hash === "#/admin"
+    hash === "admin"
   );
 };
 
 export const App: React.FC = () => {
   const [activePage, setActivePage] = useState<string>(() => {
-    if (isAdminRoute()) return "admin";
     if (typeof window !== "undefined" && window.location.hash) {
       const h = window.location.hash.replace("#", "").replace(/^\//, "");
-      if (h) return h;
+      if (h && VALID_PUBLIC_PAGES.has(h)) {
+        if (h === "mission-vision" || h === "vision") return "vision-mission";
+        return h;
+      }
     }
+    if (isAdminRoute()) return "admin";
     return "home";
   });
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
@@ -293,58 +345,20 @@ export const App: React.FC = () => {
       }
 
       const hash = window.location.hash.replace("#", "").replace(/^\//, "");
-      const validPages = [
-        "home",
-        "about",
-        "about-values",
-        "about-location",
-        "vision-mission",
-        "mission-vision",
-        "vision",
-        "message",
-        "academics",
-        "academics-stages",
-        "academics-assessment",
-        "academics-timings",
-        "facilities",
-        "facility-chem-phys",
-        "facility-bio-composite",
-        "facility-computer-lab",
-        "facility-library",
-        "facility-sports",
-        "facility-indoor-games",
-        "facility-music",
-        "facility-infirmary",
-        "faculty",
-        "faculty-standards",
-        "faculty-development",
-        "faculty-ratio",
-        "admissions",
-        "admissions-documents",
-        "admissions-eligibility",
-        "admissions-inquiry",
-        "admissions-fee",
-        "fee-structure",
-        "fee",
-        "fees",
-        "academics-books",
-        "book-list",
-        "books",
-        "activities",
-        "gallery",
-        "contact",
-        "documents",
-        "disclosure",
-        "news-events",
-        "admin",
-      ];
 
-      if (validPages.includes(hash)) {
+      // If we landed on /admin#publicPage, automatically clean up the URL pathname to /#publicPage
+      if (typeof window !== "undefined" && window.location.pathname.startsWith("/admin") && hash && VALID_PUBLIC_PAGES.has(hash)) {
+        window.history.replaceState(null, "", `/#${hash}`);
+      }
+
+      if (VALID_PUBLIC_PAGES.has(hash)) {
         if (hash === "mission-vision" || hash === "vision") {
           setActivePage("vision-mission");
         } else {
           setActivePage(hash);
         }
+      } else if (!hash) {
+        setActivePage("home");
       }
     };
 
@@ -360,8 +374,27 @@ export const App: React.FC = () => {
 
   const handlePageChange = (page: string) => {
     setActivePage(page);
-    window.location.hash = page;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== "undefined") {
+      if (page === "admin") {
+        if (!window.location.pathname.startsWith("/admin")) {
+          window.location.hash = "admin";
+        }
+      } else {
+        if (window.location.pathname.startsWith("/admin")) {
+          window.history.pushState(null, "", page === "home" ? "/" : `/#${page}`);
+        } else {
+          window.location.hash = page === "home" ? "" : page;
+        }
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleBackToSite = () => {
+    if (typeof window !== "undefined" && window.location.pathname.startsWith("/admin")) {
+      window.history.pushState(null, "", "/");
+    }
+    handlePageChange("home");
   };
 
   useEffect(() => {
@@ -390,7 +423,7 @@ export const App: React.FC = () => {
           <AdminDashboard
             currentUser={adminUser}
             onLogout={handleAdminLogout}
-            onBackToSite={() => handlePageChange("home")}
+            onBackToSite={handleBackToSite}
           />
         </React.Suspense>
       );
@@ -406,7 +439,7 @@ export const App: React.FC = () => {
       >
         <AdminLoginPage
           onLoginSuccess={(user) => setAdminUser(user)}
-          onBackToSite={() => handlePageChange("home")}
+          onBackToSite={handleBackToSite}
         />
       </React.Suspense>
     );
