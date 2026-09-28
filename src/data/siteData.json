@@ -269,7 +269,7 @@
       "id": "doc1",
       "date": "2026-03-01",
       "order": 1,
-      "title": "Admission Application Form 2026-27",
+      "title": "ADMISSION APPLICATION FORM 2026-27",
       "active": true,
       "fileUrl": "/uploads/documents/admission-form-2026-27.pdf",
       "category": "Admissions",
@@ -281,7 +281,7 @@
       "id": "doc2",
       "date": "2026-02-15",
       "order": 2,
-      "title": "School Prospectus & Information Brochure",
+      "title": "SCHOOL PROSPECTUS & INFORMATION BROCHURE",
       "active": true,
       "fileUrl": "/uploads/documents/lotus-school-prospectus.pdf",
       "category": "Admissions",
@@ -293,7 +293,7 @@
       "id": "doc3",
       "date": "2026-01-10",
       "order": 3,
-      "title": "CBSE Public Mandatory Disclosure (Appendix-IX)",
+      "title": "CBSE PUBLIC MANDATORY DISCLOSURE (APPENDIX-IX)",
       "active": true,
       "fileUrl": "/uploads/documents/mandatory-disclosure-appendix-ix.pdf",
       "category": "Regulatory & Disclosures",
@@ -305,7 +305,7 @@
       "id": "doc4",
       "date": "2026-03-05",
       "order": 4,
-      "title": "Annual Academic Calendar 2026-27",
+      "title": "ANNUAL ACADEMIC CALENDAR 2026-27",
       "active": true,
       "fileUrl": "/uploads/documents/academic-calendar-2026-27.pdf",
       "category": "Academics",
@@ -317,7 +317,7 @@
       "id": "doc5",
       "date": "2026-02-28",
       "order": 5,
-      "title": "Prescribed Book List & Stationary Guidelines",
+      "title": "PRESCRIBED BOOK LIST & STATIONARY GUIDELINES",
       "active": true,
       "fileUrl": "/uploads/documents/prescribed-book-list.pdf",
       "category": "Academics",
@@ -329,7 +329,7 @@
       "id": "doc6",
       "date": "2026-02-01",
       "order": 6,
-      "title": "Approved Fee Structure for Academic Year 2026-27",
+      "title": "APPROVED FEE STRUCTURE FOR ACADEMIC YEAR 2026-27",
       "active": true,
       "fileUrl": "/uploads/documents/fee-structure-2026-27.pdf",
       "category": "Admissions",
@@ -341,7 +341,7 @@
       "id": "doc7",
       "date": "2026-01-05",
       "order": 7,
-      "title": "Building Safety & Structural Stability Certificate",
+      "title": "BUILDING SAFETY & STRUCTURAL STABILITY CERTIFICATE",
       "active": true,
       "fileUrl": "/uploads/documents/building-safety-certificate.pdf",
       "category": "Regulatory & Disclosures",
@@ -353,7 +353,7 @@
       "id": "doc8",
       "date": "2026-01-08",
       "order": 8,
-      "title": "Fire Safety Certificate & Compliance Verification",
+      "title": "FIRE SAFETY CERTIFICATE & COMPLIANCE VERIFICATION",
       "active": true,
       "fileUrl": "/uploads/documents/fire-safety-certificate.pdf",
       "category": "Regulatory & Disclosures",
@@ -365,7 +365,7 @@
       "id": "doc9",
       "date": "2026-01-12",
       "order": 9,
-      "title": "Water, Health & Campus Sanitation Certificate",
+      "title": "WATER, HEALTH & CAMPUS SANITATION CERTIFICATE",
       "active": true,
       "fileUrl": "/uploads/documents/health-sanitation-certificate.pdf",
       "category": "Regulatory & Disclosures",
@@ -377,7 +377,7 @@
       "id": "doc10",
       "date": "2026-02-10",
       "order": 10,
-      "title": "Sample Transfer Certificate (TC) & Application Format",
+      "title": "SAMPLE TRANSFER CERTIFICATE (TC) & APPLICATION FORMAT",
       "active": true,
       "fileUrl": "/uploads/documents/sample-transfer-certificate.pdf",
       "category": "Admissions",
@@ -1393,7 +1393,7 @@
       },
       {
         "label": "Principal / Leadership Desk",
-        "value": "Principal Office (Qualified M.Sc / M.A., B.Ed.)"
+        "value": "Principal Office (Qualified M.A., B.Ed.,CTET.)"
       },
       {
         "label": "Official Email ID",
@@ -1433,30 +1433,42 @@
     "academicDisclosures": [
       {
         "sno": "01",
+        "link": "/uploads/documents/fee-structure-2026-27.pdf",
         "title": "Approved Fee Structure for Academic Year 2026-27",
-        "pageId": "documents"
+        "pageId": "admissions-fee",
+        "status": "Approved by Management (AY 2026–27)",
+        "pageLabel": "Fee Structure"
       },
       {
         "sno": "02",
+        "link": "/uploads/documents/academic-calendar-2026-27.pdf",
         "title": "Annual Academic Calendar 2026-27",
-        "pageId": "documents"
+        "pageId": "activities",
+        "status": "Official 4-Page Annual Planner",
+        "pageLabel": "Activity Calendar"
       },
       {
         "sno": "03",
+        "link": "/uploads/documents/prescribed-book-list.pdf",
         "title": "List of Prescribed NCERT Books & Stationary",
-        "pageId": "documents"
+        "pageId": "academics-books",
+        "status": "Classes VI to VIII (NCERT)",
+        "pageLabel": "Book List"
       },
       {
         "sno": "04",
+        "link": "/uploads/documents/developmental-stages-assessment-scheme.pdf",
         "title": "Developmental Stages & Assessment Scheme",
-        "pageId": "academics-assessment"
+        "pageId": "academics-assessment",
+        "status": "NEP 2020 Aligned Framework (Std 1–8)",
+        "pageLabel": "Assessment Scheme"
       }
     ],
     "complianceDocuments": [
       {
         "sno": "01",
         "link": "/api/files?id=fire-safety-certificate.pdf",
-        "title": "Fire Safety Certificate",
+        "title": "FIRE SAFETY CERTIFICATE",
         "status": "Available for Inspection"
       },
       {
@@ -1468,7 +1480,7 @@
       {
         "sno": "03",
         "link": "/api/files?id=1790361743104-SAFE_DRINKING_WATER-_CONVERTED.pdf",
-        "title": "Safe Drinking water Certificate",
+        "title": "SAFE DRINKING WATER CERTIFICATE",
         "status": "Available for Inspection"
       },
       {
@@ -1480,7 +1492,7 @@
       {
         "sno": "05",
         "link": "/api/files?id=1790420982604-APPROVAT_CERTIFICATE_6_TO_8.pdf",
-        "title": "APPROVAT CERTIFICATE 6 TO 8",
+        "title": "APPROVAL CERTIFICATE 6 TO 8",
         "status": "Available for Inspection"
       },
       {
@@ -1492,7 +1504,7 @@
       {
         "sno": "07",
         "link": "/api/files?id=health-sanitation-certificate.pdf",
-        "title": "Copies of Valid Water, Health & Sanitation Certificates",
+        "title": "COPIES OF VALID WATER, HEALTH & SANITATION CERTIFICATES",
         "status": "Potable Water & Hygiene Certified"
       }
     ],
