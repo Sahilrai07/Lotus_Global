@@ -39,6 +39,7 @@ const ContactPage = React.lazy(() => import("./pages/ContactPage").then((m) => (
 const DocumentsPage = React.lazy(() => import("./pages/DocumentsPage").then((m) => ({ default: m.DocumentsPage })));
 const MandatoryDisclosurePage = React.lazy(() => import("./pages/MandatoryDisclosurePage").then((m) => ({ default: m.MandatoryDisclosurePage })));
 const NewsEventsPage = React.lazy(() => import("./pages/NewsEventsPage").then((m) => ({ default: m.NewsEventsPage })));
+const VirtualTourDemoPage = React.lazy(() => import("./pages/VirtualTourDemoPage").then((m) => ({ default: m.VirtualTourDemoPage })));
 import { MessageSquare, ArrowUp, Settings } from "lucide-react";
 import { getSiteData, subscribeSiteData } from "./data/siteDataService";
 
@@ -236,6 +237,8 @@ const VALID_PUBLIC_PAGES = new Set([
   "documents",
   "disclosure",
   "news-events",
+  "demo-tour",
+  "virtual-tour-demo",
 ]);
 
 const isAdminRoute = () => {
@@ -441,6 +444,21 @@ export const App: React.FC = () => {
           onLoginSuccess={(user) => setAdminUser(user)}
           onBackToSite={handleBackToSite}
         />
+      </React.Suspense>
+    );
+  }
+
+  // Render Hidden 3D Virtual Tour Prototype for Client Demonstration
+  if (activePage === "demo-tour" || activePage === "virtual-tour-demo") {
+    return (
+      <React.Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white text-sm font-semibold">
+            Loading 3D Campus Experience...
+          </div>
+        }
+      >
+        <VirtualTourDemoPage onNavigate={handlePageChange} />
       </React.Suspense>
     );
   }
