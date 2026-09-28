@@ -22,7 +22,6 @@ import {
   Camera,
   X,
   HelpCircle,
-  SlidersHorizontal,
   ArrowLeft,
   ArrowUp,
   ArrowDown,
@@ -33,7 +32,7 @@ interface Hotspot {
   targetRoom: string;
   title: string;
   directionLabel?: string;
-  yaw: number; // degrees horizontal (-180 to 180)
+  yaw: number; // degrees horizontal relative to center (-180 to 180)
   pitch: number; // degrees vertical (-90 to 90)
 }
 
@@ -75,23 +74,23 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "computer-lab",
         title: "Step into Computer & AI Lab",
         directionLabel: "Right Wing",
-        yaw: 24,
-        pitch: -3,
+        yaw: 28,
+        pitch: -4,
       },
       {
         id: "to-science",
         targetRoom: "science-lab",
         title: "Enter Composite Science Lab",
-        directionLabel: "Central Hallway",
-        yaw: 10,
-        pitch: -5,
+        directionLabel: "STEM Corridor",
+        yaw: 12,
+        pitch: -6,
       },
       {
         id: "to-library",
         targetRoom: "library",
         title: "Go to Central Library",
         directionLabel: "Left Mezzanine",
-        yaw: -22,
+        yaw: -24,
         pitch: -2,
       },
       {
@@ -99,8 +98,8 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "sports-arena",
         title: "Head to Sports Complex & Turf",
         directionLabel: "Outdoor Campus",
-        yaw: -30,
-        pitch: 3,
+        yaw: -40,
+        pitch: 4,
       },
     ],
     pois: [
@@ -110,14 +109,14 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         description: "Official reception counter for admissions inquiries, campus tour appointments, and administrative guidance.",
         badge: "Visitor Desk",
         yaw: 0,
-        pitch: -13,
+        pitch: -14,
       },
       {
         id: "trophy-case",
         title: "House Points & Student Honors Wall",
         description: "Showcasing student academic accolades, inter-school debate trophies, and annual athletic championship shields.",
         badge: "Accreditations",
-        yaw: 31,
+        yaw: 36,
         pitch: -2,
       },
     ],
@@ -129,7 +128,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
     category: "STEM & Computing",
     image: "/assets/virtual-tour/computer-lab.jpg",
     initialYaw: 0,
-    initialPitch: -1,
+    initialPitch: -2,
     icon: Laptop,
     hotspots: [
       {
@@ -137,7 +136,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "reception",
         title: "Return to Welcome Atrium",
         directionLabel: "Main Hallway",
-        yaw: -26,
+        yaw: -32,
         pitch: -4,
       },
       {
@@ -145,7 +144,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "science-lab",
         title: "Enter Science & Discovery Lab",
         directionLabel: "STEM Corridor",
-        yaw: 28,
+        yaw: 32,
         pitch: -3,
       },
     ],
@@ -156,23 +155,23 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         description: "Individual student terminals configured with Scratch, Python, HTML5, and child-safe high-speed firewall internet.",
         badge: "ICT Infrastructure",
         yaw: 0,
-        pitch: -13,
+        pitch: -15,
       },
       {
         id: "smart-board",
         title: "Interactive Smart Digital Board",
         description: "Ultra-HD digital touch projection enabling interactive coding demonstrations and robotics logic simulations.",
         badge: "Digital Classroom",
-        yaw: -28,
-        pitch: 4,
+        yaw: -36,
+        pitch: 5,
       },
       {
         id: "robotics-bench",
         title: "Robotics & Micro-Controller Workbench",
         description: "Hands-on robotics hardware station with sensor integration kits and competitive robotics assembly tools.",
         badge: "Innovation Hub",
-        yaw: 26,
-        pitch: -11,
+        yaw: 32,
+        pitch: -12,
       },
     ],
   },
@@ -191,7 +190,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "reception",
         title: "Return to Welcome Atrium",
         directionLabel: "Main Lobby",
-        yaw: -27,
+        yaw: -32,
         pitch: -4,
       },
       {
@@ -199,7 +198,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "library",
         title: "Walk to Central Library",
         directionLabel: "Reading Wing",
-        yaw: 26,
+        yaw: 30,
         pitch: -3,
       },
     ],
@@ -209,8 +208,8 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         title: "CBSE Aligned Science Framework",
         description: "Official NCERT-compliant laboratory stations equipped with safety eyewash, gas cut-offs, and first-aid response.",
         badge: "Safety Compliant",
-        yaw: -27,
-        pitch: 8,
+        yaw: -32,
+        pitch: 10,
       },
       {
         id: "microscopes",
@@ -218,15 +217,15 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         description: "High-grade optical microscopes providing students with hands-on cellular and botanical specimen analysis.",
         badge: "Empirical Learning",
         yaw: 0,
-        pitch: -13,
+        pitch: -15,
       },
       {
         id: "lab-reagents",
         title: "Safety Storage & Chemical Reagents",
         description: "Secured lockable cabinetry for chemical reagents with complete safety handling protocols.",
         badge: "Glassware & Reagents",
-        yaw: 28,
-        pitch: 3,
+        yaw: 34,
+        pitch: 4,
       },
     ],
   },
@@ -245,7 +244,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "reception",
         title: "Return to Welcome Atrium",
         directionLabel: "Main Lobby",
-        yaw: -15,
+        yaw: -18,
         pitch: 2,
       },
       {
@@ -253,8 +252,8 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "sports-arena",
         title: "Visit Sports Complex & Turf",
         directionLabel: "Outdoor Campus",
-        yaw: 27,
-        pitch: -2,
+        yaw: 32,
+        pitch: -3,
       },
     ],
     pois: [
@@ -264,14 +263,14 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         description: "Spacious wooden reading tables equipped with reading lamps and charging docks for digital research.",
         badge: "Study Arena",
         yaw: 0,
-        pitch: -13,
+        pitch: -14,
       },
       {
         id: "bookshelves",
         title: "Two-Story Reference Library",
         description: "Thousands of curriculum-mapped volumes, encyclopedias, international fiction, and periodicals.",
         badge: "Curated Books",
-        yaw: -28,
+        yaw: -35,
         pitch: -2,
       },
       {
@@ -279,8 +278,8 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         title: "Digital Catalog Search Kiosks",
         description: "Touchscreen terminals allowing students to search book availability, issue dates, and digital research journals.",
         badge: "E-Library",
-        yaw: 27,
-        pitch: -8,
+        yaw: 33,
+        pitch: -10,
       },
     ],
   },
@@ -299,7 +298,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "reception",
         title: "Return to School Building",
         directionLabel: "Academic Wing",
-        yaw: -25,
+        yaw: -30,
         pitch: -3,
       },
       {
@@ -307,7 +306,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         targetRoom: "library",
         title: "Visit Central Library Wing",
         directionLabel: "Knowledge Center",
-        yaw: 24,
+        yaw: 28,
         pitch: -3,
       },
     ],
@@ -318,14 +317,14 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         description: "All-weather synthetic grass turf engineered with shock-absorbing underlay for safe student athletic activities.",
         badge: "Sports Excellence",
         yaw: 0,
-        pitch: -9,
+        pitch: -10,
       },
       {
         id: "spectator-stands",
         title: "Covered Spectator Pavilion",
         description: "Modern architectural grandstand seating for parents and spectators during annual sports meets.",
         badge: "Grandstand",
-        yaw: -27,
+        yaw: -32,
         pitch: 2,
       },
       {
@@ -333,7 +332,7 @@ const TOUR_LOCATIONS: Record<string, TourLocation> = {
         title: "All-Weather Basketball Courts",
         description: "High-traction cushioned acrylic hardcourts for basketball, tennis, and volleyball training.",
         badge: "Hardcourts",
-        yaw: 27,
+        yaw: 32,
         pitch: 0,
       },
     ],
@@ -356,9 +355,6 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [showGuideModal, setShowGuideModal] = useState<boolean>(false);
 
-  // Viewing mode: "panoramic" (Zero Fisheye Cylindrical Room) vs "sphere" (360 Equirectangular Wrap)
-  const [viewMode, setViewMode] = useState<"panoramic" | "sphere">("panoramic");
-
   // Screen positions for projected 3D hotspots & POIs
   const [projectedHotspots, setProjectedHotspots] = useState<
     Array<Hotspot & { screenX: number; screenY: number; visible: boolean }>
@@ -371,14 +367,13 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const roomMeshRef = useRef<THREE.Mesh | null>(null);
-  const currentTextureRef = useRef<THREE.Texture | null>(null);
+  const sphereMeshRef = useRef<THREE.Mesh | null>(null);
 
   // Rotation angles & FOV (in degrees)
   const lonRef = useRef<number>(0);
   const latRef = useRef<number>(0);
-  const targetFovRef = useRef<number>(48); // Natural human focal length (48 deg)
-  const autoPanTimeRef = useRef<number>(0);
+  // Default FOV: 52 deg (natural human eye perspective - no fish-eye edge distortion)
+  const targetFovRef = useRef<number>(52);
 
   const isUserInteractingRef = useRef<boolean>(false);
   const onPointerDownPointerXRef = useRef<number>(0);
@@ -387,33 +382,6 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
   const onPointerDownLatRef = useRef<number>(0);
 
   const currentRoom = TOUR_LOCATIONS[currentRoomId] || TOUR_LOCATIONS.reception;
-
-  // Geometry builder helper
-  const createRoomGeometry = (mode: "panoramic" | "sphere") => {
-    if (mode === "panoramic") {
-      // Natural 16:9 Cylindrical Arc (Zero Polar Pinch, Zero Fisheye Curvature, Straight Walls)
-      const radius = 600;
-      const thetaLength = 2.45; // ~140.4 degrees panoramic horizontal field
-      const height = (radius * thetaLength) / (16 / 9); // = (600 * 2.45) / 1.7777 = 827 (exact 16:9 aspect ratio)
-      const geom = new THREE.CylinderGeometry(
-        radius,
-        radius,
-        height,
-        80,
-        1,
-        true,
-        -thetaLength / 2,
-        thetaLength
-      );
-      geom.scale(-1, 1, 1); // Render on inside of cylinder
-      return geom;
-    } else {
-      // Classical 360 Photosphere
-      const geom = new THREE.SphereGeometry(500, 60, 40);
-      geom.scale(-1, 1, 1);
-      return geom;
-    }
-  };
 
   // Initialize Three.js scene once
   useEffect(() => {
@@ -424,17 +392,15 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || window.innerHeight;
 
-    // 1. Scene with luxury deep architectural slate background
+    // 1. Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x060913);
     sceneRef.current = scene;
 
-    // 2. Camera with calibrated rectilinear optics (48 deg = natural human eye, no edge stretching)
-    const initialFov = viewMode === "panoramic" ? 48 : 65;
-    const camera = new THREE.PerspectiveCamera(initialFov, width / height, 1, 1500);
+    // 2. Camera with calibrated Street View optics (52 deg FOV eliminates wide-angle distortion)
+    const camera = new THREE.PerspectiveCamera(52, width / height, 1, 1500);
     const targetVector = new THREE.Vector3(0, 0, 0);
     cameraRef.current = camera;
-    targetFovRef.current = initialFov;
+    targetFovRef.current = 52;
 
     // 3. Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -446,20 +412,20 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
     renderer.setSize(width, height);
     rendererRef.current = renderer;
 
-    // 4. Room Mesh (Cylindrical or Spherical based on viewMode)
-    const geometry = createRoomGeometry(viewMode);
+    // 4. Complete 360° Inverted Photosphere (100% full-screen coverage, ZERO black void)
+    const geometry = new THREE.SphereGeometry(500, 64, 48);
+    geometry.scale(-1, 1, 1);
 
     const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load(currentRoom.image);
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.minFilter = THREE.LinearFilter;
     texture.generateMipmaps = true;
-    currentTextureRef.current = texture;
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-    roomMeshRef.current = mesh;
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+    sphereMeshRef.current = sphere;
 
     // Animation Loop
     let animationFrameId: number;
@@ -467,36 +433,25 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Auto rotation / pan when idle
+      // Auto rotation when idle
       if (autoRotate && !isUserInteractingRef.current) {
-        if (viewMode === "panoramic") {
-          // Smooth luxury sinusoidal gimbal oscillation between -22° and +22°
-          autoPanTimeRef.current += 0.008;
-          lonRef.current = Math.sin(autoPanTimeRef.current) * 22;
-        } else {
-          lonRef.current += 0.08;
-        }
+        lonRef.current += 0.07;
       }
 
-      // Constrain rotation depending on viewing mode
-      if (viewMode === "panoramic") {
-        // In panoramic mode, keep camera inside the photo's horizontal and vertical boundaries
-        lonRef.current = Math.max(-35, Math.min(35, lonRef.current));
-        latRef.current = Math.max(-14, Math.min(14, latRef.current));
-      } else {
-        // In 360 sphere mode, allow full horizontal rotation and constrain vertical pitch
-        latRef.current = Math.max(-75, Math.min(75, latRef.current));
-      }
+      // Constrain vertical pitch to [-42 deg, +42 deg] (Google Street View standard)
+      // Clamping prevents camera from reaching zenith/nadir poles, eliminating polar pinch!
+      latRef.current = Math.max(-42, Math.min(42, latRef.current));
 
+      // Calculate direction vector with +180 deg offset so initial lon = 0 faces the center of the photo
       const phi = THREE.MathUtils.degToRad(90 - latRef.current);
-      const theta = THREE.MathUtils.degToRad(lonRef.current);
+      const theta = THREE.MathUtils.degToRad(lonRef.current + 180);
 
       targetVector.x = 500 * Math.sin(phi) * Math.cos(theta);
       targetVector.y = 500 * Math.cos(phi);
       targetVector.z = 500 * Math.sin(phi) * Math.sin(theta);
       camera.lookAt(targetVector);
 
-      // Smooth zoom interpolation
+      // Smooth zoom interpolation (strictly clamped between 35° and 60° to prevent fisheye)
       camera.fov += (targetFovRef.current - camera.fov) * 0.12;
       camera.updateProjectionMatrix();
 
@@ -510,24 +465,13 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
 
       // Update Hotspots
       const updatedHotspots = (TOUR_LOCATIONS[currentRoomId]?.hotspots || []).map((h) => {
-        let hVec: THREE.Vector3;
-        if (viewMode === "panoramic") {
-          const hYawRad = THREE.MathUtils.degToRad(h.yaw);
-          const hPitchRad = THREE.MathUtils.degToRad(h.pitch);
-          hVec = new THREE.Vector3(
-            600 * Math.sin(hYawRad),
-            600 * Math.tan(hPitchRad),
-            600 * Math.cos(hYawRad)
-          );
-        } else {
-          const hPhi = THREE.MathUtils.degToRad(90 - h.pitch);
-          const hTheta = THREE.MathUtils.degToRad(h.yaw);
-          hVec = new THREE.Vector3(
-            500 * Math.sin(hPhi) * Math.cos(hTheta),
-            500 * Math.cos(hPhi),
-            500 * Math.sin(hPhi) * Math.sin(hTheta)
-          );
-        }
+        const hPhi = THREE.MathUtils.degToRad(90 - h.pitch);
+        const hTheta = THREE.MathUtils.degToRad(h.yaw + 180);
+        const hVec = new THREE.Vector3(
+          500 * Math.sin(hPhi) * Math.cos(hTheta),
+          500 * Math.cos(hPhi),
+          500 * Math.sin(hPhi) * Math.sin(hTheta)
+        );
 
         const toHotspot = hVec.clone().normalize();
         const dot = toHotspot.dot(camDir);
@@ -547,24 +491,13 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
 
       // Update POIs
       const updatedPois = (TOUR_LOCATIONS[currentRoomId]?.pois || []).map((poi) => {
-        let pVec: THREE.Vector3;
-        if (viewMode === "panoramic") {
-          const pYawRad = THREE.MathUtils.degToRad(poi.yaw);
-          const pPitchRad = THREE.MathUtils.degToRad(poi.pitch);
-          pVec = new THREE.Vector3(
-            600 * Math.sin(pYawRad),
-            600 * Math.tan(pPitchRad),
-            600 * Math.cos(pYawRad)
-          );
-        } else {
-          const pPhi = THREE.MathUtils.degToRad(90 - poi.pitch);
-          const pTheta = THREE.MathUtils.degToRad(poi.yaw);
-          pVec = new THREE.Vector3(
-            500 * Math.sin(pPhi) * Math.cos(pTheta),
-            500 * Math.cos(pPhi),
-            500 * Math.sin(pPhi) * Math.sin(pTheta)
-          );
-        }
+        const pPhi = THREE.MathUtils.degToRad(90 - poi.pitch);
+        const pTheta = THREE.MathUtils.degToRad(poi.yaw + 180);
+        const pVec = new THREE.Vector3(
+          500 * Math.sin(pPhi) * Math.cos(pTheta),
+          500 * Math.cos(pPhi),
+          500 * Math.sin(pPhi) * Math.sin(pTheta)
+        );
 
         const toPoi = pVec.clone().normalize();
         const dot = toPoi.dot(camDir);
@@ -604,19 +537,19 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
       material.dispose();
       texture.dispose();
     };
-  }, [viewMode]);
+  }, []);
 
-  // When room changes, load new photo texture with smooth cinematic transition
+  // When room changes, load new photosphere texture with smooth cinematic transition
   const switchRoom = (targetRoomId: string) => {
     if (targetRoomId === currentRoomId || isTransitioning) return;
     const nextRoom = TOUR_LOCATIONS[targetRoomId];
-    if (!nextRoom || !roomMeshRef.current) return;
+    if (!nextRoom || !sphereMeshRef.current) return;
 
     setIsTransitioning(true);
     setSelectedPoi(null);
 
     // Zoom-in walk warp effect
-    targetFovRef.current = viewMode === "panoramic" ? 34 : 45;
+    targetFovRef.current = 36;
 
     setTimeout(() => {
       const loader = new THREE.TextureLoader();
@@ -625,37 +558,25 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
         newTexture.minFilter = THREE.LinearFilter;
         newTexture.generateMipmaps = true;
 
-        if (roomMeshRef.current) {
-          const mat = roomMeshRef.current.material as THREE.MeshBasicMaterial;
+        if (sphereMeshRef.current) {
+          const mat = sphereMeshRef.current.material as THREE.MeshBasicMaterial;
           if (mat.map) mat.map.dispose();
           mat.map = newTexture;
           mat.needsUpdate = true;
-          currentTextureRef.current = newTexture;
         }
 
         lonRef.current = nextRoom.initialYaw;
         latRef.current = nextRoom.initialPitch;
-        autoPanTimeRef.current = 0;
         setCurrentRoomId(targetRoomId);
 
         // Zoom back out to natural focal length
-        targetFovRef.current = viewMode === "panoramic" ? 48 : 65;
+        targetFovRef.current = 52;
 
         setTimeout(() => {
           setIsTransitioning(false);
         }, 300);
       });
     }, 300);
-  };
-
-  // Toggle between Panoramic (Zero Fisheye) and 360 Sphere
-  const handleToggleViewMode = (newMode: "panoramic" | "sphere") => {
-    if (newMode === viewMode) return;
-    setViewMode(newMode);
-    lonRef.current = 0;
-    latRef.current = 0;
-    autoPanTimeRef.current = 0;
-    targetFovRef.current = newMode === "panoramic" ? 48 : 65;
   };
 
   // Mouse & Touch interaction handlers
@@ -669,7 +590,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
 
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isUserInteractingRef.current) return;
-    const factor = 0.12 * (targetFovRef.current / 48);
+    const factor = 0.14 * (targetFovRef.current / 52);
     lonRef.current = (onPointerDownPointerXRef.current - e.clientX) * factor + onPointerDownLonRef.current;
     latRef.current = (e.clientY - onPointerDownPointerYRef.current) * factor + onPointerDownLatRef.current;
   };
@@ -680,15 +601,13 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
 
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
-    const minFov = viewMode === "panoramic" ? 32 : 40;
-    const maxFov = viewMode === "panoramic" ? 54 : 85;
-    targetFovRef.current = Math.max(minFov, Math.min(maxFov, targetFovRef.current + e.deltaY * 0.04));
+    targetFovRef.current = Math.max(35, Math.min(60, targetFovRef.current + e.deltaY * 0.04));
   };
 
   // Keyboard navigation (Arrow keys + WASD)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const step = 3;
+      const step = 3.5;
       if (["ArrowLeft", "a", "A"].includes(e.key)) {
         lonRef.current -= step;
       } else if (["ArrowRight", "d", "D"].includes(e.key)) {
@@ -698,17 +617,15 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
       } else if (["ArrowDown", "s", "S"].includes(e.key)) {
         latRef.current -= step;
       } else if (["+", "="].includes(e.key)) {
-        const minFov = viewMode === "panoramic" ? 32 : 40;
-        targetFovRef.current = Math.max(minFov, targetFovRef.current - 4);
+        targetFovRef.current = Math.max(35, targetFovRef.current - 4);
       } else if (["-", "_"].includes(e.key)) {
-        const maxFov = viewMode === "panoramic" ? 54 : 85;
-        targetFovRef.current = Math.min(maxFov, targetFovRef.current + 4);
+        targetFovRef.current = Math.min(60, targetFovRef.current + 4);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [viewMode]);
+  }, []);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -728,8 +645,8 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
 
   return (
     <div className="relative w-full h-screen bg-slate-950 text-white overflow-hidden select-none font-sans flex flex-col">
-      {/* TOP HEADER: Client Presentation Badge, Optics Selector & Tools */}
-      <header className="absolute top-0 left-0 right-0 z-30 p-3 sm:p-4 bg-gradient-to-b from-slate-950/95 via-slate-950/70 to-transparent flex items-center justify-between pointer-events-none">
+      {/* TOP HEADER: Client Presentation Badge & Tools */}
+      <header className="absolute top-0 left-0 right-0 z-30 p-3 sm:p-4 bg-gradient-to-b from-slate-950/90 via-slate-950/60 to-transparent flex items-center justify-between pointer-events-none">
         <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#2F5187] to-[#1E375F] border border-white/20 flex items-center justify-center shadow-lg shadow-[#2F5187]/30">
             <Compass className="w-5 h-5 text-[#E87737] animate-pulse" />
@@ -740,7 +657,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
                 Prototype Demonstration
               </span>
               <span className="text-[10px] text-slate-300 hidden md:inline-block">
-                · Interactive Campus Tour
+                · 360° Interactive Campus Tour
               </span>
             </div>
             <h1 className="text-sm sm:text-lg font-bold font-display text-white tracking-tight flex items-center gap-1.5 mt-0.5">
@@ -751,34 +668,6 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
 
         {/* Top Control Actions */}
         <div className="flex items-center gap-2 pointer-events-auto">
-          {/* Mode Switcher: Zero Fisheye vs 360 Sphere */}
-          <div className="hidden lg:flex items-center bg-slate-900/90 border border-white/15 rounded-xl p-0.5 backdrop-blur-md shadow-md">
-            <button
-              onClick={() => handleToggleViewMode("panoramic")}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                viewMode === "panoramic"
-                  ? "bg-[#E87737] text-white shadow-sm"
-                  : "text-slate-300 hover:text-white"
-              }`}
-              title="Natural architectural perspective with straight vertical walls (Zero Fisheye)"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Zero-Fisheye HD</span>
-            </button>
-            <button
-              onClick={() => handleToggleViewMode("sphere")}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                viewMode === "sphere"
-                  ? "bg-[#2F5187] text-white shadow-sm"
-                  : "text-slate-300 hover:text-white"
-              }`}
-              title="Classical 360 Sphere wrap"
-            >
-              <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span>360° Sphere</span>
-            </button>
-          </div>
-
           <button
             onClick={() => setShowGuideModal(true)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-semibold backdrop-blur-md transition-all shadow-sm"
@@ -807,7 +696,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
         </div>
       </header>
 
-      {/* 3D INTERACTIVE VIEWPORT CONTAINER */}
+      {/* 3D INTERACTIVE VIEWPORT CONTAINER (100% Filled, Zero Black Area) */}
       <div
         ref={containerRef}
         onPointerDown={handlePointerDown}
@@ -922,8 +811,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
       <div className="absolute right-4 bottom-28 z-20 flex flex-col gap-2 pointer-events-auto">
         <button
           onClick={() => {
-            const minFov = viewMode === "panoramic" ? 32 : 40;
-            targetFovRef.current = Math.max(minFov, targetFovRef.current - 6);
+            targetFovRef.current = Math.max(35, targetFovRef.current - 6);
           }}
           className="w-10 h-10 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/15 text-white flex items-center justify-center shadow-lg backdrop-blur-md transition-all active:scale-95"
           title="Zoom In (+)"
@@ -932,8 +820,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
         </button>
         <button
           onClick={() => {
-            const maxFov = viewMode === "panoramic" ? 54 : 85;
-            targetFovRef.current = Math.min(maxFov, targetFovRef.current + 6);
+            targetFovRef.current = Math.min(60, targetFovRef.current + 6);
           }}
           className="w-10 h-10 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/15 text-white flex items-center justify-center shadow-lg backdrop-blur-md transition-all active:scale-95"
           title="Zoom Out (-)"
@@ -945,7 +832,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
           className={`w-10 h-10 rounded-xl border border-white/15 flex items-center justify-center shadow-lg backdrop-blur-md transition-all active:scale-95 ${
             autoRotate ? "bg-[#E87737] text-white" : "bg-slate-900/80 hover:bg-slate-800 text-slate-300"
           }`}
-          title={autoRotate ? "Pause Auto-Pan" : "Enable Auto-Pan"}
+          title={autoRotate ? "Pause Auto-Rotation" : "Enable Auto-Rotation"}
         >
           <RotateCw className={`w-4 h-4 ${autoRotate ? "animate-spin" : ""}`} />
         </button>
@@ -962,7 +849,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
       <div className="absolute left-4 bottom-28 z-20 pointer-events-auto hidden sm:flex flex-col items-center bg-slate-900/80 border border-white/15 p-1.5 rounded-2xl backdrop-blur-md shadow-lg">
         <button
           onClick={() => {
-            latRef.current = Math.min(14, latRef.current + 4);
+            latRef.current = Math.min(42, latRef.current + 5);
           }}
           className="p-1.5 rounded-lg hover:bg-white/10 text-slate-300 hover:text-white transition-colors"
           title="Tilt Up"
@@ -972,7 +859,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
-              lonRef.current = Math.max(-35, lonRef.current - 5);
+              lonRef.current -= 6;
             }}
             className="p-1.5 rounded-lg hover:bg-white/10 text-slate-300 hover:text-white transition-colors"
             title="Pan Left"
@@ -982,7 +869,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
           <div className="w-2 h-2 rounded-full bg-[#E87737]" />
           <button
             onClick={() => {
-              lonRef.current = Math.min(35, lonRef.current + 5);
+              lonRef.current += 6;
             }}
             className="p-1.5 rounded-lg hover:bg-white/10 text-slate-300 hover:text-white transition-colors"
             title="Pan Right"
@@ -992,7 +879,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
         </div>
         <button
           onClick={() => {
-            latRef.current = Math.max(-14, latRef.current - 4);
+            latRef.current = Math.max(-42, latRef.current - 5);
           }}
           className="p-1.5 rounded-lg hover:bg-white/10 text-slate-300 hover:text-white transition-colors"
           title="Tilt Down"
@@ -1006,7 +893,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
         <div className="max-w-4xl mx-auto flex flex-col items-center gap-2">
           {/* Helper Instruction Tag */}
           <div className="text-[11px] font-medium text-slate-300 bg-slate-900/80 px-3.5 py-1 rounded-full border border-white/15 backdrop-blur-sm pointer-events-auto flex items-center gap-2 shadow-md">
-            <span>🖱️ Drag to look around</span>
+            <span>🖱️ Drag to look around 360°</span>
             <span>·</span>
             <span>🎯 Click glowing arrows to enter rooms</span>
             <span>·</span>
@@ -1065,16 +952,11 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
               <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 space-y-2">
                 <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5">
                   <Camera className="w-4 h-4 text-[#E87737]" />
-                  Why Zero-Fisheye HD View Is Better Than Fish-Eye:
+                  Street-View Calibrated Optics:
                 </h4>
-                <ul className="text-xs space-y-1.5 list-disc list-inside text-slate-300">
-                  <li>
-                    <strong>Standard photos curve when wrapped on a sphere</strong>: Wrapping a flat photo around 360° squeezes the ceiling and floor into circular rings (the "fish-eye" effect).
-                  </li>
-                  <li>
-                    <strong>Zero-Fisheye Cylindrical Optics</strong>: We map each room's photo with its natural 16:9 aspect ratio and 48° human eye focal length. The walls, periodic table, computer monitors, and ceiling beams stay 100% straight and true to life!
-                  </li>
-                </ul>
+                <p className="text-xs text-slate-300">
+                  We use calibrated 52° human-eye optics with pitch limits (just like Google Street View) so that vertical walls, computers, and furniture look completely straight and true-to-life without barrel/fisheye stretching.
+                </p>
               </div>
 
               <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 space-y-2">
@@ -1084,7 +966,7 @@ export const VirtualTourDemoPage: React.FC<VirtualTourDemoPageProps> = ({ onNavi
                 </h4>
                 <ol className="text-xs space-y-1.5 list-decimal list-inside text-slate-300">
                   <li>Stand in the center of the classroom, lab, or playground.</li>
-                  <li>Hold the smartphone in Panorama mode or wide-angle mode at eye level.</li>
+                  <li>Hold the smartphone in Panorama mode or 360 mode at eye level.</li>
                   <li>Smoothly sweep across the room from left to right.</li>
                   <li>Upload the photo — our system automatically aligns the straight walls and interactive navigation arrows!</li>
                 </ol>
