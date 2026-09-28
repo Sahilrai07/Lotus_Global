@@ -24,8 +24,7 @@ export const NewsEventsPage: React.FC<NewsEventsPageProps> = ({
       openInquiry={openInquiry}
       bannerImage="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80"
       breadcrumbs={[
-        { label: "Home", pageId: "home" },
-        { label: "News & Events", pageId: "news-events" },
+        { label: "News & Events" },
       ]}
     >
       <div className="space-y-8">

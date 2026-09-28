@@ -23,9 +23,11 @@ const LocationPage = React.lazy(() => import("./pages/about/LocationPage").then(
 const DevelopmentalStagesPage = React.lazy(() => import("./pages/academics/DevelopmentalStagesPage").then((m) => ({ default: m.DevelopmentalStagesPage })));
 const AssessmentSchemePage = React.lazy(() => import("./pages/academics/AssessmentSchemePage").then((m) => ({ default: m.AssessmentSchemePage })));
 const SchoolTimingsPage = React.lazy(() => import("./pages/academics/SchoolTimingsPage").then((m) => ({ default: m.SchoolTimingsPage })));
+const BookListPage = React.lazy(() => import("./pages/academics/BookListPage").then((m) => ({ default: m.BookListPage })));
 const DocumentsChecklistPage = React.lazy(() => import("./pages/admissions/DocumentsChecklistPage").then((m) => ({ default: m.DocumentsChecklistPage })));
 const EligibilityCriteriaPage = React.lazy(() => import("./pages/admissions/EligibilityCriteriaPage").then((m) => ({ default: m.EligibilityCriteriaPage })));
 const InquiryDeskPage = React.lazy(() => import("./pages/admissions/InquiryDeskPage").then((m) => ({ default: m.InquiryDeskPage })));
+const FeeStructurePage = React.lazy(() => import("./pages/admissions/FeeStructurePage").then((m) => ({ default: m.FeeStructurePage })));
 const TeachingStandardsPage = React.lazy(() => import("./pages/faculty/TeachingStandardsPage").then((m) => ({ default: m.TeachingStandardsPage })));
 const ProfessionalDevelopmentPage = React.lazy(() => import("./pages/faculty/ProfessionalDevelopmentPage").then((m) => ({ default: m.ProfessionalDevelopmentPage })));
 const StudentTeacherRatioPage = React.lazy(() => import("./pages/faculty/StudentTeacherRatioPage").then((m) => ({ default: m.StudentTeacherRatioPage })));
@@ -88,6 +90,10 @@ const PAGE_SEO_META: Record<string, { title: string; description: string }> = {
   "academics-timings": {
     title: "School Timings & Daily Routine | Lotus Global School",
     description: "Daily academic schedules, assembly hours, recess, and co-curricular timing breakdowns for all grades at Lotus Global School.",
+  },
+  "academics-books": {
+    title: "Prescribed NCERT Textbook List (Classes VI–VIII) | Lotus Global School",
+    description: "Official NCERT prescribed textbook list for Classes VI to VIII covering English, Hindi, Mathematics, Science, Social Science, and Sanskrit at Lotus Global School.",
   },
   facilities: {
     title: "World-Class Campus Facilities | Lotus Global School, Vapi",
@@ -156,6 +162,10 @@ const PAGE_SEO_META: Record<string, { title: string; description: string }> = {
   "admissions-inquiry": {
     title: "Admissions Inquiry & Application Desk | Lotus Global School",
     description: "Submit your admission inquiry or application for Lotus Global School, Vapi. Connect directly with our admissions counselor.",
+  },
+  "admissions-fee": {
+    title: "Approved Fee Structure 2026-27 | Lotus Global School, Vata",
+    description: "Official approved fee structure and instalment breakdown for Pre-Primary (Nursery, Jr KG, Sr KG) and Classes 1 to 8 at Lotus Global School.",
   },
   activities: {
     title: "Co-Curricular Activities & Clubs | Lotus Global School",
@@ -313,6 +323,13 @@ export const App: React.FC = () => {
         "admissions-documents",
         "admissions-eligibility",
         "admissions-inquiry",
+        "admissions-fee",
+        "fee-structure",
+        "fee",
+        "fees",
+        "academics-books",
+        "book-list",
+        "books",
         "activities",
         "gallery",
         "contact",
@@ -462,6 +479,15 @@ export const App: React.FC = () => {
             onNavigate={handlePageChange}
           />
         );
+      case "academics-books":
+      case "book-list":
+      case "books":
+        return (
+          <BookListPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
       case "facilities":
         return (
           <FacilitiesPage
@@ -591,6 +617,16 @@ export const App: React.FC = () => {
       case "admissions-inquiry":
         return (
           <InquiryDeskPage
+            openInquiry={() => setIsInquiryOpen(true)}
+            onNavigate={handlePageChange}
+          />
+        );
+      case "admissions-fee":
+      case "fee-structure":
+      case "fees":
+      case "fee":
+        return (
+          <FeeStructurePage
             openInquiry={() => setIsInquiryOpen(true)}
             onNavigate={handlePageChange}
           />

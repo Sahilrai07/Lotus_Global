@@ -74,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
         { label: "Mandatory Document Checklist", pageId: "admissions-documents" },
         { label: "Eligibility & Age Criteria", pageId: "admissions-eligibility" },
         { label: "Admissions Inquiry Desk", pageId: "admissions-inquiry" },
-        { label: "Approved Fee Structure", pageId: "documents" },
+        { label: "Approved Fee Structure", pageId: "admissions-fee" },
       ],
     },
     {
@@ -87,7 +87,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
         { label: "Assessment & Examination Scheme", pageId: "academics-assessment" },
         { label: "Daily School Timings & Routine", pageId: "academics-timings" },
         { label: "Annual Academic Calendar", pageId: "documents" },
-        { label: "Prescribed Book List", pageId: "documents" },
+        { label: "Prescribed Book List", pageId: "academics-books" },
       ],
     },
     {
@@ -120,6 +120,17 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
       ],
     },
     {
+      id: "documents",
+      label: "Documents",
+      hasDropdown: true,
+      subItems: [
+        { label: "Documents & Downloads", pageId: "documents" },
+        { label: "CBSE Mandatory Disclosure (Appendix-IX)", pageId: "disclosure" },
+        { label: "Approved Fee Structure (2026–27)", pageId: "admissions-fee" },
+        { label: "Prescribed NCERT Book List", pageId: "academics-books" },
+      ],
+    },
+    {
       id: "news-events",
       label: "News & Events",
       hasDropdown: true,
@@ -134,6 +145,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
   ];
 
   const handleNavigate = (pageId: string) => {
+    window.location.hash = pageId;
     setActivePage(pageId);
     setActiveDropdown(null);
     setIsMobileOpen(false);
@@ -183,7 +195,9 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
     } else if (query.includes("lab") || query.includes("librar") || query.includes("sport") || query.includes("facil")) {
       handleNavigate("facilities");
     } else if (query.includes("fee") || query.includes("cost") || query.includes("struct")) {
-      handleNavigate("documents");
+      handleNavigate("admissions-fee");
+    } else if (query.includes("book") || query.includes("textbook") || query.includes("ncert")) {
+      handleNavigate("academics-books");
     } else if (query.includes("princip") || query.includes("head") || query.includes("direct")) {
       handleNavigate("message");
     } else if (query.includes("photo") || query.includes("pic") || query.includes("image") || query.includes("galler")) {
@@ -419,7 +433,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                   >
                     <button
                       onClick={() => handleNavigate(item.id)}
-                      className={`flex items-center gap-1 px-2.5 xl:px-3.5 py-2 text-[12.5px] xl:text-[13.5px] font-bold tracking-wide transition-all focus:outline-none whitespace-nowrap rounded ${
+                      className={`flex items-center gap-1 px-2 xl:px-3 py-2 text-[12px] xl:text-[13px] font-bold tracking-wide transition-all focus:outline-none whitespace-nowrap rounded ${
                         active
                           ? "text-[#FDBA74] bg-white/15 shadow-inner"
                           : "text-white hover:text-[#FDBA74] hover:bg-white/10"

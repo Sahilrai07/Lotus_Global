@@ -1,7 +1,7 @@
 import React from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
 import { ADMISSION_STEPS, REQUIRED_DOCUMENTS, SCHOOL_INFO } from "../data/schoolData";
-import { Compass, FileCheck, CheckCircle2, AlertCircle, ArrowRight, Phone, MessageSquare } from "lucide-react";
+import { Compass, FileCheck, CheckCircle2, AlertCircle, ArrowRight, Phone, MessageSquare, CreditCard, Download } from "lucide-react";
 import { useSiteData } from "../data/siteDataService";
 
 interface AdmissionsPageProps {
@@ -171,7 +171,69 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({
           </div>
         </div>
 
-        {/* 4. FAST TRACK ACTION DESK */}
+        {/* 4. APPROVED FEE STRUCTURE HIGHLIGHT */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+            <div className="flex items-center gap-2">
+              <CreditCard className="w-5 h-5 text-[#E87737]" />
+              <h3 className="font-display font-bold text-xl text-[#2F5187]">
+                Approved Fee Structure (Academic Year 2026–27)
+              </h3>
+            </div>
+            <button
+              onClick={() => onNavigate("admissions-fee")}
+              className="text-xs font-bold text-[#E87737] hover:text-[#2F5187] flex items-center gap-1 transition-colors"
+            >
+              <span>View Full Breakdown</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-sm space-y-4">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Lotus Global School maintains a 100% transparent fee policy without hidden levies. Fees are payable in convenient instalments across Pre-Primary (3 terms) and School grades (4 quarterly payments).
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div className="p-3.5 rounded bg-[#F8FAFC] border border-slate-200 space-y-1">
+                <span className="text-[10px] font-bold uppercase text-[#2F5187] tracking-wider">Pre-Primary (Nursery–UKG)</span>
+                <div className="text-lg font-display font-bold text-[#E87737]">₹31,500 – ₹35,500</div>
+                <p className="text-[11px] text-slate-500">Payable in 3 instalments (Includes School Kit)</p>
+              </div>
+
+              <div className="p-3.5 rounded bg-[#F8FAFC] border border-slate-200 space-y-1">
+                <span className="text-[10px] font-bold uppercase text-[#2F5187] tracking-wider">Primary (Std 1 to 5)</span>
+                <div className="text-lg font-display font-bold text-[#E87737]">₹34,000 – ₹36,400</div>
+                <p className="text-[11px] text-slate-500">Payable in 4 quarterly instalments</p>
+              </div>
+
+              <div className="p-3.5 rounded bg-[#F8FAFC] border border-slate-200 space-y-1">
+                <span className="text-[10px] font-bold uppercase text-[#2F5187] tracking-wider">Middle School (Std 6 to 8)</span>
+                <div className="text-lg font-display font-bold text-[#E87737]">₹38,800</div>
+                <p className="text-[11px] text-slate-500">Payable in 4 quarterly instalments</p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <button
+                onClick={() => onNavigate("admissions-fee")}
+                className="px-4 py-2 bg-[#2F5187] hover:bg-[#1E375F] text-white text-xs font-bold rounded tracking-wide transition-colors flex items-center gap-1.5 shadow-sm"
+              >
+                <span>Explore Complete Grade-Wise Table</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+              <a
+                href="/api/files?id=fee-structure-2026-27.pdf&download=1"
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded tracking-wide transition-colors flex items-center gap-1.5 border border-slate-300"
+              >
+                <Download className="w-3.5 h-3.5 text-[#E87737]" />
+                <span>Download Official PDF</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. FAST TRACK ACTION DESK */}
         <div className="p-6 bg-[#2F5187] text-white rounded border border-[#1E375F] space-y-4 shadow-sm">
           <div className="space-y-1">
             <span className="text-xs font-bold uppercase tracking-wider text-[#E87737]">

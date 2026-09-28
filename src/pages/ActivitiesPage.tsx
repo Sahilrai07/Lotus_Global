@@ -21,8 +21,11 @@ import {
   Leaf,
   BookOpen,
   Shield,
+  Eye,
+  Download,
 } from "lucide-react";
 import { useSiteData } from "../data/siteDataService";
+import { PdfViewerModal } from "../components/PdfViewerModal";
 
 interface ActivitiesPageProps {
   openInquiry: () => void;
@@ -38,6 +41,33 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
 
   const [activeTab, setActiveTab] = useState<"all" | "sports" | "arts" | "clubs" | "houses">("all");
   const [activeSection, setActiveSection] = useState<string>("overview");
+  const [isCalendarViewerOpen, setIsCalendarViewerOpen] = useState(false);
+  const [isCalendarDownloading, setIsCalendarDownloading] = useState(false);
+
+  const calendarPdfUrl = "/uploads/documents/academic-calendar-2026-27.pdf";
+
+  const handleDownloadCalendar = async () => {
+    setIsCalendarDownloading(true);
+    try {
+      const fileUrl = `/api/files?id=academic-calendar-2026-27.pdf&download=1`;
+      const res = await fetch(fileUrl);
+      if (!res.ok) throw new Error("Fetch failed");
+      const blob = await res.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = blobUrl;
+      a.download = "Lotus_Global_School_Annual_Planner_2026-27.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 3000);
+    } catch {
+      window.open(calendarPdfUrl, "_blank");
+    } finally {
+      setTimeout(() => setIsCalendarDownloading(false), 800);
+    }
+  };
 
   const scrollToSection = (
     sectionId: string,
@@ -291,14 +321,56 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
     : defaultHouses;
 
   const annualCalendar = [
-    { month: "June - July", event: "Investiture Ceremony & Student Council Badging", category: "Leadership" },
-    { month: "August", event: "Independence Day Celebrations & Inter-House Patriotic Song Fest", category: "National Pride" },
-    { month: "September", event: "Teachers' Day & Hindi Diwas Elocution Contests", category: "Literary" },
-    { month: "October", event: "LGS Premier Cricket Cup & Autumn Art Carnival", category: "Sports & Arts" },
-    { month: "November", event: "Children's Day Gala & Inter-House Science & Robotics Expo", category: "Innovation" },
-    { month: "December", event: "Annual Sports Day & Grand Athletic March Past", category: "Athletics" },
-    { month: "January", event: "Republic Day Parade, Kite Festival & Folk Dance Display", category: "Cultural" },
-    { month: "February", event: "Annual School Day Cultural Extravaganza & House Trophy Award", category: "Institution" },
+    {
+      month: "June 2026",
+      event: "Environment Day (Plantation & Conservation Awareness), Islamic New Year, International Yoga Day & Father's Day, Muharram Assembly",
+      category: "Awareness & Ethics",
+    },
+    {
+      month: "July 2026",
+      event: "Quiz Competition (III-VIII), Best out of Waste (I-II), G.K Quiz (I-II), Scipotech Science Quiz (III-VIII), Guru Purnima",
+      category: "Science & Literary",
+    },
+    {
+      month: "August 2026",
+      event: "Show and Tell (I-II), Creative Writing (III-VIII), Unit Test-1 (3-7 Aug), Independence Day & Parsi New Year, Onam, Rakhi Making, Extempore & Debate",
+      category: "National Pride & UT-1",
+    },
+    {
+      month: "September 2026",
+      event: "Janmashtami & Matki Decoration, Teacher's Day, Ganesh Chaturthi, Hindi Diwas, Community Helpers Fancy Dress (I-II), Logo Making",
+      category: "Cultural & Creative",
+    },
+    {
+      month: "October 2026",
+      event: "Handwriting Competition (I-II), Extempore Speech, Navratri Celebration, Durga Ashtami, Dussehra, Semester Exam-1 (26 Oct - 4 Nov)",
+      category: "Semester Exam 1",
+    },
+    {
+      month: "November 2026",
+      event: "Diwali Vacation Break (5 Nov - 23 Nov 2026), School Re-opens, Guru Nanak Jayanti Celebration in Assembly",
+      category: "Festival Break",
+    },
+    {
+      month: "December 2026",
+      event: "Non-Fire Cooking (I-VIII), Beat the Clock Rapid-Fire Tasks, Mathematics Day Activities & Projects, Christmas Holidays",
+      category: "Math & Life Skills",
+    },
+    {
+      month: "January 2027",
+      event: "Slogan Making, Unit Test-2 (4-8 Jan), Makar Sankranti, Pongal, Read & Act, Spell Bee, Constitution Quiz, Republic Day, Extempore",
+      category: "Unit Test-2 & Republic",
+    },
+    {
+      month: "February 2027",
+      event: "My Magic Bag (I-II), Current Affairs Analysis (III-VIII), Vasant Panchami, Shivaji Maharaj Jayanti, Grand Science Exhibition (20-Feb-2027)",
+      category: "Science Exhibition",
+    },
+    {
+      month: "March 2027",
+      event: "Annual Final Academic Revisions & Semester Exam-2 (5 March 2027 – 20 March 2027)",
+      category: "Semester Exam 2",
+    },
   ];
 
   return (
@@ -311,7 +383,6 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
       customSidebarLinks={customSidebarLinks}
       bannerImage={banner}
       breadcrumbs={[
-        { label: "Home", pageId: "home" },
         { label: "Activities & Co-Curricular" },
       ]}
     >
@@ -645,31 +716,78 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
 
         {/* SECTION 5: ANNUAL CALENDAR HIGHLIGHTS */}
         <div id="calendar-section" className="space-y-4 scroll-mt-24">
-          <div className="border-b border-slate-200 pb-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#E87737] block">
-              Campus Rhythm
-            </span>
-            <h3 className="font-display font-bold text-xl text-[#2F5187] flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-[#E87737]" />
-              <span>Annual Co-Curricular & Cultural Calendar</span>
-            </h3>
+          <div className="border-b border-slate-200 pb-2 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#E87737] block">
+                Campus Rhythm & Activity Planner
+              </span>
+              <h3 className="font-display font-bold text-xl text-[#2F5187] flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-[#E87737]" />
+                <span>Annual Co-Curricular & Academic Planner (2026–2027)</span>
+              </h3>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => setIsCalendarViewerOpen(true)}
+                className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-[#2F5187] font-bold text-xs uppercase tracking-wider rounded transition-colors flex items-center gap-1.5 border border-slate-300"
+              >
+                <Eye className="w-3.5 h-3.5 text-[#2F5187]" />
+                <span>View Full PDF</span>
+              </button>
+              <button
+                onClick={handleDownloadCalendar}
+                disabled={isCalendarDownloading}
+                className="px-3.5 py-1.5 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors flex items-center gap-1.5 shadow"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>{isCalendarDownloading ? "..." : "Download Planner"}</span>
+              </button>
+            </div>
           </div>
 
+          {/* Exam & Key Vacation Highlight Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="p-3 rounded bg-amber-50 border border-amber-200 space-y-1">
+              <span className="text-[10px] font-bold uppercase text-amber-800 tracking-wider">Unit Test 1</span>
+              <div className="font-bold text-xs text-amber-950">3 Aug 2026 – 7 Aug 2026</div>
+              <p className="text-[11px] text-amber-900/80">Diagnostic first terminal assessments (Grades I–VIII)</p>
+            </div>
+
+            <div className="p-3 rounded bg-sky-50 border border-sky-200 space-y-1">
+              <span className="text-[10px] font-bold uppercase text-sky-800 tracking-wider">Semester Exam 1</span>
+              <div className="font-bold text-xs text-sky-950">26 Oct 2026 – 4 Nov 2026</div>
+              <p className="text-[11px] text-sky-900/80">Mid-term summative evaluations prior to Diwali break</p>
+            </div>
+
+            <div className="p-3 rounded bg-emerald-50 border border-emerald-200 space-y-1">
+              <span className="text-[10px] font-bold uppercase text-emerald-800 tracking-wider">Diwali Vacation</span>
+              <div className="font-bold text-xs text-emerald-950">5 Nov 2026 – 23 Nov 2026</div>
+              <p className="text-[11px] text-emerald-900/80">School re-opens on Monday, 23rd November 2026</p>
+            </div>
+
+            <div className="p-3 rounded bg-indigo-50 border border-indigo-200 space-y-1">
+              <span className="text-[10px] font-bold uppercase text-indigo-800 tracking-wider">Semester Exam 2</span>
+              <div className="font-bold text-xs text-indigo-950">5 Mar 2027 – 20 Mar 2027</div>
+              <p className="text-[11px] text-indigo-900/80">Annual comprehensive examination & final promotion</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
             {annualCalendar.map((item, idx) => (
               <div
                 key={idx}
-                className="p-3.5 bg-white rounded border border-slate-200 text-xs space-y-1.5 shadow-sm"
+                className="p-3.5 bg-white rounded border border-slate-200 text-xs space-y-1.5 shadow-sm hover:border-[#2F5187]/40 transition-colors"
               >
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-[#2F5187] text-[11px]">
                     {item.month}
                   </span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-slate-100 font-semibold text-slate-600">
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-100 font-semibold text-slate-600">
                     {item.category}
                   </span>
                 </div>
-                <p className="font-medium text-slate-800 leading-snug">
+                <p className="font-medium text-slate-700 leading-snug">
                   {item.event}
                 </p>
               </div>
@@ -697,6 +815,17 @@ export const ActivitiesPage: React.FC<ActivitiesPageProps> = ({
           </div>
         </div>
       </div>
+
+      {/* PDF Viewer Modal */}
+      <PdfViewerModal
+        isOpen={isCalendarViewerOpen}
+        onClose={() => setIsCalendarViewerOpen(false)}
+        title="Annual Academic Planner (2026–2027)"
+        subtitle="Lotus Global School, Vata – Day-to-Day Activity & Examination Calendar"
+        fileUrl={calendarPdfUrl}
+        onDownload={handleDownloadCalendar}
+        isDownloading={isCalendarDownloading}
+      />
     </InternalPageLayout>
   );
 };

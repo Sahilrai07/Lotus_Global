@@ -28,16 +28,29 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
     if (doc.link && doc.link.trim()) {
       return doc.link.trim();
     }
-    if (doc.sno === "05" || doc.title?.toLowerCase().includes("building")) {
-      return "/api/files?id=building-safety-certificate.pdf";
+    const t = (doc.title || "").toLowerCase();
+    if (t.includes("building") || doc.sno === "05") {
+      return "/uploads/documents/building-safety-certificate.pdf";
     }
-    if (doc.sno === "06" || doc.sno === "01" || doc.title?.toLowerCase().includes("fire")) {
-      return "/api/files?id=fire-safety-certificate.pdf";
+    if (t.includes("fire") || doc.sno === "06") {
+      return "/uploads/documents/fire-safety-certificate.pdf";
     }
-    if (doc.sno === "07" || doc.title?.toLowerCase().includes("water") || doc.title?.toLowerCase().includes("health") || doc.title?.toLowerCase().includes("sanitation")) {
-      return "/api/files?id=health-sanitation-certificate.pdf";
+    if (t.includes("water") || t.includes("health") || t.includes("sanitation") || doc.sno === "07") {
+      return "/uploads/documents/health-sanitation-certificate.pdf";
     }
-    return "/api/files?id=mandatory-disclosure-appendix-ix.pdf";
+    if (t.includes("fee")) {
+      return "/uploads/documents/fee-structure-2026-27.pdf";
+    }
+    if (t.includes("calendar") || t.includes("planner")) {
+      return "/uploads/documents/academic-calendar-2026-27.pdf";
+    }
+    if (t.includes("book") || t.includes("ncert")) {
+      return "/uploads/documents/prescribed-book-list.pdf";
+    }
+    if (t.includes("assessment") || t.includes("developmental") || t.includes("stage")) {
+      return "/uploads/documents/developmental-stages-assessment-scheme.pdf";
+    }
+    return "/uploads/documents/mandatory-disclosure-appendix-ix.pdf";
   };
 
   const handleDownload = async (e: React.MouseEvent, docLink?: string, docTitle?: string, sno?: string) => {
@@ -174,22 +187,34 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
     {
       sno: "01",
       title: "Approved Fee Structure for Academic Year 2026-27",
-      pageId: "documents",
+      link: "/uploads/documents/fee-structure-2026-27.pdf",
+      status: "Approved by Management (AY 2026–27)",
+      pageId: "admissions-fee",
+      pageLabel: "Fee Structure",
     },
     {
       sno: "02",
       title: "Annual Academic Calendar 2026-27",
-      pageId: "documents",
+      link: "/uploads/documents/academic-calendar-2026-27.pdf",
+      status: "Official 4-Page Annual Planner",
+      pageId: "activities",
+      pageLabel: "Activity Calendar",
     },
     {
       sno: "03",
       title: "List of Prescribed NCERT Books & Stationary",
-      pageId: "documents",
+      link: "/uploads/documents/prescribed-book-list.pdf",
+      status: "Classes VI to VIII (NCERT)",
+      pageId: "academics-books",
+      pageLabel: "Book List",
     },
     {
       sno: "04",
       title: "Developmental Stages & Assessment Scheme",
+      link: "/uploads/documents/developmental-stages-assessment-scheme.pdf",
+      status: "NEP 2020 Aligned Framework (Std 1–8)",
       pageId: "academics-assessment",
+      pageLabel: "Assessment Scheme",
     },
   ];
 
@@ -202,9 +227,8 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
       openInquiry={openInquiry}
       bannerImage={banner}
       breadcrumbs={[
-        { label: "Home", pageId: "home" },
         { label: "Documents", pageId: "documents" },
-        { label: "Mandatory Disclosure", pageId: "disclosure" },
+        { label: "Mandatory Disclosure" },
       ]}
     >
       <div className="space-y-8">
@@ -328,12 +352,12 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
             </h3>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse min-w-[480px]">
+            <table className="w-full text-left text-xs border-collapse min-w-[540px]">
               <thead>
                 <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
                   <th className="p-3.5 w-16 text-center">S.No.</th>
                   <th className="p-3.5">Academic Record</th>
-                  <th className="p-3.5 w-36 text-center whitespace-nowrap">View Online</th>
+                  <th className="p-3.5 w-60 text-center whitespace-nowrap">View Online / Download</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -343,16 +367,56 @@ export const MandatoryDisclosurePage: React.FC<MandatoryDisclosurePageProps> = (
                       {record.sno}
                     </td>
                     <td className="p-3.5 font-medium leading-relaxed">
-                      {record.title}
+                      <div className="font-semibold text-slate-800">{record.title}</div>
+                      {record.status && (
+                        <div className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-emerald-700">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                          <span>{record.status}</span>
+                        </div>
+                      )}
                     </td>
-                    <td className="p-3.5 text-center whitespace-nowrap">
-                      <button
-                        onClick={() => onNavigate(record.pageId)}
-                        className="inline-flex items-center gap-1 px-3 py-1 rounded bg-[#E87737] text-white hover:bg-[#D26425] font-bold text-[11px] uppercase tracking-wider transition-colors shadow-xs"
-                      >
-                        <span>View Details</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </button>
+                    <td className="p-3 sm:p-3.5 text-center whitespace-nowrap">
+                      <div className="inline-flex items-center justify-center gap-1.5 flex-nowrap">
+                        <button
+                          type="button"
+                          onClick={() => setViewingDoc(record)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer shrink-0"
+                          title={`Preview ${record.title} online`}
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>View Details</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => handleDownload(e, resolveDocUrl(record), record.title, record.sno)}
+                          disabled={downloadingSno === record.sno}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs cursor-pointer disabled:opacity-75 shrink-0"
+                          title={`Download ${record.title} PDF`}
+                        >
+                          {downloadingSno === record.sno ? (
+                            <>
+                              <RefreshCw className="w-3 h-3 animate-spin text-amber-300" />
+                              <span className="text-amber-200">Saving...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Download className="w-3 h-3" />
+                              <span>Download</span>
+                            </>
+                          )}
+                        </button>
+                        {record.pageId && (
+                          <button
+                            type="button"
+                            onClick={() => onNavigate(record.pageId)}
+                            className="inline-flex items-center gap-1 px-2 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition-all border border-slate-200 cursor-pointer shrink-0"
+                            title={`Open dedicated ${record.pageLabel || 'page'} overview`}
+                          >
+                            <span>Page</span>
+                            <ExternalLink className="w-2.5 h-2.5 text-slate-500" />
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}

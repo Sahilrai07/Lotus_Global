@@ -141,6 +141,83 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
 
   const sidebarLinks = customSidebarLinks || getCategoryLinks();
 
+  // Build a clean, deduplicated, hierarchical breadcrumb trail
+  const breadcrumbTrail = React.useMemo(() => {
+    const categoryPageMap: Record<string, string> = {
+      "ABOUT US": "about",
+      "ACADEMICS": "academics",
+      "CAMPUS FACILITIES": "facilities",
+      "ADMISSIONS": "admissions",
+      "FACULTY": "faculty",
+      "DOCUMENTS & DISCLOSURES": "documents",
+      "DOCUMENTS": "documents",
+      "NEWS & EVENTS": "news-events",
+      "ACTIVITIES": "activities",
+      "CO-CURRICULAR": "activities",
+      "CAMPUS LIFE": "gallery",
+      "CONTACT US": "contact",
+    };
+
+    const trail: { label: string; pageId?: string; isCurrent?: boolean }[] = [];
+
+    // Filter out any explicit "Home" entries from custom breadcrumbs
+    const cleanCustom = (breadcrumbs || []).filter(
+      (b) => b && b.label && b.label.trim().toLowerCase() !== "home" && b.pageId !== "home"
+    );
+
+    const categoryRootId = categoryPageMap[category.toUpperCase()] || "";
+    const isMainCategoryPage =
+      activePageId === categoryRootId ||
+      title.toLowerCase().includes(category.toLowerCase()) ||
+      category.toLowerCase().includes(title.toLowerCase());
+
+    if (cleanCustom.length > 0) {
+      // Check if the first custom breadcrumb already covers the parent section/category
+      const firstLabel = cleanCustom[0].label.toLowerCase();
+      const catLower = category.toLowerCase();
+      const hasParentInBreadcrumbs =
+        firstLabel === catLower ||
+        firstLabel.includes(catLower) ||
+        catLower.includes(firstLabel) ||
+        (cleanCustom[0].pageId && cleanCustom[0].pageId === categoryRootId);
+
+      // If it's a sub-page and doesn't mention the parent category, add the parent category first
+      if (!isMainCategoryPage && !hasParentInBreadcrumbs && categoryRootId) {
+        trail.push({
+          label: category.charAt(0).toUpperCase() + category.slice(1).toLowerCase(),
+          pageId: categoryRootId,
+        });
+      }
+
+      // Add custom items, deduplicating adjacent identical labels
+      cleanCustom.forEach((item) => {
+        const last = trail[trail.length - 1];
+        if (!last || last.label.toLowerCase() !== item.label.toLowerCase()) {
+          trail.push({
+            label: item.label,
+            pageId: item.pageId,
+          });
+        }
+      });
+    } else {
+      // No custom breadcrumbs provided
+      if (!isMainCategoryPage && categoryRootId) {
+        trail.push({
+          label: category.charAt(0).toUpperCase() + category.slice(1).toLowerCase(),
+          pageId: categoryRootId,
+        });
+      }
+      trail.push({ label: title });
+    }
+
+    // Mark the last item as current
+    if (trail.length > 0) {
+      trail[trail.length - 1].isCurrent = true;
+    }
+
+    return trail;
+  }, [breadcrumbs, category, title, activePageId]);
+
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
       {/* Inner Page Hero Banner (Reference .about-inner inspiration) */}
@@ -156,32 +233,33 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
 
         <div className="relative z-10 wrap">
           {/* Breadcrumbs */}
-          <div className="flex items-center gap-1.5 text-xs text-slate-300 font-medium mb-3">
+          <nav aria-label="Breadcrumb" className="flex items-center flex-wrap gap-1.5 text-xs text-slate-300 font-medium mb-3">
             <button
               onClick={() => onNavigate("home")}
-              className="flex items-center gap-1 hover:text-[#E87737] transition-colors"
+              className="flex items-center gap-1 hover:text-[#E87737] transition-colors cursor-pointer"
+              title="Go to Home"
             >
               <Home className="w-3.5 h-3.5" />
               <span>Home</span>
             </button>
-            <ChevronRight className="w-3 h-3 text-slate-400" />
-            <span className="text-[#E87737] font-semibold">{category}</span>
-            {breadcrumbs.map((b, idx) => (
+            {breadcrumbTrail.map((b, idx) => (
               <React.Fragment key={idx}>
-                <ChevronRight className="w-3 h-3 text-slate-400" />
-                {b.pageId ? (
+                <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
+                {b.pageId && !b.isCurrent ? (
                   <button
                     onClick={() => b.pageId && onNavigate(b.pageId)}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors cursor-pointer text-slate-300 hover:underline"
                   >
                     {b.label}
                   </button>
                 ) : (
-                  <span className="text-white">{b.label}</span>
+                  <span className={b.isCurrent ? "text-white font-semibold" : "text-[#E87737] font-semibold"}>
+                    {b.label}
+                  </span>
                 )}
               </React.Fragment>
             ))}
-          </div>
+          </nav>
 
           <h1 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight uppercase">
             {title}

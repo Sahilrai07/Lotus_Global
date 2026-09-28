@@ -193,11 +193,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* Status Toast Notification */}
       {statusMessage && (
         <div
-          className={`fixed top-16 right-6 z-50 px-4 py-3 rounded-lg shadow-xl text-xs font-bold flex items-center gap-2 transition-all ${
-            statusMessage.type === "success"
+          className={`fixed top-16 right-6 z-50 px-4 py-3 rounded-lg shadow-xl text-xs font-bold flex items-center gap-2 transition-all ${statusMessage.type === "success"
               ? "bg-emerald-700 text-white"
               : "bg-rose-700 text-white"
-          }`}
+            }`}
         >
           {statusMessage.type === "success" ? (
             <Check className="w-4 h-4" />
@@ -243,11 +242,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as TabType)}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md text-xs font-bold transition-all text-left ${
-                    active
+                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md text-xs font-bold transition-all text-left ${active
                       ? "bg-[#2F5187] text-white shadow-sm"
                       : "text-slate-600 hover:bg-slate-100"
-                  }`}
+                    }`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
                   <span>{tab.label}</span>
@@ -417,8 +415,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         {((data as any).heroDesignMode || "split") === "split"
                           ? "Option 1: Split Showcase (Client Selected)"
                           : (data as any).heroDesignMode === "glass"
-                          ? "Option 2: Floating Glass Card"
-                          : "Option 3: Bottom Tray"}
+                            ? "Option 2: Floating Glass Card"
+                            : "Option 3: Bottom Tray"}
                       </span>
                     </p>
                   </div>
@@ -428,11 +426,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {/* Option 1: Split Showcase */}
                   <div
                     onClick={() => setData({ ...data, heroDesignMode: "split" } as any)}
-                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${
-                      ((data as any).heroDesignMode || "split") === "split"
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${((data as any).heroDesignMode || "split") === "split"
                         ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
                         : "border-slate-200 hover:border-slate-300 bg-white"
-                    }`}
+                      }`}
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
@@ -458,11 +455,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {/* Option 2: Floating Glass Card */}
                   <div
                     onClick={() => setData({ ...data, heroDesignMode: "glass" } as any)}
-                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${
-                      (data as any).heroDesignMode === "glass"
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${(data as any).heroDesignMode === "glass"
                         ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
                         : "border-slate-200 hover:border-slate-300 bg-white"
-                    }`}
+                      }`}
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
@@ -488,11 +484,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {/* Option 3: Bottom Tray */}
                   <div
                     onClick={() => setData({ ...data, heroDesignMode: "tray" } as any)}
-                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${
-                      (data as any).heroDesignMode === "tray"
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex flex-col justify-between ${(data as any).heroDesignMode === "tray"
                         ? "border-[#E87737] bg-orange-50/50 shadow-sm ring-1 ring-[#E87737]/30"
                         : "border-slate-200 hover:border-slate-300 bg-white"
-                    }`}
+                      }`}
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">

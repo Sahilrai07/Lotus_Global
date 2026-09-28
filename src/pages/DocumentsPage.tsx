@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { InternalPageLayout } from "../components/InternalPageLayout";
-import { FileText, Download, Search, Filter, Calendar, CheckCircle2, ShieldCheck, AlertCircle, RefreshCw, Eye } from "lucide-react";
+import { FileText, Download, Search, Filter, Calendar, CheckCircle2, ShieldCheck, AlertCircle, RefreshCw, Eye, ExternalLink } from "lucide-react";
 import { useSiteData, DocumentItem } from "../data/siteDataService";
 import { PdfViewerModal } from "../components/PdfViewerModal";
 
@@ -107,8 +107,7 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
       openInquiry={openInquiry}
       bannerImage={bannerImage}
       breadcrumbs={[
-        { label: "Home", pageId: "home" },
-        { label: "Documents & Downloads", pageId: "documents" },
+        { label: "Documents & Downloads" },
       ]}
     >
       <div className="space-y-8">
@@ -158,6 +157,33 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
           </div>
         </div>
 
+        {/* Category Specific Notice for Regulatory & Disclosures */}
+        {selectedCategory === "Regulatory & Disclosures" && (
+          <div className="p-4 sm:p-5 rounded-lg bg-blue-50 border border-blue-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded bg-[#2F5187] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <ShieldCheck className="w-5 h-5 text-amber-300" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-display font-bold text-sm text-[#2F5187]">
+                  Official Safety Certifications & Regulatory Dossier
+                </h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  These verified certificates validate structural stability, fire safety, drinking water hygiene, and RTE compliance. You can also inspect the full structured compliance dossier on our CBSE Mandatory Public Disclosure page.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => onNavigate("disclosure")}
+              className="shrink-0 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded bg-[#2F5187] hover:bg-[#1E375F] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-xs cursor-pointer"
+            >
+              <span>Open Disclosure Table</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
         {/* Documents Listing */}
         {filteredDocs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -181,13 +207,30 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
                     <div className="w-10 h-10 rounded bg-rose-50 border border-rose-100 text-rose-600 flex items-center justify-center shrink-0">
                       <FileText className="w-5 h-5" />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <h3 className="font-display font-bold text-sm sm:text-base text-[#2F5187] group-hover:text-[#E87737] transition-colors leading-snug">
                         {doc.title}
                       </h3>
-                      <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      <p className="text-xs text-slate-600 leading-relaxed">
                         {doc.description}
                       </p>
+                      {doc.category === "Regulatory & Disclosures" && (
+                        <div className="pt-1">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onNavigate("disclosure");
+                            }}
+                            className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2F5187] hover:text-[#E87737] hover:underline transition-colors cursor-pointer"
+                            title="View on Mandatory Public Disclosure page"
+                          >
+                            <ShieldCheck className="w-3.5 h-3.5 text-[#E87737]" />
+                            <span>Part of CBSE Appendix-IX Disclosure Table</span>
+                            <ExternalLink className="w-2.5 h-2.5 ml-0.5" />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -242,20 +285,25 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
         )}
 
         {/* Note on Public Mandatory Disclosure */}
-        <div className="p-5 rounded-lg bg-[#EEF3FA] border border-[#2F5187]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <h4 className="font-display font-bold text-sm text-[#2F5187]">
+        <div className="p-5 sm:p-6 rounded-lg bg-gradient-to-r from-[#EEF3FA] to-white border border-[#2F5187]/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E87737]">
+              <ShieldCheck className="w-4 h-4" />
+              <span>Official Transparency</span>
+            </div>
+            <h4 className="font-display font-bold text-sm sm:text-base text-[#2F5187]">
               CBSE Public Mandatory Disclosure (Appendix-IX)
             </h4>
-            <p className="text-xs text-slate-600">
-              View our complete institutional compliance details, society/trust affiliation, and safety approvals.
+            <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
+              Looking for our complete institutional governance profile, society/trust documents, teacher-student ratios, and certified compliance dossiers?
             </p>
           </div>
           <button
             onClick={() => onNavigate("disclosure")}
-            className="shrink-0 px-4 py-2 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
+            className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm cursor-pointer"
           >
-            View Disclosure Table
+            <span>View Full Disclosure Table</span>
+            <ExternalLink className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>

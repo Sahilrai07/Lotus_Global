@@ -57,8 +57,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({
       openInquiry={openInquiry}
       bannerImage="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1600&q=80"
       breadcrumbs={[
-        { label: "Home", pageId: "home" },
-        { label: "Photo Gallery", pageId: "gallery" },
+        { label: "Photo Gallery" },
       ]}
     >
       <div className="space-y-8">

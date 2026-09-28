@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { InternalPageLayout } from "../../components/InternalPageLayout";
 import { ACADEMIC_STAGES } from "../../data/schoolData";
-import { BookOpen, CheckCircle2, Award, Sparkles, Layers, GraduationCap } from "lucide-react";
-
+import { BookOpen, CheckCircle2, Award, Sparkles, Layers, GraduationCap, Download, Eye } from "lucide-react";
 import { getSiteData } from "../../data/siteDataService";
+import { PdfViewerModal } from "../../components/PdfViewerModal";
 
 interface DevelopmentalStagesPageProps {
   openInquiry: () => void;
@@ -15,6 +15,33 @@ export const DevelopmentalStagesPage: React.FC<DevelopmentalStagesPageProps> = (
   onNavigate = () => {},
 }) => {
   const bannerImage = getSiteData().pageBanners?.academics || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80";
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const docPdfUrl = "/uploads/documents/developmental-stages-assessment-scheme.pdf";
+
+  const handleDownloadPdf = async () => {
+    setIsDownloading(true);
+    try {
+      const fileUrl = `/api/files?id=developmental-stages-assessment-scheme.pdf&download=1`;
+      const res = await fetch(fileUrl);
+      if (!res.ok) throw new Error("Fetch failed");
+      const blob = await res.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = blobUrl;
+      a.download = "Lotus_Global_School_Developmental_Stages_and_Assessment_Scheme.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 3000);
+    } catch {
+      window.open(docPdfUrl, "_blank");
+    } finally {
+      setTimeout(() => setIsDownloading(false), 800);
+    }
+  };
 
   return (
     <InternalPageLayout
@@ -30,16 +57,36 @@ export const DevelopmentalStagesPage: React.FC<DevelopmentalStagesPageProps> = (
       ]}
     >
       <div className="space-y-8">
-        <div className="border-b-2 border-[#2F5187] pb-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
-            NEP 2020 Pedagogical Framework
-          </span>
-          <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
-            New Academic Structure (5+3+3+4)
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1 font-medium">
-            New pedagogical and curricular structure of school education (5+3+3+4): 3 years in Anganwadi/pre-school and 12 years in school
-          </p>
+        <div className="border-b-2 border-[#2F5187] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-[#E87737] block">
+              NEP 2020 Pedagogical Framework
+            </span>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#2F5187]">
+              New Academic Structure (5+3+3+4)
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 font-medium">
+              New pedagogical and curricular structure of school education (5+3+3+4): 3 years in Anganwadi/pre-school and 12 years in school
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              onClick={() => setIsViewerOpen(true)}
+              className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-[#2F5187] font-bold text-xs uppercase tracking-wider rounded transition-colors flex items-center gap-1.5 border border-slate-300"
+            >
+              <Eye className="w-4 h-4 text-[#2F5187]" />
+              <span>View PDF</span>
+            </button>
+            <button
+              onClick={handleDownloadPdf}
+              disabled={isDownloading}
+              className="px-3.5 py-2 bg-[#E87737] hover:bg-[#D26425] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors flex items-center gap-1.5 shadow"
+            >
+              <Download className="w-4 h-4" />
+              <span>{isDownloading ? "..." : "Official PDF"}</span>
+            </button>
+          </div>
         </div>
 
         {/* VISUAL DIAGRAM CARD: REPRODUCING THE CLIENT'S IMAGE */}
@@ -273,6 +320,16 @@ export const DevelopmentalStagesPage: React.FC<DevelopmentalStagesPageProps> = (
           ))}
         </div>
       </div>
+
+      <PdfViewerModal
+        isOpen={isViewerOpen}
+        onClose={() => setIsViewerOpen(false)}
+        title="Developmental Stages and Assessment Scheme"
+        subtitle="Lotus Global School, Vata – Official Policy Framework (NEP 2020 Aligned)"
+        fileUrl={docPdfUrl}
+        onDownload={handleDownloadPdf}
+        isDownloading={isDownloading}
+      />
     </InternalPageLayout>
   );
 };
