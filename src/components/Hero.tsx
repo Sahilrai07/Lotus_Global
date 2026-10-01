@@ -85,14 +85,28 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
 
   const activeSlide = slides[currentSlideIndex] || slides[0];
 
-  // Auto-slide effect every 5.5 seconds unless paused or on video slide
+  // Auto-slide effect:
+  // - Slides 1, 2, 3: standard 5.5s (5500ms) interval
+  // - Slide 4 (Campus Video Tour): slightly extended interval of 7.8s (7800ms) before cycling back to Slide 1
+  // - Smoothly continues the cycle 1 -> 2 -> 3 -> 4 -> 1 ...
+  // - Automatically pauses if video is actively playing or user hovers
   useEffect(() => {
-    if (isPaused || activeSlide?.isVideo || slides.length <= 1) return;
-    const interval = setInterval(() => {
+    if (isPaused || slides.length <= 1) return;
+
+    // Do not auto-advance if video is currently playing
+    if (videoRef.current && !videoRef.current.paused && !videoRef.current.ended) {
+      return;
+    }
+
+    const isVideoSlide = !!activeSlide?.isVideo || currentSlideIndex === slides.length - 1;
+    const intervalDuration = isVideoSlide ? 7800 : 5500;
+
+    const timer = setTimeout(() => {
       setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
-    }, 5500);
-    return () => clearInterval(interval);
-  }, [isPaused, activeSlide?.isVideo, slides.length]);
+    }, intervalDuration);
+
+    return () => clearTimeout(timer);
+  }, [isPaused, currentSlideIndex, slides.length, activeSlide?.isVideo]);
 
   // Pause video if user switches slide
   useEffect(() => {
@@ -145,7 +159,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
         return (
           <div
             key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               isActive
                 ? "opacity-100 z-10 pointer-events-auto"
                 : "opacity-0 z-0 pointer-events-none"
@@ -267,21 +281,23 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               {/* Left Column: Value Proposition & Text (5 cols on lg) */}
               <div className="lg:col-span-5 space-y-3 sm:space-y-4">
-                {/* Tagline / Badge */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E87737]/20 border border-[#E87737]/40 text-xs font-bold uppercase tracking-wider text-[#E87737] max-w-full">
-                  <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                  <span className="truncate">{activeSlide.tagline || "Lotus Global School · Vatar, Vapi"}</span>
+                <div key={currentSlideIndex} className="animate-hero-text space-y-3 sm:space-y-4">
+                  {/* Tagline / Badge */}
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E87737]/20 border border-[#E87737]/40 text-xs font-bold uppercase tracking-wider text-[#E87737] max-w-full">
+                    <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">{activeSlide.tagline || "Lotus Global School · Vatar, Vapi"}</span>
+                  </div>
+
+                  {/* Main Title */}
+                  <h1 className="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl text-white tracking-tight leading-snug">
+                    {activeSlide.title}
+                  </h1>
+
+                  {/* Subtitle */}
+                  <p className="text-sm sm:text-base text-slate-200 font-normal leading-relaxed">
+                    {activeSlide.subtitle}
+                  </p>
                 </div>
-
-                {/* Main Title */}
-                <h1 className="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl text-white tracking-tight leading-snug">
-                  {activeSlide.title}
-                </h1>
-
-                {/* Subtitle */}
-                <p className="text-sm sm:text-base text-slate-200 font-normal leading-relaxed">
-                  {activeSlide.subtitle}
-                </p>
 
                 {/* Motto Badge Strip */}
                 <div className="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 py-1.5 px-3 rounded bg-[#2F5187]/90 border-l-4 border-[#E87737] text-xs sm:text-sm font-semibold text-slate-100 shadow-sm max-w-full">
@@ -414,21 +430,23 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
               }`}
             >
               <div className="max-w-xl bg-[#142540]/90 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/20 text-white shadow-2xl space-y-4">
-                {/* Tagline / Badge */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E87737]/20 border border-[#E87737]/40 text-xs font-bold uppercase tracking-wider text-[#E87737] max-w-full">
-                  <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                  <span className="truncate">{activeSlide.tagline || "Lotus Global School · Vatar, Vapi"}</span>
+                <div key={currentSlideIndex} className="animate-hero-text space-y-4">
+                  {/* Tagline / Badge */}
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E87737]/20 border border-[#E87737]/40 text-xs font-bold uppercase tracking-wider text-[#E87737] max-w-full">
+                    <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">{activeSlide.tagline || "Lotus Global School · Vatar, Vapi"}</span>
+                  </div>
+
+                  {/* Main Title */}
+                  <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-white tracking-tight leading-tight">
+                    {activeSlide.title}
+                  </h1>
+
+                  {/* Subtitle */}
+                  <p className="text-sm text-slate-200 font-normal leading-relaxed">
+                    {activeSlide.subtitle}
+                  </p>
                 </div>
-
-                {/* Main Title */}
-                <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-white tracking-tight leading-tight">
-                  {activeSlide.title}
-                </h1>
-
-                {/* Subtitle */}
-                <p className="text-sm text-slate-200 font-normal leading-relaxed">
-                  {activeSlide.subtitle}
-                </p>
 
                 {/* Motto Badge Strip */}
                 <div className="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 py-1.5 px-3 rounded bg-[#2F5187]/90 border-l-4 border-[#E87737] text-xs sm:text-sm font-semibold text-slate-100 shadow-sm max-w-full">
@@ -601,18 +619,20 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                 {/* Left: Tagline, Title, Subtitle */}
                 <div className="lg:col-span-7 space-y-2">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E87737]/20 border border-[#E87737]/40 text-xs font-bold uppercase tracking-wider text-[#E87737]">
-                    <Sparkles className="w-3 h-3" />
-                    <span>{activeSlide.tagline || "Lotus Global School · Vatar, Vapi"}</span>
+                  <div key={currentSlideIndex} className="animate-hero-text space-y-2">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E87737]/20 border border-[#E87737]/40 text-xs font-bold uppercase tracking-wider text-[#E87737]">
+                      <Sparkles className="w-3 h-3" />
+                      <span>{activeSlide.tagline || "Lotus Global School · Vatar, Vapi"}</span>
+                    </div>
+
+                    <h2 className="font-display font-extrabold text-xl sm:text-2xl md:text-3xl text-white tracking-tight">
+                      {activeSlide.title}
+                    </h2>
+
+                    <p className="text-xs sm:text-sm text-slate-300 max-w-2xl">
+                      {activeSlide.subtitle}
+                    </p>
                   </div>
-
-                  <h2 className="font-display font-extrabold text-xl sm:text-2xl md:text-3xl text-white tracking-tight">
-                    {activeSlide.title}
-                  </h2>
-
-                  <p className="text-xs sm:text-sm text-slate-300 max-w-2xl">
-                    {activeSlide.subtitle}
-                  </p>
                 </div>
 
                 {/* Right: Motto & Buttons */}
