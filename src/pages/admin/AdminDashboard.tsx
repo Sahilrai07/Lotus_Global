@@ -391,6 +391,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       ctaLink: "admissions-inquiry",
                       secondaryCtaText: "Explore Academics",
                       secondaryCtaLink: "academics",
+                      isVideo: false,
+                      videoUrl: "",
                     };
                     setData({ ...data, heroSlides: [...data.heroSlides, newSlide] });
                   }}
@@ -639,6 +641,45 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           Recommended size: 1920x800px or modern high-res school photography.
                         </div>
                       </div>
+                    </div>
+
+                    {/* Video Slide Settings */}
+                    <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                      <label className="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!!slide.isVideo}
+                          onChange={(e) => {
+                            const updated = [...data.heroSlides];
+                            updated[idx].isVideo = e.target.checked;
+                            if (e.target.checked && !updated[idx].videoUrl) {
+                              updated[idx].videoUrl = "https://www.youtube.com/watch?v=ScMzIvxBSi4";
+                            }
+                            setData({ ...data, heroSlides: updated });
+                          }}
+                          className="rounded border-slate-300 text-[#E87737] focus:ring-[#E87737]"
+                        />
+                        <span>🎬 Mark this Slide as a Campus Video Tour (Opens Play Lightbox)</span>
+                      </label>
+
+                      {slide.isVideo && (
+                        <div className="flex-1 max-w-md">
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                            YouTube Video / Walkthrough URL
+                          </label>
+                          <input
+                            type="text"
+                            value={slide.videoUrl || ""}
+                            placeholder="https://www.youtube.com/watch?v=..."
+                            onChange={(e) => {
+                              const updated = [...data.heroSlides];
+                              updated[idx].videoUrl = e.target.value;
+                              setData({ ...data, heroSlides: updated });
+                            }}
+                            className="w-full p-1.5 text-xs bg-white border border-slate-200 rounded"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}

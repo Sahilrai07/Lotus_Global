@@ -545,8 +545,10 @@
       "title": "A New Generation of Learning Begins Here",
       "ctaLink": "academics",
       "ctaText": "Explore Academics",
+      "isVideo": false,
       "tagline": "Proposed CBSE Institution · Vatar, Vapi",
       "subtitle": "Rising in Vatar, Vapi · Nursery to Grade 10 · Proposed CBSE Institution",
+      "videoUrl": "",
       "secondaryCtaLink": "facilities",
       "secondaryCtaText": "Explore Facilities"
     },
@@ -556,8 +558,10 @@
       "title": "Modern Scientific Laboratories & Smart Digital Labs",
       "ctaLink": "facilities",
       "ctaText": "Explore Facilities",
+      "isVideo": false,
       "tagline": "State-of-the-Art Infrastructure",
       "subtitle": "Experiential STEM Education from Early Discovery to Analytical Rigor",
+      "videoUrl": "",
       "secondaryCtaLink": "gallery",
       "secondaryCtaText": "View Gallery"
     },
@@ -567,10 +571,25 @@
       "title": "Holistic Development, Sports & Performing Arts",
       "ctaLink": "documents",
       "ctaText": "Download Documents",
+      "isVideo": false,
       "tagline": "Dedication · Diligence · Discipline",
       "subtitle": "Nurturing Character, Physical Agility and Creative Intelligence",
+      "videoUrl": "",
       "secondaryCtaLink": "contact",
       "secondaryCtaText": "Contact Campus"
+    },
+    {
+      "id": "slide-4",
+      "image": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1280&q=80",
+      "title": "Experience Lotus Global Campus Walkthrough",
+      "ctaLink": "virtual-tour-demo",
+      "ctaText": "Explore 3D Tour",
+      "isVideo": true,
+      "tagline": "Full Campus Video Showcase",
+      "subtitle": "Discover our world-class classrooms, state-of-the-art STEM laboratories, and athletic sports infrastructure.",
+      "videoUrl": "https://www.youtube.com/watch?v=ScMzIvxBSi4",
+      "secondaryCtaLink": "admissions",
+      "secondaryCtaText": "Apply Now"
     }
   ],
   "leadership": {
@@ -638,7 +657,7 @@
       "leadParagraph": "Welcome to Lotus Global School, an ambitious CBSE institution rising in Vatar, Vapi, designed to rethink modern education. Built on the belief that learning should inspire rather than instruct, our campus bridges cutting-edge academic innovation with deep-rooted values to shape the leaders, thinkers, and changemakers of tomorrow."
     },
     "curriculum": "NCERT Curriculum Framework",
-    "youtubeUrl": "https://www.youtube.com",
+    "youtubeUrl": "https://www.youtube.com/watch?v=ScMzIvxBSi4",
     "facebookUrl": "https://www.facebook.com",
     "mottoValues": {
       "diligence": {
