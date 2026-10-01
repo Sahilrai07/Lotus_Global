@@ -36,6 +36,18 @@ const getYouTubeEmbedUrl = (url?: string) => {
   return url.includes("embed") ? url : "https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?autoplay=1&rel=0";
 };
 
+// Helper to detect local video files vs online streams
+const isLocalVideo = (url?: string) => {
+  if (!url) return false;
+  return (
+    url.endsWith(".mp4") ||
+    url.endsWith(".webm") ||
+    url.endsWith(".ogg") ||
+    url.startsWith("/") ||
+    url.includes("/assets/")
+  );
+};
+
 export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
   const initialSiteData = getSiteData();
   const [slides, setSlides] = useState<HeroSlide[]>(initialSiteData.heroSlides);
@@ -220,9 +232,10 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
               setIsPaused(true);
               setIsVideoModalOpen(true);
             }}
-            className="text-[11px] text-white bg-red-600 hover:bg-red-700 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 shadow-md transition-colors"
+            className="text-[11px] text-white bg-[#E87737] hover:bg-[#D26425] px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 shadow-md transition-colors cursor-pointer"
           >
-            <span>▶ Watch on YouTube</span>
+            <Play className="w-3 h-3 fill-white" />
+            <span>Play Video Tour</span>
           </button>
         ) : (
           <span className="text-[10px] text-[#E87737] font-bold uppercase tracking-wider hidden sm:inline">
@@ -288,7 +301,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                   {!isDesktop && renderPhotoCard(true)}
                 </div>
 
-                {/* Primary Merged CTA Action Row */}
+                {/* Primary CTA Action Button */}
                 <div className="pt-2 flex flex-wrap items-center gap-3">
                   <button
                     onClick={handleWatchVideoClick}
@@ -299,14 +312,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                       <Play className="w-3.5 h-3.5 text-white fill-white ml-0.5" />
                     </div>
                     <span>Watch Campus Tour</span>
-                  </button>
-
-                  <button
-                    onClick={() => onOpenInquiry()}
-                    className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/20 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
-                  >
-                    <span>Online Admission</span>
-                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
 
@@ -446,7 +451,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                   <span className="text-[#F7A8D2] font-bold">Discipline</span>
                 </div>
 
-                {/* Merged Action Buttons */}
+                {/* Action Button */}
                 <div className="pt-2 flex flex-wrap items-center gap-3">
                   <button
                     onClick={handleWatchVideoClick}
@@ -456,13 +461,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                       <Play className="w-3.5 h-3.5 text-white fill-white ml-0.5" />
                     </div>
                     <span>Watch Campus Tour</span>
-                  </button>
-                  <button
-                    onClick={() => onOpenInquiry()}
-                    className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/20 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
-                  >
-                    <span>Online Admission</span>
-                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
 
@@ -655,13 +653,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
                       <Play className="w-3.5 h-3.5 fill-white text-white" />
                       <span>Watch Tour</span>
                     </button>
-                    <button
-                      onClick={() => onOpenInquiry()}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 transition-all cursor-pointer"
-                    >
-                      <span>Online Admission</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
                   </div>
 
                 </div>
@@ -735,31 +726,66 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenInquiry }) => {
             </div>
 
             {/* Modal Video Player (16:9 Aspect Ratio) */}
-            <div className="relative aspect-video w-full bg-black">
-              <iframe
-                src={getYouTubeEmbedUrl((slides.find((s) => s.isVideo) || activeSlide).videoUrl)}
-                title="Lotus Global School Campus Tour Video"
-                className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
+            <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+              {(() => {
+                const targetUrl = (slides.find((s) => s.isVideo) || activeSlide).videoUrl || "/assets/Lotus_Global_School_Campus_Tour.mp4";
+                if (isLocalVideo(targetUrl)) {
+                  return (
+                    <video
+                      src={targetUrl}
+                      controls
+                      autoPlay
+                      playsInline
+                      className="w-full h-full object-contain"
+                    >
+                      Your browser does not support HTML5 video.
+                    </video>
+                  );
+                }
+                return (
+                  <iframe
+                    src={getYouTubeEmbedUrl(targetUrl)}
+                    title="Lotus Global School Campus Tour Video"
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                );
+              })()}
             </div>
 
             {/* Modal Footer */}
             <div className="px-4 sm:px-6 py-3 bg-[#142540] border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
               <span className="text-slate-300 font-medium">
-                Admissions Open for Academic Year 2026-27 (Nursery to Grade 10)
+                Campus Walkthrough Tour · Lotus Global School, Vatar, Vapi
               </span>
               <div className="flex items-center gap-2 sm:gap-3">
-                <a
-                  href={(slides.find((s) => s.isVideo) || activeSlide).videoUrl || "https://www.youtube.com"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold flex items-center gap-1.5 transition-colors"
-                >
-                  <Play className="w-3.5 h-3.5 fill-white" />
-                  <span>Open on YouTube</span>
-                </a>
+                {(() => {
+                  const targetUrl = (slides.find((s) => s.isVideo) || activeSlide).videoUrl || "/assets/Lotus_Global_School_Campus_Tour.mp4";
+                  if (!isLocalVideo(targetUrl)) {
+                    return (
+                      <a
+                        href={targetUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold flex items-center gap-1.5 transition-colors"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-white" />
+                        <span>Open on YouTube</span>
+                      </a>
+                    );
+                  }
+                  return (
+                    <a
+                      href={targetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold flex items-center gap-1.5 transition-colors"
+                    >
+                      <span>Full HD Video (25 MB)</span>
+                    </a>
+                  );
+                })()}
                 <button
                   onClick={() => {
                     setIsVideoModalOpen(false);
