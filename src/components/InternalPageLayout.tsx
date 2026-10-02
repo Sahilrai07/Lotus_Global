@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ChevronRight, ChevronDown, Home, Phone, Mail, MapPin, Download, CheckCircle2 } from "lucide-react";
 import { SCHOOL_INFO } from "../data/schoolData";
 import { getSiteData } from "../data/siteDataService";
+import { getUrlForPage } from "../App";
 
 export interface SidebarLink {
   label: string;
@@ -73,6 +74,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
           { label: "Academic Stages (Nursery - Gr 10)", pageId: "academics-stages" },
           { label: "Assessment & Scheme", pageId: "academics-assessment" },
           { label: "School Timings & Routine", pageId: "academics-timings" },
+          { label: "Prescribed Book List", pageId: "academics-books" },
         ];
       case "CAMPUS FACILITIES":
         return [
@@ -89,6 +91,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
       case "ADMISSIONS":
         return [
           { label: "Admissions Process (4 Steps)", pageId: "admissions" },
+          { label: "Approved Fee Structure", pageId: "admissions-fee" },
           { label: "Required Document Checklist", pageId: "admissions-documents" },
           { label: "Eligibility & Age Criteria", pageId: "admissions-eligibility" },
           { label: "Online Inquiry Desk", pageId: "admissions-inquiry" },
@@ -234,24 +237,32 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
         <div className="relative z-10 wrap">
           {/* Breadcrumbs */}
           <nav aria-label="Breadcrumb" className="flex items-center flex-wrap gap-1.5 text-xs text-slate-300 font-medium mb-3">
-            <button
-              onClick={() => onNavigate("home")}
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate("home");
+              }}
               className="flex items-center gap-1 hover:text-[#E87737] transition-colors cursor-pointer"
               title="Go to Home"
             >
               <Home className="w-3.5 h-3.5" />
               <span>Home</span>
-            </button>
+            </a>
             {breadcrumbTrail.map((b, idx) => (
               <React.Fragment key={idx}>
                 <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
                 {b.pageId && !b.isCurrent ? (
-                  <button
-                    onClick={() => b.pageId && onNavigate(b.pageId)}
+                  <a
+                    href={getUrlForPage(b.pageId)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      b.pageId && onNavigate(b.pageId);
+                    }}
                     className="hover:text-white transition-colors cursor-pointer text-slate-300 hover:underline"
                   >
                     {b.label}
-                  </button>
+                  </a>
                 ) : (
                   <span className={b.isCurrent ? "text-white font-semibold" : "text-[#E87737] font-semibold"}>
                     {b.label}
@@ -279,7 +290,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
               <button
                 type="button"
                 onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
-                className="w-full lsidebar-heading flex items-center justify-between text-left lg:pointer-events-none"
+                className="w-full lsidebar-heading flex items-center justify-between text-left lg:pointer-events-none cursor-pointer"
                 aria-expanded={isMobileNavOpen}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
@@ -302,10 +313,13 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
                 {sidebarLinks.map((link, idx) => {
                   const isActive =
                     link.isActive !== undefined ? link.isActive : activePageId === link.pageId;
+                  const linkHref = link.onClick ? "#" : getUrlForPage(link.pageId);
                   return (
-                    <button
+                    <a
                       key={idx}
-                      onClick={() => {
+                      href={linkHref}
+                      onClick={(e) => {
+                        e.preventDefault();
                         setIsMobileNavOpen(false);
                         if (link.onClick) {
                           link.onClick();
@@ -313,7 +327,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
                           onNavigate(link.pageId);
                         }
                       }}
-                      className={`lsidebar-link w-full text-left ${
+                      className={`lsidebar-link w-full text-left flex items-center justify-between ${
                         isActive ? "active" : ""
                       }`}
                     >
@@ -323,7 +337,7 @@ export const InternalPageLayout: React.FC<InternalPageLayoutProps> = ({
                           isActive ? "text-[#E87737]" : "text-slate-400"
                         }`}
                       />
-                    </button>
+                    </a>
                   );
                 })}
               </div>

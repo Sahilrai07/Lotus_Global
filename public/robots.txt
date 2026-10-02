@@ -1,11 +1,37 @@
 # robots.txt for Lotus Global School
-# https://lotusglobalschool.com
+# Official Website: https://lotusglobalschool.com
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /api/
 
-# Disallow internal local developer CMS endpoint
-Disallow: /#admin
+# Search Engines & Answer Engines (AEO)
+User-agent: Googlebot
+Allow: /
 
-# Sitemap location
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Sitemap Index
 Sitemap: https://lotusglobalschool.com/sitemap.xml

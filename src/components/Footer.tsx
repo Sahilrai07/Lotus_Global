@@ -2,6 +2,7 @@ import React from "react";
 import { MapPin, Phone, Mail, MessageSquare, ChevronRight, FileText, Clock, ExternalLink } from "lucide-react";
 import { getSiteData } from "../data/siteDataService";
 import { InstagramIcon } from "./InstagramIcon";
+import { getUrlForPage } from "../App";
 
 interface FooterProps {
   setActivePage: (page: string) => void;
@@ -24,18 +25,28 @@ export const Footer: React.FC<FooterProps> = ({ setActivePage, openInquiry }) =>
           {/* Column 1: School Identity & Address */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <picture>
-                <source srcSet="/assets/logo.webp" type="image/webp" />
-                <img
-                  src="/assets/logo.png"
-                  alt="Lotus Global School Crest"
-                  width="44"
-                  height="56"
-                  loading="lazy"
-                  decoding="async"
-                  className="h-14 w-auto object-contain bg-white/5 p-1 rounded border border-white/10"
-                />
-              </picture>
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNav("home");
+                }}
+                className="inline-block group focus:outline-none"
+                aria-label="Lotus Global School Homepage"
+              >
+                <picture>
+                  <source srcSet="/assets/logo.webp" type="image/webp" />
+                  <img
+                    src="/assets/logo.png"
+                    alt="Lotus Global School Crest"
+                    width="44"
+                    height="56"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-14 w-auto object-contain bg-white/5 p-1 rounded border border-white/10 group-hover:scale-105 transition-transform"
+                  />
+                </picture>
+              </a>
               <div>
                 <h3 className="font-display text-white font-bold text-base sm:text-lg tracking-tight">
                   LOTUS GLOBAL SCHOOL
@@ -70,76 +81,121 @@ export const Footer: React.FC<FooterProps> = ({ setActivePage, openInquiry }) =>
             </h4>
             <ul className="space-y-2 text-xs text-slate-300 list-none m-0 p-0">
               <li>
-                <button
-                  onClick={() => handleNav("home")}
+                <a
+                  href={getUrlForPage("home")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("home");
+                  }}
                   className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#E87737]" />
                   <span>Home</span>
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav("about")}
+                <a
+                  href={getUrlForPage("about")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("about");
+                  }}
                   className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#E87737]" />
                   <span>About Lotus Global School</span>
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav("vision-mission")}
-                  className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors"
+                <a
+                  href={getUrlForPage("admissions")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("admissions");
+                  }}
+                  className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors font-medium text-white"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#E87737]" />
-                  <span>Our Vision & Mission</span>
-                </button>
+                  <span>Admissions (2026–27)</span>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav("message")}
-                  className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors"
+                <a
+                  href={getUrlForPage("admissions-fee")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("admissions-fee");
+                  }}
+                  className="flex items-center gap-1.5 text-amber-300 hover:text-amber-200 transition-colors font-semibold"
                 >
-                  <ChevronRight className="w-3.5 h-3.5 text-[#E87737]" />
-                  <span>The Principal's Desk</span>
-                </button>
+                  <ChevronRight className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Approved Fee Structure</span>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav("academics")}
+                <a
+                  href={getUrlForPage("academics")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("academics");
+                  }}
                   className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#E87737]" />
                   <span>Academics & Curriculum</span>
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav("facilities")}
+                <a
+                  href={getUrlForPage("academics-books")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("academics-books");
+                  }}
+                  className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-[#E87737]" />
+                  <span>Prescribed Book List</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={getUrlForPage("facilities")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("facilities");
+                  }}
                   className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#E87737]" />
                   <span>Campus Laboratories & Facilities</span>
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav("documents")}
+                <a
+                  href={getUrlForPage("documents")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("documents");
+                  }}
                   className="flex items-center gap-1.5 hover:text-[#E87737] transition-colors"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#E87737]" />
                   <span>Documents & Downloads</span>
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav("disclosure")}
+                <a
+                  href={getUrlForPage("disclosure")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav("disclosure");
+                  }}
                   className="flex items-center gap-1.5 text-amber-300 hover:text-amber-200 transition-colors font-semibold"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-amber-400" />
                   <span>CBSE Mandatory Public Disclosure</span>
-                </button>
+                </a>
               </li>
             </ul>
           </div>

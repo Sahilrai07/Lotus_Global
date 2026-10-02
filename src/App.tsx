@@ -241,14 +241,132 @@ const VALID_PUBLIC_PAGES = new Set([
   "virtual-tour-demo",
 ]);
 
+export const ROUTE_PATH_MAP: Record<string, string> = {
+  home: "/",
+  about: "/about",
+  "vision-mission": "/about/vision-mission",
+  message: "/about/principals-desk",
+  "about-values": "/about/core-values",
+  "about-location": "/about/campus-location",
+  admissions: "/admissions",
+  "admissions-documents": "/admissions/documents-checklist",
+  "admissions-eligibility": "/admissions/eligibility-criteria",
+  "admissions-inquiry": "/admissions/inquiry-desk",
+  "admissions-fee": "/fee-structure",
+  academics: "/academics",
+  "academics-stages": "/academics/developmental-stages",
+  "academics-assessment": "/academics/assessment-scheme",
+  "academics-timings": "/academics/school-timings",
+  "academics-books": "/academics/prescribed-books",
+  facilities: "/facilities",
+  "facility-chem-phys": "/facilities/physics-chemistry-labs",
+  "facility-bio-composite": "/facilities/biology-composite-lab",
+  "facility-computer-lab": "/facilities/computer-lab",
+  "facility-library": "/facilities/central-library",
+  "facility-sports": "/facilities/sports-arena",
+  "facility-indoor-games": "/facilities/indoor-games",
+  "facility-music": "/facilities/music-studio",
+  "facility-infirmary": "/facilities/campus-infirmary",
+  faculty: "/faculty",
+  "faculty-standards": "/faculty/teaching-standards",
+  "faculty-development": "/faculty/professional-development",
+  "faculty-ratio": "/faculty/student-teacher-ratio",
+  activities: "/activities",
+  gallery: "/gallery",
+  contact: "/contact",
+  documents: "/documents",
+  disclosure: "/mandatory-disclosure",
+  "news-events": "/news-events",
+  "virtual-tour-demo": "/virtual-tour-demo",
+};
+
+export const PATH_TO_PAGE_MAP: Record<string, string> = {
+  "/": "home",
+  "": "home",
+  "/about": "about",
+  "/vision-mission": "vision-mission",
+  "/about/vision-mission": "vision-mission",
+  "/mission-vision": "vision-mission",
+  "/principals-desk": "message",
+  "/about/principals-desk": "message",
+  "/message": "message",
+  "/core-values": "about-values",
+  "/about/core-values": "about-values",
+  "/about-values": "about-values",
+  "/campus-location": "about-location",
+  "/about/campus-location": "about-location",
+  "/about-location": "about-location",
+  "/admissions": "admissions",
+  "/admissions/documents-checklist": "admissions-documents",
+  "/admissions-documents": "admissions-documents",
+  "/admissions/eligibility-criteria": "admissions-eligibility",
+  "/admissions-eligibility": "admissions-eligibility",
+  "/admissions/inquiry-desk": "admissions-inquiry",
+  "/admissions-inquiry": "admissions-inquiry",
+  "/fee-structure": "admissions-fee",
+  "/admissions/fee-structure": "admissions-fee",
+  "/admissions-fee": "admissions-fee",
+  "/fee": "admissions-fee",
+  "/fees": "admissions-fee",
+  "/academics": "academics",
+  "/academics/developmental-stages": "academics-stages",
+  "/academics-stages": "academics-stages",
+  "/academics/assessment-scheme": "academics-assessment",
+  "/academics-assessment": "academics-assessment",
+  "/academics/school-timings": "academics-timings",
+  "/academics-timings": "academics-timings",
+  "/academics/prescribed-books": "academics-books",
+  "/academics-books": "academics-books",
+  "/books": "academics-books",
+  "/book-list": "academics-books",
+  "/facilities": "facilities",
+  "/facilities/physics-chemistry-labs": "facility-chem-phys",
+  "/facility-chem-phys": "facility-chem-phys",
+  "/facilities/biology-composite-lab": "facility-bio-composite",
+  "/facility-bio-composite": "facility-bio-composite",
+  "/facilities/computer-lab": "facility-computer-lab",
+  "/facility-computer-lab": "facility-computer-lab",
+  "/facilities/central-library": "facility-library",
+  "/facility-library": "facility-library",
+  "/library": "facility-library",
+  "/facilities/sports-arena": "facility-sports",
+  "/facility-sports": "facility-sports",
+  "/facilities/indoor-games": "facility-indoor-games",
+  "/facility-indoor-games": "facility-indoor-games",
+  "/facilities/music-studio": "facility-music",
+  "/facility-music": "facility-music",
+  "/facilities/campus-infirmary": "facility-infirmary",
+  "/facility-infirmary": "facility-infirmary",
+  "/faculty": "faculty",
+  "/faculty/teaching-standards": "faculty-standards",
+  "/faculty-standards": "faculty-standards",
+  "/faculty/professional-development": "faculty-development",
+  "/faculty-development": "faculty-development",
+  "/faculty/student-teacher-ratio": "faculty-ratio",
+  "/faculty-ratio": "faculty-ratio",
+  "/activities": "activities",
+  "/gallery": "gallery",
+  "/contact": "contact",
+  "/documents": "documents",
+  "/mandatory-disclosure": "disclosure",
+  "/disclosure": "disclosure",
+  "/news-events": "news-events",
+  "/virtual-tour-demo": "virtual-tour-demo",
+  "/demo-tour": "virtual-tour-demo",
+};
+
+export const getUrlForPage = (pageId: string): string => {
+  return ROUTE_PATH_MAP[pageId] || (pageId === "home" ? "/" : `/${pageId}`);
+};
+
 const isAdminRoute = () => {
   if (typeof window === "undefined") return false;
   const host = window.location.hostname.toLowerCase();
   const path = window.location.pathname.toLowerCase();
   const hash = window.location.hash.toLowerCase().replace("#", "").replace(/^\//, "");
 
-  // If the URL hash explicitly points to a valid public page, this is NOT an admin route
-  if (hash && VALID_PUBLIC_PAGES.has(hash)) {
+  // If the URL hash or path explicitly points to a valid public page, this is NOT an admin route
+  if (hash && (VALID_PUBLIC_PAGES.has(hash) || PATH_TO_PAGE_MAP[`/${hash}`])) {
     return false;
   }
 
@@ -263,18 +381,42 @@ const isAdminRoute = () => {
   );
 };
 
-export const App: React.FC = () => {
-  const [activePage, setActivePage] = useState<string>(() => {
-    if (typeof window !== "undefined" && window.location.hash) {
-      const h = window.location.hash.replace("#", "").replace(/^\//, "");
-      if (h && VALID_PUBLIC_PAGES.has(h)) {
-        if (h === "mission-vision" || h === "vision") return "vision-mission";
-        return h;
-      }
+export const getPageFromUrl = (): string => {
+  if (typeof window === "undefined") return "home";
+  if (isAdminRoute()) return "admin";
+
+  // 1. Check clean pathname first (e.g. /admissions, /fee-structure, /mandatory-disclosure)
+  let pathname = window.location.pathname.toLowerCase().replace(/\/+$/, "");
+  if (!pathname) pathname = "/";
+
+  if (PATH_TO_PAGE_MAP[pathname]) {
+    return PATH_TO_PAGE_MAP[pathname];
+  }
+
+  const trimmed = pathname.replace(/^\//, "");
+  if (PATH_TO_PAGE_MAP[trimmed] || VALID_PUBLIC_PAGES.has(trimmed)) {
+    return PATH_TO_PAGE_MAP[trimmed] || trimmed;
+  }
+
+  // 2. Check hash fragment fallback (e.g. #admissions, #fee-structure)
+  if (window.location.hash) {
+    const h = window.location.hash.toLowerCase().replace("#", "").replace(/^\//, "");
+    if (PATH_TO_PAGE_MAP[h]) return PATH_TO_PAGE_MAP[h];
+    if (PATH_TO_PAGE_MAP[`/${h}`]) return PATH_TO_PAGE_MAP[`/${h}`];
+    if (VALID_PUBLIC_PAGES.has(h)) {
+      if (h === "mission-vision" || h === "vision") return "vision-mission";
+      if (h === "fee-structure" || h === "fee" || h === "fees") return "admissions-fee";
+      if (h === "book-list" || h === "books") return "academics-books";
+      if (h === "mandatory-disclosure") return "disclosure";
+      return h;
     }
-    if (isAdminRoute()) return "admin";
-    return "home";
-  });
+  }
+
+  return "home";
+};
+
+export const App: React.FC = () => {
+  const [activePage, setActivePage] = useState<string>(() => getPageFromUrl());
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [siteData, setSiteData] = useState(getSiteData());
@@ -327,7 +469,8 @@ export const App: React.FC = () => {
       setMeta("name", "twitter:title", meta.title);
       setMeta("name", "twitter:description", meta.description);
 
-      const pageUrl = activePage === "home" ? "https://lotusglobalschool.com/" : `https://lotusglobalschool.com/#${activePage}`;
+      const targetPath = getUrlForPage(activePage);
+      const pageUrl = `https://lotusglobalschool.com${targetPath === "/" ? "" : targetPath}`;
       setMeta("property", "og:url", pageUrl);
 
       const canonical = document.querySelector('link[rel="canonical"]');
@@ -339,30 +482,11 @@ export const App: React.FC = () => {
 
   const school = siteData.schoolInfo;
 
-  // Sync with window.location and hash for deep linking
+  // Sync with window.location and popstate for deep linking
   useEffect(() => {
     const handleLocationChange = () => {
-      if (isAdminRoute()) {
-        setActivePage("admin");
-        return;
-      }
-
-      const hash = window.location.hash.replace("#", "").replace(/^\//, "");
-
-      // If we landed on /admin#publicPage, automatically clean up the URL pathname to /#publicPage
-      if (typeof window !== "undefined" && window.location.pathname.startsWith("/admin") && hash && VALID_PUBLIC_PAGES.has(hash)) {
-        window.history.replaceState(null, "", `/#${hash}`);
-      }
-
-      if (VALID_PUBLIC_PAGES.has(hash)) {
-        if (hash === "mission-vision" || hash === "vision") {
-          setActivePage("vision-mission");
-        } else {
-          setActivePage(hash);
-        }
-      } else if (!hash) {
-        setActivePage("home");
-      }
+      const resolvedPage = getPageFromUrl();
+      setActivePage(resolvedPage);
     };
 
     handleLocationChange();
@@ -383,10 +507,9 @@ export const App: React.FC = () => {
           window.location.hash = "admin";
         }
       } else {
-        if (window.location.pathname.startsWith("/admin")) {
-          window.history.pushState(null, "", page === "home" ? "/" : `/#${page}`);
-        } else {
-          window.location.hash = page === "home" ? "" : page;
+        const targetPath = getUrlForPage(page);
+        if (window.location.pathname !== targetPath || window.location.hash) {
+          window.history.pushState(null, "", targetPath);
         }
       }
       window.scrollTo({ top: 0, behavior: "smooth" });

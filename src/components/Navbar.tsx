@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { getSiteData, subscribeSiteData, SiteData } from "../data/siteDataService";
 import { InstagramIcon } from "./InstagramIcon";
+import { getUrlForPage } from "../App";
 
 interface NavbarProps {
   activePage: string;
@@ -271,8 +272,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
       <div className="bg-white py-2.5 sm:py-4 border-b border-slate-100">
         <div className="wrap flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo & School Title */}
-          <button
-            onClick={() => handleNavigate("home")}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigate("home");
+            }}
             className="flex items-center gap-2 sm:gap-4 text-left group focus:outline-none min-w-0 flex-1 sm:flex-initial"
             aria-label="Lotus Global School Homepage"
           >
@@ -301,7 +306,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                 Motto: {school.motto}
               </span>
             </div>
-          </button>
+          </a>
 
           {/* Reference Site Header-Widgets (Right Side) */}
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
@@ -435,8 +440,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                     onMouseEnter={() => item.hasDropdown && handleMouseEnter(item.id)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <button
-                      onClick={() => handleNavigate(item.id)}
+                    <a
+                      href={getUrlForPage(item.id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavigate(item.id);
+                      }}
                       className={`flex items-center gap-1 px-2 xl:px-3 py-2 text-[12px] xl:text-[13px] font-bold tracking-wide transition-all focus:outline-none whitespace-nowrap rounded ${
                         active
                           ? "text-[#FDBA74] bg-white/15 shadow-inner"
@@ -451,7 +460,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                           }`}
                         />
                       )}
-                    </button>
+                    </a>
 
                     {/* Dropdown Menu (Reference .sub-menu style) */}
                     {item.hasDropdown && item.subItems && (
@@ -465,8 +474,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                         <ul className="m-0 p-0 list-none">
                           {item.subItems.map((subItem, idx) => (
                             <li key={idx}>
-                              <button
-                                onClick={() => handleNavigate(subItem.pageId)}
+                              <a
+                                href={getUrlForPage(subItem.pageId)}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleNavigate(subItem.pageId);
+                                }}
                                 className="w-full text-left px-4 py-2.5 text-xs text-slate-700 hover:bg-[#EEF3FA] hover:text-[#2F5187] font-semibold transition-colors flex items-center justify-between border-b border-slate-50 last:border-none"
                               >
                                 <span>{subItem.label}</span>
@@ -477,7 +490,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                                 ) : (
                                   <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#2F5187]" />
                                 )}
-                              </button>
+                              </a>
                             </li>
                           ))}
                         </ul>
@@ -502,17 +515,21 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                   setIsMobileOpen(false);
                   openInquiry();
                 }}
-                className="w-full py-2.5 px-3 rounded bg-[#E87737] text-white font-bold text-xs uppercase tracking-wider text-center shadow-sm"
+                className="w-full py-2.5 px-3 rounded bg-[#E87737] text-white font-bold text-xs uppercase tracking-wider text-center shadow-sm cursor-pointer"
               >
                 Inquire Now
               </button>
-              <button
-                onClick={() => handleNavigate("disclosure")}
+              <a
+                href={getUrlForPage("disclosure")}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigate("disclosure");
+                }}
                 className="w-full py-2.5 px-2 rounded bg-[#2F5187] text-white font-bold text-[11px] sm:text-xs uppercase tracking-wider text-center shadow-sm flex items-center justify-center gap-1"
               >
                 <FileText className="w-3.5 h-3.5" />
                 <span>Mandatory Disclosure</span>
-              </button>
+              </a>
             </div>
 
             {/* Mobile Nav Accordion Items */}
@@ -524,19 +541,23 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                 return (
                   <div key={item.id} className="py-2">
                     <div className="flex items-center justify-between">
-                      <button
-                        onClick={() => handleNavigate(item.id)}
+                      <a
+                        href={getUrlForPage(item.id)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleNavigate(item.id);
+                        }}
                         className={`text-xs font-bold uppercase tracking-wider py-1.5 ${
                           active ? "text-[#E87737]" : "text-[#2F5187]"
                         }`}
                       >
                         {item.label}
-                      </button>
+                      </a>
 
                       {item.hasDropdown && (
                         <button
                           onClick={() => setOpenMobileDropdown(isOpen ? null : item.id)}
-                          className="p-2 text-slate-500 hover:text-[#2F5187]"
+                          className="p-2 text-slate-500 hover:text-[#2F5187] cursor-pointer"
                           aria-label={`Toggle ${item.label} submenu`}
                         >
                           <ChevronDown
@@ -549,9 +570,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                     {item.hasDropdown && isOpen && item.subItems && (
                       <div className="pl-3 pr-2 py-1 mt-1 bg-slate-50 rounded border-l-2 border-[#E87737] space-y-1">
                         {item.subItems.map((sub, idx) => (
-                          <button
+                          <a
                             key={idx}
-                            onClick={() => handleNavigate(sub.pageId)}
+                            href={getUrlForPage(sub.pageId)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavigate(sub.pageId);
+                            }}
                             className="w-full text-left py-1.5 text-xs text-slate-700 hover:text-[#E87737] font-medium flex items-center justify-between"
                           >
                             <span>{sub.label}</span>
@@ -560,7 +585,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
                                 {sub.badge}
                               </span>
                             )}
-                          </button>
+                          </a>
                         ))}
                       </div>
                     )}

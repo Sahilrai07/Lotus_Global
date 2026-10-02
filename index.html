@@ -45,50 +45,154 @@
     <meta name="twitter:description" content="Dedicated to excellence in education. Nursery to Grade 10 CBSE in Vatar, Vapi. Dedication · Diligence · Discipline." />
     <meta name="twitter:image" content="/android-chrome-512x512.png" />
 
-    <!-- Schema.org JSON-LD for Google Search brand, location & rich snippet recognition -->
+    <!-- Schema.org JSON-LD for Google Search brand, location, AEO & Rich Snippets -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "School",
-      "name": "Lotus Global School",
-      "alternateName": "LGS Vatar",
-      "url": "https://lotusglobalschool.com",
-      "logo": "https://lotusglobalschool.com/android-chrome-512x512.png",
-      "image": "https://lotusglobalschool.com/android-chrome-512x512.png",
-      "description": "Lotus Global School is a premier CBSE institution in Vatar, Vapi, Gujarat offering holistic Nursery to Grade 10 education with empirical laboratories, digital library, and sports arena.",
-      "slogan": "Dedication · Diligence · Discipline",
-      "telephone": "+91-9054592424",
-      "email": "lotusglobalschool@gmail.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1836/1 TO 1836/3, Near Vatar PHC, Vatar",
-        "addressLocality": "Vapi",
-        "addressRegion": "Gujarat",
-        "postalCode": "396191",
-        "addressCountry": "IN"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 20.3500,
-        "longitude": 72.8800
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "School",
+        "@id": "https://lotusglobalschool.com/#school",
+        "name": "Lotus Global School",
+        "alternateName": ["LGS Vatar", "Lotus Global School Vapi"],
+        "url": "https://lotusglobalschool.com",
+        "logo": "https://lotusglobalschool.com/android-chrome-512x512.png",
+        "image": "https://lotusglobalschool.com/android-chrome-512x512.png",
+        "description": "Lotus Global School is a premier CBSE pattern English medium school located in Vatar, Vapi, Gujarat offering holistic Nursery to Grade 10 education with empirical science laboratories, robotics, central library, and sports arena.",
+        "slogan": "Dedication · Diligence · Discipline",
+        "telephone": "+91-9054592424",
+        "email": "lotusglobalschool@gmail.com",
+        "priceRange": "₹₹",
+        "currenciesAccepted": "INR",
+        "paymentAccepted": "Cash, Cheque, Bank Transfer, Online",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "1836/1 TO 1836/3, Near Vatar PHC, Vatar",
+          "addressLocality": "Vapi",
+          "addressRegion": "Gujarat",
+          "postalCode": "396191",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 20.3500,
+          "longitude": 72.8800
+        },
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-9054592424",
+            "contactType": "Admissions Desk",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi", "Gujarati"]
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-9054592424",
+            "contactType": "Administrative Office",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi", "Gujarati"]
+          }
         ],
-        "opens": "07:50",
-        "closes": "16:00"
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "07:50",
+          "closes": "16:00"
+        },
+        "sameAs": [
+          "https://www.instagram.com/lotus.global.school",
+          "https://wa.me/919054592424"
+        ]
       },
-      "sameAs": [
-        "https://www.instagram.com/lotus.global.school"
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://lotusglobalschool.com/#website",
+        "url": "https://lotusglobalschool.com/",
+        "name": "Lotus Global School",
+        "description": "Official portal of Lotus Global School, Vatar, Vapi, Gujarat - CBSE pattern English medium education.",
+        "publisher": {
+          "@id": "https://lotusglobalschool.com/#school"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Where is Lotus Global School located?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lotus Global School is situated at Survey No. 1836/1 to 1836/3, Near Vatar PHC, Vatar, Vapi, Gujarat 396191. It provides a peaceful, pollution-free academic campus easily accessible from Vapi, Daman, and Silvassa."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which curriculum and board does Lotus Global School follow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lotus Global School is an English medium institution following the CBSE pattern with an NCERT-aligned curriculum framework from Pre-Primary (Nursery, Jr. KG, Sr. KG) to Grade 10, integrated with NEP 2020 experiential learning methodologies."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the school timings at Lotus Global School?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pre-Primary (Nursery, Jr. KG, Sr. KG) operates from 08:30 AM to 12:30 PM. Grades 1 to 8 operate from 07:50 AM to 01:50 PM, Monday through Saturday."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the fee structure for academic year 2026-27 at Lotus Global School?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pre-Primary fees range from ₹31,500 to ₹35,500 annually (inclusive of official School Kit) payable in 3 instalments. Primary and Middle school fees (Std. 1 to 8) range from ₹34,000 to ₹38,800 annually payable in 4 quarterly instalments."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can parents apply for admission at Lotus Global School?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Parents can apply online via the Admissions Inquiry Desk on our official website (https://lotusglobalschool.com/admissions) or visit the campus admissions office in Vatar, Vapi. The process includes form submission, interaction, and document verification."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What facilities and laboratories are available on campus?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The campus includes modern Physics & Chemistry Laboratories, a Biology & Composite Science Lab, a High-Tech Computer & ICT Lab, a Central Library, an Outdoor Athletic Sports Arena, an Indoor Games Arena (Table Tennis, Chess, Carrom), Music & Arts Studios, and an on-campus Healthcare Infirmary."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What documents are required for admission registration?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Required documents include the child's Birth Certificate, Aadhaar Card, previous academic Report Card, Transfer Certificate (TC, where applicable), Passport-size photographs, and Parents' ID and address proof."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I contact Lotus Global School?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can call or WhatsApp our official admissions helpline at +91 9054592424, email lotusglobalschool@gmail.com, or visit the campus Monday through Saturday between 8:00 AM and 3:00 PM."
+            }
+          }
+        ]
+      }
+    ]
     </script>
     
     <!-- Image CDN Preconnect for instant LCP hero connection -->
