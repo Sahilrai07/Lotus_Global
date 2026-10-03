@@ -16,6 +16,7 @@ import {
 import { getSiteData, subscribeSiteData, SiteData } from "../data/siteDataService";
 import { InstagramIcon } from "./InstagramIcon";
 import { getUrlForPage } from "../App";
+import { GlobalSearch } from "./GlobalSearch";
 
 interface NavbarProps {
   activePage: string;
@@ -42,8 +43,19 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
   const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Global Ctrl+K / Cmd+K shortcut to toggle search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     return subscribeSiteData((newData) => setSiteData(newData));
@@ -185,40 +197,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
     if (activePage === item.id) return true;
     if (item.subItems?.some((sub) => sub.pageId === activePage)) return true;
     return false;
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-    const query = searchQuery.toLowerCase();
-    if (query.includes("admiss") || query.includes("form") || query.includes("apply")) {
-      handleNavigate("admissions");
-    } else if (query.includes("doc") || query.includes("pdf") || query.includes("download") || query.includes("cert")) {
-      handleNavigate("documents");
-    } else if (query.includes("disclos") || query.includes("cbse") || query.includes("mandat")) {
-      handleNavigate("disclosure");
-    } else if (query.includes("lab") || query.includes("librar") || query.includes("sport") || query.includes("facil")) {
-      handleNavigate("facilities");
-    } else if (query.includes("fee") || query.includes("cost") || query.includes("struct")) {
-      handleNavigate("admissions-fee");
-    } else if (query.includes("book") || query.includes("textbook") || query.includes("ncert")) {
-      handleNavigate("academics-books");
-    } else if (query.includes("princip") || query.includes("head") || query.includes("direct")) {
-      handleNavigate("message");
-    } else if (query.includes("photo") || query.includes("pic") || query.includes("image") || query.includes("galler")) {
-      handleNavigate("gallery");
-    } else if (query.includes("indoor") || query.includes("table tennis") || query.includes("chess") || query.includes("carrom")) {
-      handleNavigate("facility-indoor-games");
-    } else if (query.includes("event") || query.includes("news") || query.includes("notice")) {
-      handleNavigate("news-events");
-    } else if (query.includes("activit") || query.includes("co-curricular") || query.includes("club") || query.includes("tourney") || query.includes("house system")) {
-      handleNavigate("activities");
-    } else if (query.includes("contact") || query.includes("phone") || query.includes("locat") || query.includes("address")) {
-      handleNavigate("contact");
-    } else {
-      handleNavigate("about");
-    }
-    setSearchQuery("");
   };
 
   return (
@@ -366,13 +344,14 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
               <span>Mandatory Disclosure</span>
             </button>
 
-            {/* Search Toggle Button (Reference search-btn) */}
+            {/* Search Toggle Button */}
             <button
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-1.5 sm:p-2 text-[#2F5187] hover:bg-slate-100 rounded focus:outline-none transition-colors"
-              aria-label="Toggle search bar"
+              onClick={() => setIsSearchOpen(true)}
+              className="p-1.5 sm:p-2 text-[#2F5187] hover:bg-slate-100 rounded focus:outline-none transition-colors group relative"
+              aria-label="Search Lotus Global School (Ctrl + K)"
+              title="Search (Ctrl + K)"
             >
-              {isSearchOpen ? <X className="w-5 h-5 text-rose-600" /> : <Search className="w-5 h-5" />}
+              <Search className="w-5 h-5 group-hover:text-[#E87737] transition-colors" />
             </button>
 
             {/* Mobile Drawer Hamburger Button */}
@@ -386,30 +365,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
           </div>
         </div>
 
-        {/* Expanding Search Bar (Reference .header-search style) */}
-        {isSearchOpen && (
-          <div className="border-t border-slate-200 bg-slate-50 py-3 px-4 animate-in fade-in slide-in-from-top-2 duration-200">
-            <form onSubmit={handleSearchSubmit} className="wrap flex items-center gap-2 max-w-2xl mx-auto">
-              <div className="relative flex-1">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input
-                  type="search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search Lotus Global School (e.g. Admission, Labs, Fee Structure, Documents)..."
-                  className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-white border border-slate-300 rounded focus:outline-none focus:border-[#2F5187] shadow-inner"
-                  autoFocus
-                />
-              </div>
-              <button
-                type="submit"
-                className="px-4 py-2 rounded bg-[#2F5187] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#1E375F] transition-colors"
-              >
-                Search
-              </button>
-            </form>
-          </div>
-        )}
+        {/* Global Instant Search Overlay & Command Palette */}
+        <GlobalSearch
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          onNavigate={handleNavigate}
+          siteData={siteData}
+        />
       </div>
 
       {/* 3. STYLISH RIBBON NAVIGATION BAR (Pointed Chevron Ends & Drop Shadow matching reference site) */}
@@ -508,6 +470,26 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage, openI
       {isMobileOpen && (
         <div className="lg:hidden fixed inset-x-0 bottom-0 top-[58px] sm:top-[72px] bg-black/50 z-50 flex flex-col justify-start">
           <div className="bg-white max-h-[80vh] overflow-y-auto shadow-2xl border-b-4 border-[#E87737] p-4">
+            {/* Mobile Quick Search Bar Button */}
+            <div className="mb-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileOpen(false);
+                  setIsSearchOpen(true);
+                }}
+                className="w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50 hover:bg-[#EEF3FA] border border-slate-200 rounded-lg text-slate-600 text-xs font-medium cursor-pointer transition-colors shadow-xs"
+              >
+                <div className="flex items-center gap-2">
+                  <Search className="w-4 h-4 text-[#2F5187]" />
+                  <span>Search Admissions, Fees, Labs...</span>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-[#2F5187] px-2 py-0.5 rounded shadow-xs">
+                  Search
+                </span>
+              </button>
+            </div>
+
             {/* Quick Action Buttons */}
             <div className="grid grid-cols-2 gap-2 mb-4">
               <button
